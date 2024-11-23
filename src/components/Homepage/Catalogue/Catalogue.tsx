@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import dataProducts from '../../../utils/dataproducts';
 import ProductCard from './ProductCard';
 import ProductDetailsModal from './productDetailsModal';
+import dataproducts from '../../../utils/data/dataproducts';
 
 type Product = {
   id: number;
@@ -18,7 +18,7 @@ const Catalogue: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'all' | 'recent' | 'bestSeller'>('all');
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const filteredProducts = dataProducts.filter((product: Product) => {
+  const filteredProducts = dataproducts.filter((product: Product) => {
     if (activeTab === 'recent') return product.isRecent;
     if (activeTab === 'bestSeller') return product.isBestSeller;
     return true;
