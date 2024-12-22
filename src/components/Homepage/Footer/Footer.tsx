@@ -1,80 +1,98 @@
 import React from 'react';
 import styled from 'styled-components';
-import theme from '../../../utils/theme';
-import { FaAddressCard, FaFacebook, FaInstagram, FaLinkedin, FaMap, FaPhone, FaPinterest, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
+import theme from '../../../utils/Theme/theme';
 import { FaMessage } from 'react-icons/fa6';
+import { 
+       FaAddressCard, FaFacebook, FaInstagram, FaLinkedin, FaMap, 
+       FaPhone, FaPinterest, FaTwitter, FaYoutube 
+} from 'react-icons/fa';
 
 
-const Footer: React.FC = () => {
-  return (
-    <FooterContainer>
-      <FooterSection>
-        <h3>SERVICES</h3>
-        <ul>
-          <li>Consulting</li>
-          <li>Design</li>
-          <li>Development</li>
-          <li>E-business</li>
-          <li>E-commerce</li>
-          <li>E-marketing</li>
-          <li>Hosting</li>
-          <li>SEO</li>
-          <li>Social Media</li>
-        </ul>
-      </FooterSection>
+const services = [
+  "Consulting", "Design", "Development", "E-business", 
+  "E-commerce", "E-marketing", "Hosting", "SEO", "Social Media"
+];
 
-      <FooterSection>
-        <h3>AGREMENT</h3>
-        <ul>
-          <li>Business & Retail</li>
-          <li>E-commerce & Shopping</li>
-          <li>Education & Organisations</li>
-          <li>News & Entertainment</li>
-          <li>Industrial & Manufacturing</li>
-          <li>Social Media</li>
-          <li>Sports & Leisure</li>
-          <li>Travel & Tourism</li>
-        </ul>
-      </FooterSection>
+const agreements = [
+  "Business & Retail", "E-commerce & Shopping", 
+  "Education & Organisations", "News & Entertainment", 
+  "Industrial & Manufacturing", "Social Media", 
+  "Sports & Leisure", "Travel & Tourism"
+];
 
-      <FooterSection>
-        <h3>CONTACT US</h3>
-        <p><FaPhone size={20} color='lightgrey'/> +241 04 85 34 84</p>
-        <p><FaMessage size={20} color='lightgrey'/> <a href="mailto:info@onlineinnovations.com">Mintsaconsulting@gmail.com</a></p>
-        <p><FaAddressCard size={20} color='lightgrey'/>25 Rue de la SNI, Akurname 2, owendo, Gabon</p>
-        <p><FaMap size={20} color='lightgrey'/>Cliquer ici pour avoir un apperçu sur la carte</p>
-        <h3>DOMAINE D'ENREGISTREMENT</h3>
-        <p><FaWhatsapp size={20} color='green'/>: +241 04 85 34 84 </p>
-        <p>Email: <a href="Mintsaconsulting@gmail.com">Mintsaconsulting@gmail.com</a></p>
-      </FooterSection>
+const recognitions = [
+  "International CONSULTING ASSOCIATION", 
+  "GABON WEB BUSINESS", 
+  "CHAMBRE DE COMMERCE Companies LIBREVILLE", 
+  "AGENCE NATIONALE DE LA CONSOMMATION ET DE LA CONCURRENCE"
+];
 
-      <FooterSection>
-        <h3>RESTER CONNECTER</h3>
-        <SocialIcons>
-          <a href="#"><i className="fab fa-twitter" aria-hidden="true"><FaTwitter size={25} color='blue'/></i></a>
-          <a href="#"><i className="fab fa-facebook-f" aria-hidden="true"><FaFacebook size={25} color='lightblue'/></i></a>
-          <a href="#"><i className="fab fa-linkedin-in" aria-hidden="true"><FaLinkedin size={25} color='blue'/></i></a>
-          <a href="#"><i className="fab fa-instagram" aria-hidden="true"><FaInstagram size={25} color='darkred'/></i></a>
-          <a href="#"><i className="fab fa-pinterest" aria-hidden="true"><FaPinterest size={25} color='white'/></i></a>
-          <a href="#"><i className="fab fa-youtube" aria-hidden="true"><FaYoutube size={25} color='red'/></i></a>
-        </SocialIcons>
-        <h3>RECONNU PAR</h3>
-        <ul>
-          <li>International CONSULTING ASSOCIATION</li>
-          <li>GABON WEB BUSSNESS</li>
-          <li>CHAMBRE DE COMMERCE Companies LIBREVILLE</li>
-          <li>AGENCE NATIONALE DE LA CONSOMMATION ET DE LA CONCURENCE</li>
-        </ul>
-      </FooterSection>
-      <FooterBottom>&copy; 2022 Mintsaconsulting. All rights reserved.</FooterBottom>
-    </FooterContainer>
-  );
-};
+const socialLinks = [
+  { icon: <FaTwitter size={25} color="blue" />, href: "#", aria: "Twitter" },
+  { icon: <FaFacebook size={25} color="white" />, href: "https://www.facebook.com/cedriclebonheur/?locale=fr_FR", aria: "Facebook" },
+  { icon: <FaLinkedin size={25} color="lightblue" />, href: "#", aria: "LinkedIn" },
+  { icon: <FaInstagram size={25} color="darkred" />, href: "#", aria: "Instagram" },
+  { icon: <FaPinterest size={25} color="white" />, href: "#", aria: "Pinterest" },
+  { icon: <FaYoutube size={25} color="red" />, href: "#", aria: "YouTube" }
+];
+
+const Footer: React.FC = () => (
+  
+  <FooterContainer>
+    <FooterSection>
+      <h3>SERVICES</h3>
+      <ul>
+        {services.map((service, index) => (
+          <li key={index}>{service}</li>
+        ))}
+      </ul>
+    </FooterSection>
+
+    <FooterSection>
+      <h3>AGREMENTS</h3>
+      <ul>
+        {agreements.map((agreement, index) => (
+          <li key={index}>{agreement}</li>
+        ))}
+      </ul>
+    </FooterSection>
+
+    <FooterSection>
+      <h3>CONTACT US</h3>
+      <p><FaPhone size={20} color="lightgrey" /> +241 74 85 34 84</p>
+      <p>
+        <FaMessage size={20} color="lightgrey" />
+        <a href="mailto:Mintsaconsulting@gmail.com"> Mintsaconsulting@gmail.com</a>
+      </p>
+      <p><FaAddressCard size={20} color="lightgrey" /> 25 Rue de la SNI, Akurname 2, Owendo</p>
+      <p><FaMap size={20} color="lightgrey" /> <a href="#">Voir sur la carte</a></p>
+    </FooterSection>
+
+    <FooterSection>
+      <h3>RESTER CONNECTÉ</h3>
+      <SocialIcons>
+        {socialLinks.map((link, index) => (
+          <a key={index} href={link.href} aria-label={link.aria}>
+            {link.icon}
+          </a>
+        ))}
+      </SocialIcons>
+      <h3>RECONNU PAR</h3>
+      <ul>
+        {recognitions.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </FooterSection>
+
+    <FooterBottom>&copy; 2024 Mintsaconsulting. All rights reserved.</FooterBottom>
+  </FooterContainer>
+);
 
 const FooterContainer = styled.footer`
-  background-color: #000;
-  color: #fff;
-  padding: 20px 20px;
+  background-color: ${theme.blue};
+  color: ${theme.white};
+  padding: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -93,12 +111,12 @@ const FooterSection = styled.div`
   min-width: 200px;
 
   h3 {
-    color:${theme.blue};
+    color: ${theme.blue};
     margin-bottom: 10px;
   }
 
   ul {
-    list-style-type: none;
+    list-style: none;
     padding: 0;
   }
 
@@ -121,7 +139,6 @@ const SocialIcons = styled.div`
   margin-top: 10px;
 
   a {
-    color: #007bff;
     font-size: 1.2em;
     transition: color 0.3s;
   }
