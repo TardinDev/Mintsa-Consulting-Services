@@ -9,34 +9,47 @@ type ProductCardType = {
   name: string;
   description: string;
   price: number;
-  onDetailsClick: () => void;
-  isAuthenticated: boolean;
-};
+  status: "none" | "vendu" | "en_location" | "épuisé";
+  onDetailsClick?: () => void;
+  onDelete?: () => void; 
+  onEditClick: () => void; 
 
-export default function ProductCard({
+   };
+
+const ProductCard: React.FC<ProductCardType> = ({
   image,
   name,
-  description,
   price,
+  description,
+  status,
+  onDelete,
   onDetailsClick,
-}: ProductCardType) {
-
-
-  const { isAdminMode } = useAdminMode(); // Utilisation du contexte pour isAdminMode
-
-
-
-
+  onEditClick,
+}) => {
+  const { isAdminMode } = useAdminMode(); 
+  
   return (
     <ProductCardStyle>
       <ImageWrapper>
-        <img src={image} alt={name} />
+        {/* Bannière pour le statut "vendu" */}
 
-          {isAdminMode && <CloseButton>&times;</CloseButton> }
-       
-       
+        {status === "vendu" && <StatusBanner color={theme.red}>Vendu</StatusBanner>}
+        {status === "en_location" && (
+          <StatusBanner color={theme.yellow} isBlinking={true}>Actuellement en Location</StatusBanner>
+        )}
+        {status === "épuisé" && <StatusBanner color={theme.purple}>Épuisé</StatusBanner>}
 
+
+        <img
+          src={image}
+          alt={name}
+          onError={(e) => (e.currentTarget.src = "https://via.placeholder.com/200")}
+          onClick={onEditClick}
+        />
+
+        {isAdminMode && <CloseButton onClick={onDelete}>&times;</CloseButton>}
       </ImageWrapper>
+
       <ProductInfo>
         <ProductName>{name}</ProductName>
         <ProductDescription>{description}</ProductDescription>
@@ -45,7 +58,9 @@ export default function ProductCard({
       </ProductInfo>
     </ProductCardStyle>
   );
-}
+};
+
+export default ProductCard;
 
 const ProductCardStyle = styled.div`
   display: flex;
@@ -76,7 +91,7 @@ const ImageWrapper = styled.div`
   img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Dimensions uniformes */
     transition: transform 0.3s;
   }
 
@@ -85,6 +100,47 @@ const ImageWrapper = styled.div`
   }
 `;
 
+
+const StatusBanner = styled.div<{ color: string; isBlinking?: boolean}>`
+
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: ${({ color }) => color};
+  color: white;
+  font-weight: bold;
+  padding: 5px 15px;
+  border-radius: 5px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
+  z-index: 10; /* Assure que la bannière est visible */
+  transform: rotate(-10deg); /* Incline la bannière vers la gauche */
+  transform-origin: left center; /* Définit l'origine de la rotation */
+
+  
+   /* Applique une animation de clignotement si isBlinking est true */
+  ${({ isBlinking }) =>
+    isBlinking &&
+    `
+    animation: blink 2s infinite;
+  `}
+
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+
+`;
+
+
+
+
+/* Bouton pour supprimer le produit (mode admin uniquement) */
 const CloseButton = styled.span`
   position: absolute;
   top: 10px;
