@@ -19,7 +19,8 @@ const Admin = () => {
     const id = products.length ? products[products.length - 1].id + 1 : 1;
     const product: ProductType = { 
       ...newProduct, 
-      id, 
+      id,
+      status: 'disponible',
     };
     setProducts([...products, product]);
     setNewProduct({ name: '', description: '', price: 0, image: '' });

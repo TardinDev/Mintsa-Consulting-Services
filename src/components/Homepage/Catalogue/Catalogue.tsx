@@ -15,7 +15,7 @@ type CatalogueType = {
 const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
   const [activeTab, setActiveTab] = useState<"all" | "voiture" | "home" | "electronic" | "terrain">("all");
   const [selectedProductForDetails, setSelectedProductForDetails] = useState<ProductType | null>(null);
-  const { products, setProducts } = useProducts();
+  const { products, deleteProduct } = useProducts();
 
   // Filtering products according to the active tab
   const filteredProducts = products.filter((product) => {
@@ -28,7 +28,9 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
 
   // Delete a product
   const handleDelete = (id: number) => {
-    setProducts(products.filter((product) => product.id !== id));
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
+      deleteProduct(id);
+    }
   };
 
   // Pass the selected product to modify

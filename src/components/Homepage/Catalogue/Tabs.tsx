@@ -49,6 +49,6 @@ type TabsType = {
     border-radius: 5px;
   
     &:hover {
-      background: ${theme.grey};
+      background: ${theme.gray300};
     }
   `;

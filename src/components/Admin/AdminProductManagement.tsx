@@ -15,7 +15,7 @@ type AdminProductManagementType = {
 
 const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedProductForEdit, setSelectedProductForEdit }) => {
 
-  const { addProduct, products, setProducts } = useProducts();
+  const { addProduct, updateProduct, resetToDefaultData } = useProducts();
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"add" | "edit">("add");
   const [formData, setFormData] = useState({
@@ -74,7 +74,7 @@ const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedP
       formData.status
     ) {
       const newProduct: ProductType = {
-        id: products.length ? products[products.length - 1].id + 1 : 1,
+        id: Date.now(), // ID unique basé sur le timestamp
         name: formData.name,
         description: formData.description,
         price: formData.price,
@@ -87,14 +87,7 @@ const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedP
       };
 
       addProduct(newProduct);
-      setFormData({
-        name: "",
-        description: "",
-        price: 0,
-        image: "",
-        category: "",
-        status: "none",
-      });
+      resetForm();
     } else {
       alert("Veuillez remplir tous les champs !");
     }
@@ -124,14 +117,11 @@ const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedP
           status: formData.status as "none" | "vendu" | "en_location" | "épuisé",
         };
 
-        const updatedProducts = products.map((product) =>
-          product.id === selectedProductForEdit.id ? updatedProduct : product
-        );
-        setProducts(updatedProducts);
+        updateProduct(updatedProduct);
       } else {
         // Add a new Product
         const newProduct: ProductType = {
-          id: products.length ? products[products.length - 1].id + 1 : 1,
+          id: Date.now(),
           name: formData.name,
           description: formData.description,
           price: formData.price,
@@ -146,20 +136,23 @@ const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedP
         addProduct(newProduct);
       }
 
-     
-      setFormData({
-        name: "",
-        description: "",
-        price: 0,
-        image: "",
-        category: "",
-        status: "none",
-      });
-
-      setSelectedProductForEdit(null); // Call this function to reset selectedProductForEdit
+      resetForm();
+      setSelectedProductForEdit(null);
     } else {
       alert("Veuillez remplir tous les champs !");
     }
+  };
+
+  const resetForm = () => {
+    setFormData({
+      name: "",
+      description: "",
+      price: 0,
+      image: "",
+      category: "",
+      status: "none",
+    });
+    setActiveTab("add");
   };
 
   return (
@@ -184,6 +177,10 @@ const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedP
           buttonText="Modifier le produit"
         />
         )}
+        
+        <ResetButton onClick={resetToDefaultData}>
+          Réinitialiser les données
+        </ResetButton>
       </AccordionContent>
     </AccordionContainer>
   );
@@ -227,6 +224,25 @@ const AccordionContent = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? "block" : "none")};
   max-height: 70vh;
   overflow-y: auto;
+`;
+
+const ResetButton = styled.button`
+  width: 100%;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  background: ${theme.error};
+  color: ${theme.white};
+  border: none;
+  border-radius: ${theme.borderRadius.md};
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all ${theme.transition.fast};
+
+  &:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+  }
 `;
 
 

@@ -82,7 +82,7 @@ type ProductFormType = {
 
   h3 {
     text-align: center;
-    color: ${theme.otherBlue};
+    color: ${theme.primary};
   }
 `;
 
@@ -92,7 +92,7 @@ const Input = styled.input`
   border-radius: 5px;
   font-size: 1rem;
   &:focus {
-    border-color: ${theme.otherBlue};
+    border-color: ${theme.primary};
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
 `;

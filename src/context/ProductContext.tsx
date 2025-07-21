@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ProductType } from '../utils/type/type';
 import dataProducts from '../utils/data/dataProducts'
 
@@ -14,35 +14,164 @@ type ProductContextType = {
   setElectronicsProducts: React.Dispatch<React.SetStateAction<ProductType[]>>;
   setTerrainProducts: React.Dispatch<React.SetStateAction<ProductType[]>>;
   addProduct: (product: ProductType) => void;
+  deleteProduct: (productId: number) => void;
+  updateProduct: (product: ProductType) => void;
+  resetToDefaultData: () => void;
 }
 
 const ProductContext = createContext<ProductContextType | undefined>(undefined);
 
-export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products, setProducts] = useState<ProductType[]>([]);
-  const [carProducts, setCarProducts] = useState<ProductType[]>(dataProducts);
-  const [homeProducts, setHomeProducts] = useState<ProductType[]>(dataProducts);
-  const [electronicsProducts, setElectronicsProducts] = useState<ProductType[]>(dataProducts);
-  const [terrainProducts, setTerrainProducts] = useState<ProductType[]>(dataProducts);
+// Clés pour localStorage
+const STORAGE_KEYS = {
+  PRODUCTS: 'mintsa_products',
+  CAR_PRODUCTS: 'mintsa_car_products',
+  HOME_PRODUCTS: 'mintsa_home_products',
+  ELECTRONICS_PRODUCTS: 'mintsa_electronics_products',
+  TERRAIN_PRODUCTS: 'mintsa_terrain_products',
+};
 
+// Fonction pour charger les données depuis localStorage
+const loadFromStorage = (key: string, defaultValue: ProductType[]): ProductType[] => {
+  try {
+    const stored = localStorage.getItem(key);
+    if (stored) {
+      return JSON.parse(stored);
+    } else {
+      // Si aucune donnée n'existe, sauvegarder les données par défaut
+      saveToStorage(key, defaultValue);
+      return defaultValue;
+    }
+  } catch (error) {
+    console.error(`Erreur lors du chargement de ${key}:`, error);
+    return defaultValue;
+  }
+};
+
+// Fonction pour sauvegarder dans localStorage
+const saveToStorage = (key: string, data: ProductType[]): void => {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+  } catch (error) {
+    console.error(`Erreur lors de la sauvegarde de ${key}:`, error);
+  }
+};
+
+export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  // Initialiser les états avec les données du localStorage ou les données par défaut
+  const [products, setProducts] = useState<ProductType[]>(() => 
+    loadFromStorage(STORAGE_KEYS.PRODUCTS, [])
+  );
+  
+  const [carProducts, setCarProducts] = useState<ProductType[]>(() => 
+    loadFromStorage(STORAGE_KEYS.CAR_PRODUCTS, dataProducts)
+  );
+  
+  const [homeProducts, setHomeProducts] = useState<ProductType[]>(() => 
+    loadFromStorage(STORAGE_KEYS.HOME_PRODUCTS, dataProducts)
+  );
+  
+  const [electronicsProducts, setElectronicsProducts] = useState<ProductType[]>(() => 
+    loadFromStorage(STORAGE_KEYS.ELECTRONICS_PRODUCTS, dataProducts)
+  );
+  
+  const [terrainProducts, setTerrainProducts] = useState<ProductType[]>(() => 
+    loadFromStorage(STORAGE_KEYS.TERRAIN_PRODUCTS, dataProducts)
+  );
+
+  // Sauvegarder automatiquement les changements dans localStorage
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.PRODUCTS, products);
+  }, [products]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.CAR_PRODUCTS, carProducts);
+  }, [carProducts]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.HOME_PRODUCTS, homeProducts);
+  }, [homeProducts]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.ELECTRONICS_PRODUCTS, electronicsProducts);
+  }, [electronicsProducts]);
+
+  useEffect(() => {
+    saveToStorage(STORAGE_KEYS.TERRAIN_PRODUCTS, terrainProducts);
+  }, [terrainProducts]);
 
   const addProduct = (product: ProductType) => {
     const newProduct = {
       ...product,
-      status: product.status || "none", // Défaut si aucun état fourni
+      id: Date.now(), // Utiliser timestamp pour un ID unique
+      status: product.status || "none",
     };
   
-    setProducts([...products, newProduct]);
+    setProducts(prev => [...prev, newProduct]);
   
     // Ajouter également dans la catégorie correspondante
-    if (newProduct.isVoiture) setCarProducts([...carProducts, newProduct]);
-    if (newProduct.isHome) setHomeProducts([...homeProducts, newProduct]);
-    if (newProduct.isElectronic) setElectronicsProducts([...electronicsProducts, newProduct]);
-    if (newProduct.isTerrain) setTerrainProducts([...terrainProducts, newProduct]);
+    if (newProduct.isVoiture) {
+      setCarProducts(prev => [...prev, newProduct]);
+    }
+    if (newProduct.isHome) {
+      setHomeProducts(prev => [...prev, newProduct]);
+    }
+    if (newProduct.isElectronic) {
+      setElectronicsProducts(prev => [...prev, newProduct]);
+    }
+    if (newProduct.isTerrain) {
+      setTerrainProducts(prev => [...prev, newProduct]);
+    }
   };
 
-  
-  
+  const deleteProduct = (productId: number) => {
+    // Supprimer de la liste générale
+    setProducts(prev => prev.filter(p => p.id !== productId));
+    
+    // Supprimer de toutes les catégories
+    setCarProducts(prev => prev.filter(p => p.id !== productId));
+    setHomeProducts(prev => prev.filter(p => p.id !== productId));
+    setElectronicsProducts(prev => prev.filter(p => p.id !== productId));
+    setTerrainProducts(prev => prev.filter(p => p.id !== productId));
+  };
+
+  const updateProduct = (updatedProduct: ProductType) => {
+    // Mettre à jour dans la liste générale
+    setProducts(prev => 
+      prev.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+    );
+    
+    // Mettre à jour dans les catégories appropriées
+    if (updatedProduct.isVoiture) {
+      setCarProducts(prev => 
+        prev.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+      );
+    }
+    if (updatedProduct.isHome) {
+      setHomeProducts(prev => 
+        prev.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+      );
+    }
+    if (updatedProduct.isElectronic) {
+      setElectronicsProducts(prev => 
+        prev.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+      );
+    }
+    if (updatedProduct.isTerrain) {
+      setTerrainProducts(prev => 
+        prev.map(p => p.id === updatedProduct.id ? updatedProduct : p)
+      );
+    }
+  };
+
+  const resetToDefaultData = () => {
+    if (window.confirm("Êtes-vous sûr de vouloir réinitialiser toutes les données aux valeurs par défaut ? Cette action ne peut pas être annulée.")) {
+      setProducts([]);
+      setCarProducts(dataProducts);
+      setHomeProducts(dataProducts);
+      setElectronicsProducts(dataProducts);
+      setTerrainProducts(dataProducts);
+    }
+  };
 
   return (
     <ProductContext.Provider
@@ -58,6 +187,9 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
         setElectronicsProducts,
         setTerrainProducts,
         addProduct,
+        deleteProduct,
+        updateProduct,
+        resetToDefaultData,
       }}
     >
       {children}

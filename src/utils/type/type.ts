@@ -4,7 +4,7 @@ export type ProductType = {
     name: string;
     description: string;
     price: number;
-    status:"none" | "vendu" | "en_location" | "épuisé";
+    status:"none" | "vendu" | "en_location" | "épuisé" | "disponible";
     isVoiture?: boolean;
     isHome?: boolean;
     isElectronic?: boolean;

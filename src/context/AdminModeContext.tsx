@@ -18,7 +18,7 @@ export const AdminModeProvider: React.FC<{ children: ReactNode }> = ({ children 
   
 
   return (
-    <AdminModeContext.Provider value={{ isAdminMode, toggleAdminMode,  }}>
+    <AdminModeContext.Provider value={{ isAdminMode, toggleAdminMode }}>
       {children}
     </AdminModeContext.Provider>
   );

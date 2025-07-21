@@ -7,6 +7,7 @@ const electronicsProducts:ProductType[] = [
       name: 'Smartphone',
       description: 'Téléphone intelligent avec les dernières technologies.',
       price: 70000,
+      status: 'disponible',
       isElectronic: true,
     },
     {
@@ -15,6 +16,7 @@ const electronicsProducts:ProductType[] = [
       name: 'Ordinateur Portable',
       description: 'Parfait pour le travail et le divertissement.',
       price: 150000,
+      status: 'disponible',
       isElectronic: true,
     },
     {
@@ -23,6 +25,7 @@ const electronicsProducts:ProductType[] = [
       name: 'Tablette',
       description: 'Idéale pour lire, regarder des vidéos et naviguer.',
       price: 50000,
+      status: 'disponible',
       isElectronic: true,
     },
     {
@@ -31,6 +34,7 @@ const electronicsProducts:ProductType[] = [
       name: 'Téléviseur',
       description: 'Écran haute définition pour une expérience immersive.',
       price: 120000,
+      status: 'disponible',
       isElectronic: true,
     },
     {
@@ -39,6 +43,7 @@ const electronicsProducts:ProductType[] = [
       name: 'Casque Audio',
       description: 'Son haute qualité pour les audiophiles.',
       price: 20000,
+      status: 'disponible',
       isElectronic: true,
     },
   ];
