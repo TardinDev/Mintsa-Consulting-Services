@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 type ProductDetailsModalProps = {
+
   product: {
     id: number;
     image: string;
@@ -9,10 +11,14 @@ type ProductDetailsModalProps = {
     description: string;
     price: number;
   } | null;
+
   onClose: () => void;
+
 };
 
+
 const ProductDetailsModal: React.FC<ProductDetailsModalProps> = ({ product, onClose }) => {
+
   if (!product) return null;
 
   return (

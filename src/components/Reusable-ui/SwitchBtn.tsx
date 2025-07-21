@@ -1,40 +1,45 @@
-import { useState } from "react";
-import { FaCircle } from "react-icons/fa";
-import styled from "styled-components";
 
-// Type pour les props du style
-type SwitchBtnStyleProps = {
-  isActiveBtn: boolean;
-};
+import React from 'react';
+import { FaCircle } from 'react-icons/fa';
+import styled from 'styled-components';
+import { useAdminMode } from '../../context/AdminModeContext';
+import theme from '../../utils/Theme/theme';
 
-export default function SwitchBtn() {
-  // Typage de useState
-  const [isActiveBtn, setIsActiveBtn] = useState<boolean>(false);
+           
+const SwitchBtn: React.FC = () => {
 
-  const handleSwitchBtn = () => {
-    setIsActiveBtn(!isActiveBtn); 
+  const { isAdminMode, toggleAdminMode } = useAdminMode();
+
+  const handleClick = () => {
+    toggleAdminMode(); // Basculer l'état admin mode
+    console.log("Admin Mode:", isAdminMode); // Vérifiez ici
+
   };
 
   return (
-    <SwitchBtnStyle isActiveBtn={isActiveBtn} onClick={handleSwitchBtn}>
+    <SwitchBtnStyle isAdminMode={isAdminMode} onClick={handleClick}>
       <div className="circle">
-        <FaCircle size={35} color={isActiveBtn ? "#EB8317" : "lightgrey"} />
+        <FaCircle size={35} color={isAdminMode ? `${theme.orange}` : `${theme.lightGrey}`} />
       </div>
-      <h1>{isActiveBtn ? "Disable admin Mode" : "Active admin Mode"}</h1>
+      <h1>{isAdminMode ? 'Désactive Product Manager' : 'Active Product Manager'}</h1>
     </SwitchBtnStyle>
   );
-}
+};
 
-// Styled component avec les types des props
-const SwitchBtnStyle = styled.div<SwitchBtnStyleProps>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #000;
-  border: 2px solid ${(props) => (props.isActiveBtn ? "lightgrey" : "#EB8317")};
-  border-radius: 18px;
-  width: 17.8rem;
+export default SwitchBtn;
+
+const SwitchBtnStyle = styled.div<{isAdminMode : boolean}>`
+
+  background-color:${theme.black};
   padding: 0.3rem 0rem;
+  border: 2px solid ${(props) => (props.isAdminMode ? `${theme.lightGrey}` : `${theme.orange}`)};
+  border-radius: 18px;
+  width: 22rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+    
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -42,7 +47,7 @@ const SwitchBtnStyle = styled.div<SwitchBtnStyleProps>`
   .circle {
     position: absolute;
     top: 50%;
-    left: ${(props) => (props.isActiveBtn ? "calc(100% - 45px)" : "10px")};
+    left: ${(props) => (props.isAdminMode ? 'calc(100% - 45px)' : '10px')};
     transform: translateY(-50%);
     transition: left 0.5s ease-in-out;
     display: flex;
@@ -51,12 +56,12 @@ const SwitchBtnStyle = styled.div<SwitchBtnStyleProps>`
   }
 
   h1 {
-    color: ${(props) => (props.isActiveBtn ? "#EB8317" : "lightgrey")};
+    color: ${(props) => (props.isAdminMode ? `${theme.orange}` : `${theme.lightGrey}`)};
     transition: color 0.3s ease;
     margin-left: 20px;
-    text-align: ${(props) => (props.isActiveBtn ? "left" : "right")};
+    text-align: ${(props) => (props.isAdminMode ? 'left' : 'right')};
     width: 100%;
     padding-right: 35px;
-    font-size:1.5rem;
+    font-size: 1.5rem;
   }
 `;

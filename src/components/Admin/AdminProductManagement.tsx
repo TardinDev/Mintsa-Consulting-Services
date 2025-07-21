@@ -1,67 +1,188 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { FaArrowRight, FaArrowLeft } from 'react-icons/fa';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { useProducts } from "../../context/ProductContext";
+import { ProductType } from "../../utils/type/type";
+import theme from "../../utils/Theme/theme";
+import ProductForm from './ProductForm';
 
-const AdminProductManagement: React.FC = () => {
+
+type AdminProductManagementType = {
+  selectedProductForEdit: ProductType | null;
+  setSelectedProductForEdit: React.Dispatch<React.SetStateAction<ProductType | null>>;
+}
+
+
+const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedProductForEdit, setSelectedProductForEdit }) => {
+
+  const { addProduct, products, setProducts } = useProducts();
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<'add' | 'edit'>('add'); // Onglet actif
+  const [activeTab, setActiveTab] = useState<"add" | "edit">("add");
+  const [formData, setFormData] = useState({
+
+    name: "",
+    description: "",
+    price: 0,
+    image: "",
+    category: "",
+    status: "none",
+
+  });
+
+  useEffect(() => {
+    if (selectedProductForEdit) {
+
+      setFormData({
+        name: selectedProductForEdit.name,
+        description: selectedProductForEdit.description,
+        price: selectedProductForEdit.price,
+        image: selectedProductForEdit.image,
+        category: selectedProductForEdit.isVoiture
+          ? "voiture"
+          : selectedProductForEdit.isHome
+          ? "home"
+          : selectedProductForEdit.isElectronic
+          ? "electronic"
+          : selectedProductForEdit.isTerrain
+          ? "terrain"
+          : "",
+        status: selectedProductForEdit.status || "none",
+      });
+      setActiveTab("edit");
+    }
+  }, [selectedProductForEdit]);
 
   const toggleAccordion = () => {
     setIsAccordionOpen(!isAccordionOpen);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "price" ? Number(value) : value,
+    }));
+  };
+
+  const handleAddProduct = () => {
+    if (
+      formData.name &&
+      formData.description &&
+      formData.price > 0 &&
+      formData.image &&
+      formData.category &&
+      formData.status
+    ) {
+      const newProduct: ProductType = {
+        id: products.length ? products[products.length - 1].id + 1 : 1,
+        name: formData.name,
+        description: formData.description,
+        price: formData.price,
+        image: formData.image,
+        isVoiture: formData.category === "voiture",
+        isHome: formData.category === "home",
+        isElectronic: formData.category === "electronic",
+        isTerrain: formData.category === "terrain",
+        status: formData.status as "none" | "vendu" | "en_location" | "épuisé",
+      };
+
+      addProduct(newProduct);
+      setFormData({
+        name: "",
+        description: "",
+        price: 0,
+        image: "",
+        category: "",
+        status: "none",
+      });
+    } else {
+      alert("Veuillez remplir tous les champs !");
+    }
+  };
+
+  const handleAddOrUpdateProduct = () => {
+    if (
+      formData.name &&
+      formData.description &&
+      formData.price > 0 &&
+      formData.image &&
+      formData.category &&
+      formData.status
+    ) {
+      if (selectedProductForEdit) {
+        // Update the existing product
+        const updatedProduct: ProductType = {
+          ...selectedProductForEdit,
+          name: formData.name,
+          description: formData.description,
+          price: formData.price,
+          image: formData.image,
+          isVoiture: formData.category === "voiture",
+          isHome: formData.category === "home",
+          isElectronic: formData.category === "electronic",
+          isTerrain: formData.category === "terrain",
+          status: formData.status as "none" | "vendu" | "en_location" | "épuisé",
+        };
+
+        const updatedProducts = products.map((product) =>
+          product.id === selectedProductForEdit.id ? updatedProduct : product
+        );
+        setProducts(updatedProducts);
+      } else {
+        // Add a new Product
+        const newProduct: ProductType = {
+          id: products.length ? products[products.length - 1].id + 1 : 1,
+          name: formData.name,
+          description: formData.description,
+          price: formData.price,
+          image: formData.image,
+          isVoiture: formData.category === "voiture",
+          isHome: formData.category === "home",
+          isElectronic: formData.category === "electronic",
+          isTerrain: formData.category === "terrain",
+          status: formData.status as "none" | "vendu" | "en_location" | "épuisé",
+        };
+
+        addProduct(newProduct);
+      }
+
+     
+      setFormData({
+        name: "",
+        description: "",
+        price: 0,
+        image: "",
+        category: "",
+        status: "none",
+      });
+
+      setSelectedProductForEdit(null); // Call this function to reset selectedProductForEdit
+    } else {
+      alert("Veuillez remplir tous les champs !");
+    }
+  };
+
   return (
     <AccordionContainer isOpen={isAccordionOpen}>
       <AccordionHeader onClick={toggleAccordion}>
-        {isAccordionOpen ? (
-          <FaArrowRight size={20} color="#fff" />
-        ) : (
-          <FaArrowLeft size={20} color="#fff" />
-        )}
+        {isAccordionOpen ? <FaArrowRight size={20} color={theme.white} /> : <FaArrowLeft size={20} color={theme.white} />}
       </AccordionHeader>
 
       <AccordionContent isOpen={isAccordionOpen}>
-        <TabSwitcher>
-          <Tab
-            active={activeTab === 'add'}
-            onClick={() => setActiveTab('add')}
-          >
-            Ajouter un Produit
-          </Tab>
-          <Tab
-            active={activeTab === 'edit'}
-            onClick={() => setActiveTab('edit')}
-          >
-            Modifier un produit
-          </Tab>
-        </TabSwitcher>
-
-        {activeTab === 'add' && (
-          <Form>
-            <h3>Remplir le formulaire pour ajouter un nouveau produit</h3>
-            <input type="text" placeholder="Nom du produit" />
-            <input type="text" placeholder="Lien de l'image" />
-            <input type="text" placeholder="Description" />
-            <input type="number" placeholder="Prix" />
-            <button type="button">Ajouter</button>
-          </Form>
-        )}
-
-        {activeTab === 'edit' && (
-          <Form>
-            <h3>Clicker sur un produit du catalogue, puis modifier le</h3>
-            <select>
-              <option value="">Sélectionner un produit</option>
-              <option value="1">Produit 1</option>
-              <option value="2">Produit 2</option>
-              <option value="3">Produit 3</option>
-            </select>
-            <input type="text" placeholder="Nom du produit" />
-            <input type="text" placeholder="Lien de l'image" />
-            <input type="text" placeholder="Description" />
-            <input type="number" placeholder="Prix" />
-            <button type="button">Modifier</button>
-          </Form>
+        {activeTab === "add" ? (
+         <ProductForm 
+         formData={formData}
+         handleInputChange={handleInputChange}
+         onSubmit={handleAddProduct}
+         buttonText="Ajouter le produit"    
+         />
+        ) : (
+          <ProductForm
+          formData={formData}
+          handleInputChange={handleInputChange}
+          onSubmit={handleAddOrUpdateProduct}
+          buttonText="Modifier le produit"
+        />
         )}
       </AccordionContent>
     </AccordionContainer>
@@ -70,110 +191,43 @@ const AdminProductManagement: React.FC = () => {
 
 export default AdminProductManagement;
 
-// Styled Components
+
 
 const AccordionContainer = styled.div<{ isOpen: boolean }>`
   position: fixed;
-  top: 20px;
-  right: 0;
-  z-index: 10;
-  width: ${({ isOpen }) => (isOpen ? '400px' : '60px')};
-  background-color: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(3px);
-  border: 1px solid rgba(200, 200, 200, 0.6);
-  border-radius: 15px 0 0 15px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  transition: width 0.6s ease;
+  top: 80px;
+  right: 20px;
+  width: ${({ isOpen }) => (isOpen ? "350px" : "50px")};
+  background-color: rgba(255, 255, 255, 0.95);
+  transition: all 0.3s ease;
+  border: 1px solid ${theme.gray200};
+  border-radius: ${theme.borderRadius.lg};
+  box-shadow: ${theme.shadowLg};
+  backdrop-filter: blur(10px);
+  z-index: ${theme.zDropdown};
 `;
 
 const AccordionHeader = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
+  background: ${theme.gradientPrimary};
+  padding: 0.75rem;
+  border-radius: ${theme.borderRadius.lg} 0 0 ${theme.borderRadius.lg};
   cursor: pointer;
-  background-color: #e65c00;
-  padding: 10px;
-  border-radius: 0 5px 5px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all ${theme.transition.fast};
 
   &:hover {
-    opacity: 0.9;
+    background: ${theme.primaryDark};
   }
 `;
 
 const AccordionContent = styled.div<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => (isOpen ? 'block' : 'none')};
-  padding: 20px;
-  text-align: center;
-
-  h3 {
-    margin-bottom: 10px;
-    color: #e65c00;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
+  padding: 1.5rem;
+  display: ${({ isOpen }) => (isOpen ? "block" : "none")};
+  max-height: 70vh;
+  overflow-y: auto;
 `;
 
-const TabSwitcher = styled.div`
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-  gap: 10px;
-`;
 
-const Tab = styled.button<{ active: boolean }>`
-  padding: 10px 20px;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-  background-color: ${({ active }) => (active ? '#007bff' : '#ccc')};
-  color: ${({ active }) => (active ? '#fff' : '#333')};
-  transition: background-color 0.3s;
-
-  &:hover {
-    background-color: ${({ active }) => (active ? '#0056b3' : '#bbb')};
-  }
-`;
-
-const Form = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-
-  input, select {
-    padding: 12px;
-    border: 1px solid rgba(200, 200, 200, 0.6);
-    border-radius: 10px;
-    font-size: 1rem;
-    background-color: rgba(255, 255, 255, 0.7);
-    color: #333;
-
-    &:focus {
-      border-color: #007bff;
-      outline: none;
-      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-    }
-  }
-
-  button {
-    padding: 12px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: #fff;
-    background-color: #007bff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-
-    &:hover {
-      background-color: #0056b3;
-    }
-
-    &:active {
-      background-color: #004080;
-    }
-  }
-`;
+ 
