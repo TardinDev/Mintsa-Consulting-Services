@@ -55,8 +55,8 @@ const Footer: React.FC = () => (
             <ContactIcon>
               <FaMessage size={20} color={theme.white} />
             </ContactIcon>
-            <ContactLink href="mailto:Mintsaconsulting@gmail.com">
-              Mintsaconsulting@gmail.com
+            <ContactLink href="mailto:mintsaservicesc@gmail.com">
+              mintsaservicesc@gmail.com
             </ContactLink>
           </ContactItem>
           
@@ -64,7 +64,7 @@ const Footer: React.FC = () => (
             <ContactIcon>
               <FaAddressCard size={20} color={theme.white} />
             </ContactIcon>
-            <ContactText>25 Rue de la SNI, Akurname 2, Owendo</ContactText>
+            <ContactText>Akourname 1, Owendo</ContactText>
           </ContactItem>
           
           <ContactItem>

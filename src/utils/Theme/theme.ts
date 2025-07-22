@@ -1,7 +1,7 @@
 
 const theme = {
   // Couleurs principales - Palette Consulting Professionnelle
-  primary: '#1e40af', // Bleu professionnel
+  primary: '#010B8E', // Bleu professionnel
   primaryDark: '#1e3a8a', // Bleu foncé
   primaryLight: '#3b82f6', // Bleu clair
   secondary: '#f59e0b', // Orange doré pour les accents

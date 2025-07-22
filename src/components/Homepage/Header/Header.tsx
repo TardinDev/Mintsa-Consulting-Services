@@ -85,8 +85,8 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+  margin: 0 ;
+  padding: 0 1rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
     flex-direction: column;

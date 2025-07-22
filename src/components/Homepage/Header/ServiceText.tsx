@@ -6,9 +6,9 @@ function ServiceText() {
   return (
     <ServiceTextStyle>
       <LogoContainer>
-        <LogoLine>Mintsa Services</LogoLine>
-        <LogoLine>&</LogoLine>
-        <LogoLine>Consulting</LogoLine>
+        <LogoLine>Mintsa Services & Consulting</LogoLine>
+        {/* <LogoLine>&</LogoLine>
+        <LogoLine>Consulting</LogoLine> */}
       </LogoContainer>
       <WhatsappContainer>
         <FaWhatsappSquare size={25} color="#88C273" />

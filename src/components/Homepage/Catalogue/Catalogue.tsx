@@ -63,7 +63,7 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
       {filteredProducts.length === 0 ? (
         <EmptyState 
           message="Aucun service disponible pour le moment. Revenez plus tard !"
-          contactEmail="Mintsaconsulting@gmail.com"
+          contactEmail="mintsaservicesc@gmail.com"
         />
       ) : (
         <CardContainer>

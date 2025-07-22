@@ -63,6 +63,8 @@ const RightSideHeaderStyle = styled.div`
   align-items: center;
   gap: 1rem;
   
+  
+  
   .connection {
     color: ${theme.white};
     padding: 0.3rem 1rem;
