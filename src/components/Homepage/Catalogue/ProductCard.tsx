@@ -1,13 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-import { useAuth } from '../../../context/AuthContext';
-import { useAdminMode } from '../../../context/AdminModeContext';
+import { useClerkAuth } from '../../../context/ClerkAuthContext';
 import theme from '../../../utils/Theme/theme';
+import ImageGallery from './ImageGallery';
 
 interface ProductCardProps {
   id: number;
-  image: string;
+  images: string[];
   name: string;
   description: string;
   price: number;
@@ -18,7 +18,7 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({
-  image,
+  images,
   name,
   description,
   price,
@@ -27,19 +27,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onDelete,
   onEditClick,
 }) => {
-  const { isAuthenticated } = useAuth();
-  const { isAdminMode } = useAdminMode();
+  const { isAuthenticated, isAdmin } = useClerkAuth();
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
       case 'disponible':
         return theme.success;
-      case 'en cours':
+      case 'vendu':
+        return theme.primary;
+      case 'en_location':
         return theme.warning;
-      case 'terminé':
-        return theme.info;
+      case 'épuisé':
+        return theme.error;
       default:
-        return theme.gray500;
+        return theme.success; // Par défaut, "aucun" devient "disponible" en vert
     }
   };
 
@@ -47,19 +48,36 @@ const ProductCard: React.FC<ProductCardProps> = ({
     switch (status.toLowerCase()) {
       case 'disponible':
         return `${theme.success}20`;
-      case 'en cours':
+      case 'vendu':
+        return `${theme.primary}20`;
+      case 'en_location':
         return `${theme.warning}20`;
-      case 'terminé':
-        return `${theme.info}20`;
+      case 'épuisé':
+        return `${theme.error}20`;
       default:
-        return `${theme.gray500}20`;
+        return `${theme.success}20`; // Par défaut, "aucun" devient "disponible" en vert
+    }
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'none':
+        return 'Disponible';
+      case 'vendu':
+        return 'Vendu';
+      case 'en_location':
+        return 'En location';
+      case 'épuisé':
+        return 'Épuisé';
+      default:
+        return status;
     }
   };
 
   return (
     <CardContainer>
       <ImageContainer>
-        <ProductImage src={image} alt={name} />
+        <ImageGallery images={images} alt={name} onImageClick={onDetailsClick} />
         <ImageOverlay>
           <ViewButton onClick={onDetailsClick}>
             <FaEye size={20} />
@@ -70,7 +88,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           statusColor={getStatusColor(status)}
           statusBgColor={getStatusBgColor(status)}
         >
-          {status}
+          {getStatusText(status)}
         </StatusBadge>
       </ImageContainer>
 
@@ -83,7 +101,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
           <PriceValue>{price.toLocaleString()} FCFA</PriceValue>
         </PriceContainer>
 
-        {isAuthenticated && isAdminMode && (
+        {isAuthenticated && isAdmin && (
           <AdminControls>
             <AdminButton onClick={onEditClick} variant="edit">
               <FaEdit size={16} />
@@ -109,6 +127,8 @@ const CardContainer = styled.div`
   box-shadow: ${theme.shadowMd};
   transition: all ${theme.transition.normal};
   position: relative;
+  max-width: 280px;
+  width: 100%;
 
   &:hover {
     transform: translateY(-4px);
@@ -118,7 +138,7 @@ const CardContainer = styled.div`
 
 const ImageContainer = styled.div`
   position: relative;
-  height: 200px;
+  height: 160px;
   overflow: hidden;
 `;
 
@@ -155,7 +175,7 @@ const ViewButton = styled.button`
   background: ${theme.white};
   color: ${theme.primary};
   border: none;
-  padding: 0.75rem 1.5rem;
+  padding: 0.5rem 1rem;
   border-radius: ${theme.borderRadius.full};
   font-weight: 600;
   cursor: pointer;
@@ -163,6 +183,7 @@ const ViewButton = styled.button`
   align-items: center;
   gap: 0.5rem;
   transition: all ${theme.transition.fast};
+  font-size: 0.8rem;
 
   &:hover {
     transform: scale(1.05);
@@ -172,13 +193,13 @@ const ViewButton = styled.button`
 
 const StatusBadge = styled.div<{ statusColor: string; statusBgColor: string }>`
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 0.75rem;
+  right: 0.75rem;
   background: ${({ statusBgColor }) => statusBgColor};
   color: ${({ statusColor }) => statusColor};
-  padding: 0.5rem 1rem;
+  padding: 0.35rem 0.75rem;
   border-radius: ${theme.borderRadius.full};
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -186,24 +207,24 @@ const StatusBadge = styled.div<{ statusColor: string; statusBgColor: string }>`
 `;
 
 const CardContent = styled.div`
-  padding: 1.5rem;
+  padding: 1rem;
 `;
 
 const ProductName = styled.h3`
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: ${theme.gray900};
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   line-height: 1.3;
 `;
 
 const ProductDescription = styled.p`
   color: ${theme.gray600};
-  font-size: 0.875rem;
-  line-height: 1.5;
-  margin-bottom: 1.5rem;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin-bottom: 1rem;
   display: -webkit-box;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 `;
@@ -212,29 +233,29 @@ const PriceContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
   background: ${theme.gray50};
   border-radius: ${theme.borderRadius.lg};
   border: 1px solid ${theme.gray200};
 `;
 
 const PriceLabel = styled.span`
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: ${theme.gray600};
   font-weight: 500;
 `;
 
 const PriceValue = styled.span`
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 700;
   color: ${theme.primary};
 `;
 
 const AdminControls = styled.div`
   display: flex;
-  gap: 0.75rem;
-  padding-top: 1rem;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
   border-top: 1px solid ${theme.gray200};
 `;
 
@@ -243,11 +264,11 @@ const AdminButton = styled.button<{ variant: 'edit' | 'delete' }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
   border: none;
   border-radius: ${theme.borderRadius.lg};
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;
   transition: all ${theme.transition.fast};

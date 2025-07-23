@@ -29,7 +29,12 @@ const SearchContainerStyle = styled.div`
   border-radius: 20px;
   padding: 0.5rem 1rem;
   width: 100%;
-  max-width: 400px;
+  max-width: 300px;
+  flex-shrink: 1;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    max-width: 100%;
+  }
 `;
 
 const SearchInput = styled.input`

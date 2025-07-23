@@ -1,52 +1,52 @@
 import { ProductType } from "../type/type";
 
-const electronicsProducts:ProductType[] = [
+const electronicProducts: ProductType[] = [
     {
-      id: 31,
-      image: 'https://placehold.co/300x200?text=Smartphone',
-      name: 'Smartphone',
-      description: 'Téléphone intelligent avec les dernières technologies.',
-      price: 70000,
+      id: 6,
+      images: ['https://images.unsplash.com/photo-1544866092-1677b00f868b?w=300&h=200&fit=crop'],
+      name: 'Smartphone Premium',
+      description: 'Dernière génération avec fonctionnalités avancées.',
+      price: 1200,
       status: 'disponible',
       isElectronic: true,
     },
     {
-      id: 32,
-      image: 'https://placehold.co/300x200?text=Ordinateur+Portable',
+      id: 7,
+      images: ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=300&h=200&fit=crop'],
       name: 'Ordinateur Portable',
-      description: 'Parfait pour le travail et le divertissement.',
-      price: 150000,
+      description: 'Puissant et portable pour tous vos besoins.',
+      price: 2500,
       status: 'disponible',
       isElectronic: true,
     },
     {
-      id: 33,
-      image: 'https://placehold.co/300x200?text=Tablette',
-      name: 'Tablette',
-      description: 'Idéale pour lire, regarder des vidéos et naviguer.',
-      price: 50000,
-      status: 'disponible',
-      isElectronic: true,
-    },
-    {
-      id: 34,
-      image: 'https://placehold.co/300x200?text=Téléviseur',
-      name: 'Téléviseur',
-      description: 'Écran haute définition pour une expérience immersive.',
-      price: 120000,
-      status: 'disponible',
-      isElectronic: true,
-    },
-    {
-      id: 35,
-      image: 'https://placehold.co/300x200?text=Casque+Audio',
+      id: 8,
+      images: ['https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=200&fit=crop'],
       name: 'Casque Audio',
-      description: 'Son haute qualité pour les audiophiles.',
-      price: 20000,
+      description: 'Qualité sonore exceptionnelle et confort optimal.',
+      price: 300,
+      status: 'disponible',
+      isElectronic: true,
+    },
+    {
+      id: 9,
+      images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=200&fit=crop'],
+      name: 'Appareil Photo',
+      description: 'Capturez vos moments les plus précieux.',
+      price: 800,
+      status: 'disponible',
+      isElectronic: true,
+    },
+    {
+      id: 10,
+      images: ['https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=300&h=200&fit=crop'],
+      name: 'Montre Connectée',
+      description: 'Technologie avancée au poignet.',
+      price: 400,
       status: 'disponible',
       isElectronic: true,
     },
   ];
   
-  export default electronicsProducts;
+  export default electronicProducts;
   

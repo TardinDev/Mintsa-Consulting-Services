@@ -1,24 +1,51 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { useClerkAuth } from './ClerkAuthContext';
 
-type AdminModeContextType = {
-  isAdminMode: boolean;
-  toggleAdminMode: () => void;
-  
-};
+interface AdminModeContextType {
+  isAdminPanelVisible: boolean;
+  toggleAdminPanel: () => void;
+  showAdminPanel: () => void;
+  hideAdminPanel: () => void;
+}
 
 const AdminModeContext = createContext<AdminModeContextType | undefined>(undefined);
 
-export const AdminModeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAdminMode, setIsAdminMode] = useState(false);
+export const AdminModeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const { isAdmin, isAuthenticated } = useClerkAuth();
+  const [isAdminPanelVisible, setIsAdminPanelVisible] = useState(false);
 
-  const toggleAdminMode = () => {
-    setIsAdminMode((prev) => !prev);
+  // Afficher automatiquement le panneau admin pour les admins connectés
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      setIsAdminPanelVisible(true);
+    } else {
+      setIsAdminPanelVisible(false);
+    }
+  }, [isAuthenticated, isAdmin]);
+
+  const toggleAdminPanel = () => {
+    if (isAdmin) {
+      setIsAdminPanelVisible(prev => !prev);
+    }
   };
 
-  
+  const showAdminPanel = () => {
+    if (isAdmin) {
+      setIsAdminPanelVisible(true);
+    }
+  };
+
+  const hideAdminPanel = () => {
+    setIsAdminPanelVisible(false);
+  };
 
   return (
-    <AdminModeContext.Provider value={{ isAdminMode, toggleAdminMode }}>
+    <AdminModeContext.Provider value={{
+      isAdminPanelVisible,
+      toggleAdminPanel,
+      showAdminPanel,
+      hideAdminPanel
+    }}>
       {children}
     </AdminModeContext.Provider>
   );
@@ -30,4 +57,4 @@ export const useAdminMode = (): AdminModeContextType => {
     throw new Error('useAdminMode must be used within an AdminModeProvider');
   }
   return context;
-};
+}; 

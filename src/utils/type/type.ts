@@ -1,6 +1,6 @@
 export type ProductType = {
     id: number;
-    image: string;
+    images: string[];
     name: string;
     description: string;
     price: number;
@@ -11,8 +11,5 @@ export type ProductType = {
     isTerrain?: boolean;
     selectedProductForEdit?:boolean;
     setSelectedProductForEdit?:() => void;
-
-    
-    
-  };
+};
   

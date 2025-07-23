@@ -58,24 +58,26 @@ const saveToStorage = (key: string, data: ProductType[]): void => {
 
 export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   // Initialiser les états avec les données du localStorage ou les données par défaut
-  const [products, setProducts] = useState<ProductType[]>(() => 
-    loadFromStorage(STORAGE_KEYS.PRODUCTS, [])
-  );
+  const [products, setProducts] = useState<ProductType[]>(() => {
+    const loadedProducts = loadFromStorage(STORAGE_KEYS.PRODUCTS, dataProducts);
+    console.log('Produits chargés au démarrage:', loadedProducts.length);
+    return loadedProducts;
+  });
   
   const [carProducts, setCarProducts] = useState<ProductType[]>(() => 
-    loadFromStorage(STORAGE_KEYS.CAR_PRODUCTS, dataProducts)
+    loadFromStorage(STORAGE_KEYS.CAR_PRODUCTS, dataProducts.filter(p => p.isVoiture))
   );
   
   const [homeProducts, setHomeProducts] = useState<ProductType[]>(() => 
-    loadFromStorage(STORAGE_KEYS.HOME_PRODUCTS, dataProducts)
+    loadFromStorage(STORAGE_KEYS.HOME_PRODUCTS, dataProducts.filter(p => p.isHome))
   );
   
   const [electronicsProducts, setElectronicsProducts] = useState<ProductType[]>(() => 
-    loadFromStorage(STORAGE_KEYS.ELECTRONICS_PRODUCTS, dataProducts)
+    loadFromStorage(STORAGE_KEYS.ELECTRONICS_PRODUCTS, dataProducts.filter(p => p.isElectronic))
   );
   
   const [terrainProducts, setTerrainProducts] = useState<ProductType[]>(() => 
-    loadFromStorage(STORAGE_KEYS.TERRAIN_PRODUCTS, dataProducts)
+    loadFromStorage(STORAGE_KEYS.TERRAIN_PRODUCTS, dataProducts.filter(p => p.isTerrain))
   );
 
   // Sauvegarder automatiquement les changements dans localStorage
@@ -106,9 +108,12 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
       status: product.status || "none",
     };
   
+    console.log('Ajout d\'un nouveau produit:', newProduct);
+  
+    // Ajouter dans la liste générale
     setProducts(prev => [...prev, newProduct]);
   
-    // Ajouter également dans la catégorie correspondante
+    // Ajouter dans la catégorie correspondante
     if (newProduct.isVoiture) {
       setCarProducts(prev => [...prev, newProduct]);
     }
@@ -124,6 +129,8 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const deleteProduct = (productId: number) => {
+    console.log('Suppression du produit avec ID:', productId);
+    
     // Supprimer de la liste générale
     setProducts(prev => prev.filter(p => p.id !== productId));
     
@@ -135,6 +142,8 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
   };
 
   const updateProduct = (updatedProduct: ProductType) => {
+    console.log('Mise à jour du produit:', updatedProduct);
+    
     // Mettre à jour dans la liste générale
     setProducts(prev => 
       prev.map(p => p.id === updatedProduct.id ? updatedProduct : p)
@@ -165,11 +174,11 @@ export const ProductProvider: React.FC<{ children: React.ReactNode }> = ({ child
 
   const resetToDefaultData = () => {
     if (window.confirm("Êtes-vous sûr de vouloir réinitialiser toutes les données aux valeurs par défaut ? Cette action ne peut pas être annulée.")) {
-      setProducts([]);
-      setCarProducts(dataProducts);
-      setHomeProducts(dataProducts);
-      setElectronicsProducts(dataProducts);
-      setTerrainProducts(dataProducts);
+      setProducts(dataProducts);
+      setCarProducts(dataProducts.filter(p => p.isVoiture));
+      setHomeProducts(dataProducts.filter(p => p.isHome));
+      setElectronicsProducts(dataProducts.filter(p => p.isElectronic));
+      setTerrainProducts(dataProducts.filter(p => p.isTerrain));
     }
   };
 

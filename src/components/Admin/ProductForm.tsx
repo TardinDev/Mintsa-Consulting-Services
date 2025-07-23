@@ -1,23 +1,51 @@
 import styled from "styled-components";
 import theme from "../../utils/Theme/theme";
+import { FaPlus, FaTrash } from "react-icons/fa";
+import { useState } from "react";
 
 type ProductFormType = {
-
     formData: {
       name: string;
       description: string;
       price: number;
-      image: string;
+      images: string[];
       category: string;
       status: string;
     };
 
     handleInputChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
+    handleImagesChange: (images: string[]) => void;
     onSubmit: () => void;
     buttonText: string;
   }
   
-  const ProductForm: React.FC<ProductFormType> = ({ formData, handleInputChange, onSubmit, buttonText }) => {
+  const ProductForm: React.FC<ProductFormType> = ({ 
+    formData, 
+    handleInputChange, 
+    handleImagesChange,
+    onSubmit, 
+    buttonText 
+  }) => {
+    const [newImageUrl, setNewImageUrl] = useState("");
+
+    const addImage = () => {
+      if (newImageUrl.trim()) {
+        handleImagesChange([...formData.images, newImageUrl.trim()]);
+        setNewImageUrl("");
+      }
+    };
+
+    const removeImage = (index: number) => {
+      const updatedImages = formData.images.filter((_, i) => i !== index);
+      handleImagesChange(updatedImages);
+    };
+
+    const handleKeyPress = (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        addImage();
+      }
+    };
     
     return (
       <Form>
@@ -29,13 +57,36 @@ type ProductFormType = {
           value={formData.name}
           onChange={handleInputChange}
         />
-        <Input
-          type="text"
-          name="image"
-          placeholder="Lien de l'image"
-          value={formData.image}
-          onChange={handleInputChange}
-        />
+        
+        <ImageSection>
+          <ImageSectionTitle>Images du produit</ImageSectionTitle>
+          <ImageInputContainer>
+            <Input
+              type="text"
+              placeholder="Lien de l'image"
+              value={newImageUrl}
+              onChange={(e) => setNewImageUrl(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <AddImageButton type="button" onClick={addImage}>
+              <FaPlus size={14} />
+            </AddImageButton>
+          </ImageInputContainer>
+          
+          {formData.images.length > 0 && (
+            <ImagesList>
+              {formData.images.map((image, index) => (
+                <ImageItem key={index}>
+                  <ImagePreview src={image} alt={`Image ${index + 1}`} />
+                  <RemoveImageButton onClick={() => removeImage(index)}>
+                    <FaTrash size={12} />
+                  </RemoveImageButton>
+                </ImageItem>
+              ))}
+            </ImagesList>
+          )}
+        </ImageSection>
+
         <Input
           type="text"
           name="description"
@@ -59,7 +110,7 @@ type ProductFormType = {
         </Select>
         <Select name="status" value={formData.status} onChange={handleInputChange}>
           <option value="">Choisissez un état</option>
-          <option value="none">Aucun</option>
+          <option value="none">Disponible</option>
           <option value="vendu">Vendu</option>
           <option value="en_location">En Location</option>
           <option value="épuisé">Épuisé</option>
@@ -73,8 +124,6 @@ type ProductFormType = {
 
   export default ProductForm;
 
-
-
   const Form = styled.div`
   display: flex;
   flex-direction: column;
@@ -83,6 +132,86 @@ type ProductFormType = {
   h3 {
     text-align: center;
     color: ${theme.primary};
+  }
+`;
+
+const ImageSection = styled.div`
+  border: 1px solid ${theme.gray200};
+  border-radius: ${theme.borderRadius.md};
+  padding: 1rem;
+  background: ${theme.gray50};
+`;
+
+const ImageSectionTitle = styled.h4`
+  margin: 0 0 0.75rem 0;
+  color: ${theme.gray700};
+  font-size: 0.875rem;
+  font-weight: 600;
+`;
+
+const ImageInputContainer = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+`;
+
+const AddImageButton = styled.button`
+  padding: 0.5rem;
+  background: ${theme.primary};
+  color: ${theme.white};
+  border: none;
+  border-radius: ${theme.borderRadius.md};
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all ${theme.transition.fast};
+
+  &:hover {
+    background: ${theme.primaryDark};
+    transform: scale(1.05);
+  }
+`;
+
+const ImagesList = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  gap: 0.5rem;
+`;
+
+const ImageItem = styled.div`
+  position: relative;
+  border-radius: ${theme.borderRadius.md};
+  overflow: hidden;
+  border: 2px solid ${theme.gray200};
+`;
+
+const ImagePreview = styled.img`
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+`;
+
+const RemoveImageButton = styled.button`
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background: ${theme.error};
+  color: ${theme.white};
+  border: none;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.75rem;
+  transition: all ${theme.transition.fast};
+
+  &:hover {
+    background: #dc2626;
+    transform: scale(1.1);
   }
 `;
 

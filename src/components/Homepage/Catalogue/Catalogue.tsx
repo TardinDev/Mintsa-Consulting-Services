@@ -17,6 +17,9 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
   const [selectedProductForDetails, setSelectedProductForDetails] = useState<ProductType | null>(null);
   const { products, deleteProduct } = useProducts();
 
+  console.log('Catalogue - Nombre de produits reçus:', products.length);
+  console.log('Catalogue - Produits:', products);
+
   // Filtering products according to the active tab
   const filteredProducts = products.filter((product) => {
     if (activeTab === "voiture") return product.isVoiture;
@@ -25,6 +28,8 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
     if (activeTab === "terrain") return product.isTerrain;
     return true; // if "all", show all products
   });
+
+  console.log('Catalogue - Produits filtrés:', filteredProducts.length);
 
   // Delete a product
   const handleDelete = (id: number) => {
@@ -72,7 +77,7 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
             <ProductCard
               key={product.id}
               id={product.id}
-              image={product.image}
+              images={product.images}
               name={product.name}
               description={product.description}
               price={product.price}
@@ -156,23 +161,23 @@ const CatalogueSubtitle = styled.p`
 
 const CardContainer = styled.div`
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 0.25rem;
+  grid-template-columns: repeat(4, 1fr);
   padding: 2rem 0;
 
   @media (max-width: ${theme.breakpoints.lg}) {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.2rem;
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.15rem;
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 0.15rem;
   }
 `;
 

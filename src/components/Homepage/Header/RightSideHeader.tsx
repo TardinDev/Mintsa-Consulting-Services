@@ -2,7 +2,9 @@ import theme from "../../../utils/Theme/theme";
 import SwitchBtn from "../../Reusable-ui/SwitchBtn";
 import styled from 'styled-components';
 import { BsPersonCircle } from "react-icons/bs";
-import { FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaCog, FaSignOutAlt, FaUser } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
+import { useClerkAuth } from '../../../context/ClerkAuthContext';
 
 type RightSideHeaderType = {
   isAuthenticated: boolean;   // Indique si l'utilisateur est connecté
@@ -10,12 +12,22 @@ type RightSideHeaderType = {
 };
 
 const RightSideHeader:React.FC<RightSideHeaderType> = ({ isAuthenticated, handleConnectionClick }) => {
+  const navigate = useNavigate();
+  const { isAdmin } = useClerkAuth();
+
+  const handleProfileClick = () => {
+    navigate('/profile');
+  };
+
   return (
     <RightSideHeaderStyle>
-      <ShippingButton>
-        <span>Service disponible</span>
-        <span> 🚚  24/24</span>
-      </ShippingButton>
+      {/* Afficher "Service disponible" seulement si l'utilisateur n'est pas admin connecté */}
+      {!isAuthenticated || !isAdmin ? (
+        <ShippingButton>
+          <span>Service disponible</span>
+          <span> 🚚  24/24</span>
+        </ShippingButton>
+      ) : null}
 
       {isAuthenticated ? (
         <AdminSection>
@@ -33,6 +45,14 @@ const RightSideHeader:React.FC<RightSideHeaderType> = ({ isAuthenticated, handle
             <ControlButton title="Mode Admin">
               <FaCog size={16} />
               <SwitchBtn />
+            </ControlButton>
+            
+            <ControlButton 
+              onClick={handleProfileClick}
+              title="Mon profil"
+            >
+              <FaUser size={16} />
+              <span>Profil</span>
             </ControlButton>
             
             <ControlButton 
@@ -60,11 +80,13 @@ export default RightSideHeader;
 const RightSideHeaderStyle = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  
-  
-  
+  align-items: flex-end;
+  gap: 0.5rem;
+  min-width: 180px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 9999;
+
   .connection {
     color: ${theme.white};
     padding: 0.3rem 1rem;
@@ -119,10 +141,10 @@ const AdminSection = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  gap: 0.5rem;
+  padding: 0.5rem;
   background: rgba(255, 255, 255, 0.1);
-  border-radius: ${theme.borderRadius.lg};
+  border-radius: ${theme.borderRadius.md};
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 `;
@@ -130,15 +152,15 @@ const AdminSection = styled.div`
 const AdminInfo = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
 `;
 
 const AdminIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
+  width: 35px;
+  height: 35px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: ${theme.borderRadius.full};
   backdrop-filter: blur(10px);
@@ -147,25 +169,25 @@ const AdminIcon = styled.div`
 const AdminDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.1rem;
 `;
 
 const AdminName = styled.div`
   color: ${theme.white};
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.8rem;
 `;
 
 const AdminStatus = styled.div`
   color: rgba(255, 255, 255, 0.8);
-  font-size: 0.875rem;
+  font-size: 0.7rem;
   font-weight: 500;
 `;
 
 const AdminControls = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.25rem;
   width: 100%;
 `;
 
@@ -173,13 +195,13 @@ const ControlButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
+  gap: 0.25rem;
+  padding: 0.3rem 0.5rem;
   background: rgba(255, 255, 255, 0.1);
   color: ${theme.white};
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: ${theme.borderRadius.md};
-  font-size: 0.875rem;
+  border-radius: ${theme.borderRadius.sm};
+  font-size: 0.65rem;
   font-weight: 500;
   cursor: pointer;
   transition: all ${theme.transition.fast};

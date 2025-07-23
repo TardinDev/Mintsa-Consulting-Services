@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
+import { useClerkAuth } from '../../../context/ClerkAuthContext';
 import theme from '../../../utils/Theme/theme';
 import AdminProductManagement from '../../Admin/AdminProductManagement';
 import ServiceText from './ServiceText';
 import SearchContainer from './SearchContainer';
 import RightSideHeader from './RightSideHeader';
-import { useAdminMode } from '../../../context/AdminModeContext'; 
 import { ProductType } from '../../../utils/type/type';
 import { useState, useEffect } from 'react';
+import { useAdminMode } from '../../../context/AdminModeContext';
 
 type HeaderType = {
   selectedProductForEdit: ProductType | null;
@@ -17,8 +17,8 @@ type HeaderType = {
 
 const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProductForEdit}) => {
   const navigate = useNavigate();
-  const { isAuthenticated, logout } = useAuth();
-  const { isAdminMode } = useAdminMode(); 
+  const { isAuthenticated, logout, isAdmin } = useClerkAuth();
+  const { isAdminPanelVisible } = useAdminMode();
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Effet pour détecter le scroll
@@ -41,27 +41,37 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
 
   return (
     <>
-      <HeaderContainer isScrolled={isScrolled}>
+      <HeaderContainer isScrolled={isScrolled} isAdminConnected={isAuthenticated && isAdmin}>
         <HeaderContent>
-          <LogoContainer>
-            <ServiceText />
-          </LogoContainer>
+          {/* Élément 1 : Logo à l'extrême gauche */}
+          <LeftSection>
+            <LogoContainer>
+              <ServiceText />
+            </LogoContainer>
+          </LeftSection>
 
-          <SearchContainer />
+          {/* Élément 2 : Recherche au centre */}
+          <CenterSection>
+            <SearchContainer />
+          </CenterSection>
 
-          <RightSideHeader 
-            isAuthenticated={isAuthenticated} 
-            handleConnectionClick={handleConnectionClick} 
-          />
-
-          {isAuthenticated && isAdminMode && (
-            <AdminProductManagement 
-              selectedProductForEdit={selectedProductForEdit} 
-              setSelectedProductForEdit={setSelectedProductForEdit}
+          {/* Élément 3 : Mode admin à l'extrême droite */}
+          <RightSection>
+            <RightSideHeader 
+              isAuthenticated={isAuthenticated} 
+              handleConnectionClick={handleConnectionClick} 
             />
-          )}
+          </RightSection>
         </HeaderContent>
       </HeaderContainer>
+
+      {/* Panneau admin en position fixed */}
+      {isAuthenticated && isAdmin && isAdminPanelVisible && (
+        <AdminProductManagement 
+          selectedProductForEdit={selectedProductForEdit} 
+          setSelectedProductForEdit={setSelectedProductForEdit}
+        />
+      )}
     </>
   );
 };
@@ -73,6 +83,7 @@ const LogoContainer = styled.div`
   align-items: center;
   gap: 1rem;
   transition: transform ${theme.transition.normal};
+  flex-shrink: 0;
 
   &:hover {
     transform: scale(1.02);
@@ -85,8 +96,9 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   width: 100%;
   max-width: 1200px;
-  margin: 0 ;
-  padding: 0 1rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  gap: 1rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
     flex-direction: column;
@@ -95,7 +107,7 @@ const HeaderContent = styled.div`
   }
 `;
 
-const HeaderContainer = styled.header<{ isScrolled: boolean }>`
+const HeaderContainer = styled.header<{ isScrolled: boolean; isAdminConnected: boolean }>`
   position: fixed; 
   top: 0;
   left: 0;
@@ -161,6 +173,32 @@ const HeaderContainer = styled.header<{ isScrolled: boolean }>`
       opacity: 1;
     }
   }
+`;
+
+const LeftSection = styled.div`
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+`;
+
+const CenterSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  max-width: 500px;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    width: 100%;
+    max-width: none;
+  }
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
 `;
 
 
