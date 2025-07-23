@@ -9,9 +9,10 @@ import ServiceText from "../Header/ServiceText";
 interface EmptyStateProps {
     message: string;
     contactEmail: string;
+    adress: string;
   }
   
-  const EmptyState: React.FC<EmptyStateProps> = ({ message, contactEmail }) => {
+  const EmptyState: React.FC<EmptyStateProps> = ({ message, contactEmail, adress}) => {
 
     return (
       <EmptyMessage>
@@ -26,7 +27,9 @@ interface EmptyStateProps {
         </div>
         <div className="whatsappAndMail">
           <ServiceText />
-          <h6>{contactEmail}</h6>
+          <h6 style={{ fontSize: "1rem" }}>
+            <span >{adress}</span> / {contactEmail}
+          </h6>
         </div>
       </EmptyMessage>
     );

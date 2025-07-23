@@ -124,12 +124,32 @@ const HeaderContainer = styled.header<{ isScrolled: boolean }>`
     isScrolled ? '0.75rem 0' : '1rem 0'
   };
 
+  /* Tablettes moyennes - Header reste fixed mais avec ajustements */
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 1rem 0;
   }
 
-  /* Animation d'entrée */
-  animation: slideDown 0.5s ease-out;
+  /* Mobiles - Header n'est plus fixed */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    position: relative;
+    padding: 1rem 0;
+    background: ${theme.gradientPrimary};
+    backdrop-filter: none;
+    border-bottom: none;
+    box-shadow: none;
+    animation: none;
+  }
+
+  /* Très petits écrans - Header n'est plus fixed */
+  @media (max-width: 480px) {
+    position: relative;
+    padding: 0.75rem 0;
+  }
+
+  /* Animation d'entrée - seulement sur les écrans larges */
+  @media (min-width: ${theme.breakpoints.sm}) {
+    animation: slideDown 0.5s ease-out;
+  }
 
   @keyframes slideDown {
     from {

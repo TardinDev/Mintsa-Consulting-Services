@@ -37,7 +37,7 @@ const Hero: React.FC = () => {
         <TitleSection>
           <MainTitle>Excellence en Consulting</MainTitle>
           <SubTitle>
-            Votre partenaire de confiance pour transformer vos défis en opportunités. 
+            Votre partenaire de confiance pour transformer vos défis en opportunités.<br />
             Nous accompagnons votre croissance avec expertise et innovation.
           </SubTitle>
           <HeroButtons>
@@ -69,18 +69,40 @@ export default Hero;
 
 const HeroContainer = styled.section`
   position: relative;
-  min-height: 90vh;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 6rem 2rem 4rem;
+  padding: 8rem 2rem 6rem;
   overflow: hidden;
   background: ${theme.gradientConsulting};
   
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    min-height: 90vh;
+    padding: 6rem 1.5rem 4rem;
+  }
+  
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
+    min-height: 80vh;
+    padding: 5rem 1rem 3rem;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
+  }
+  
+  /* Mobiles - Header n'est plus fixed, donc moins de padding-top */
+  @media (max-width: ${theme.breakpoints.sm}) {
     min-height: 70vh;
-    padding: 4rem 1rem 2rem;
+    padding: 2rem 0.75rem 2rem;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
+  }
+  
+  /* Très petits écrans - Header n'est plus fixed, donc moins de padding-top */
+  @media (max-width: 480px) {
+    min-height: 60vh;
+    padding: 1.5rem 0.5rem 1.5rem;
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 100%);
   }
 `;
 
@@ -95,6 +117,21 @@ const HeroBackground = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.3;
+  
+  /* Tablettes moyennes */
+  @media (max-width: ${theme.breakpoints.md}) {
+    opacity: 0.4;
+  }
+  
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    opacity: 0.5;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    opacity: 0.6;
+  }
 `;
 
 const HeroContent = styled.div`
@@ -111,9 +148,28 @@ const NavBar = styled.nav`
   margin-bottom: 4rem;
   flex-wrap: wrap;
 
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    gap: 0.25rem;
     margin-bottom: 2rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    gap: 0.25rem;
+    margin-bottom: 1.5rem;
   }
 `;
 
@@ -154,9 +210,28 @@ const NavLink = styled.div`
     border-color: rgba(255, 255, 255, 0.4);
   }
 
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    padding: 0.875rem 1.75rem;
+    font-size: 0.95rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 0.75rem 1.5rem;
     font-size: 0.9rem;
+  }
+  
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.85rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
   }
 `;
 
@@ -182,6 +257,19 @@ const SubMenu = styled.ul`
 
   & > li:hover {
     background: ${theme.gray100};
+  }
+
+  /* Tablettes et mobiles */
+  @media (max-width: ${theme.breakpoints.md}) {
+    min-width: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    min-width: 160px;
+    font-size: 0.9rem;
   }
 
   @keyframes slideDown {
@@ -216,33 +304,82 @@ const TitleSection = styled.div`
 `;
 
 const MainTitle = styled.h1`
-  font-size: 4rem;
+  font-size: 4.5rem;
   font-weight: 800;
   color: ${theme.white};
   margin-bottom: 1.5rem;
   text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  line-height: 1.2;
+  line-height: 1.1;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.5rem;
+  /* Grands écrans */
+  @media (max-width: 1400px) {
+    font-size: 4rem;
   }
 
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    font-size: 3.5rem;
+  }
+
+  /* Tablettes moyennes */
+  @media (max-width: ${theme.breakpoints.md}) {
+    font-size: 2.75rem;
+    line-height: 1.2;
+  }
+
+  /* Mobiles */
   @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 2rem;
+    font-size: 2.25rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    font-size: 1.875rem;
+    line-height: 1.3;
   }
 `;
 
 const SubTitle = styled.p`
-  font-size: 1.25rem;
+  font-size: 1.375rem;
   color: rgba(255, 255, 255, 0.9);
   margin-bottom: 2.5rem;
-  max-width: 700px;
+  max-width: 800px;
   margin-left: auto;
   margin-right: auto;
   line-height: 1.6;
 
+  /* Grands écrans */
+  @media (max-width: 1400px) {
+    font-size: 1.25rem;
+    max-width: 750px;
+  }
+
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    font-size: 1.2rem;
+    max-width: 700px;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: 1.1rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 1rem;
+    max-width: 100%;
+    margin-bottom: 1.5rem;
+    line-height: 1.7;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    font-size: 0.95rem;
+    line-height: 1.8;
   }
 `;
 
@@ -252,10 +389,26 @@ const HeroButtons = styled.div`
   justify-content: center;
   flex-wrap: wrap;
 
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    gap: 1.25rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
+  }
+  
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    gap: 0.875rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    gap: 0.75rem;
   }
 `;
 
@@ -277,9 +430,28 @@ const PrimaryButton = styled.button`
     background: ${theme.gray50};
   }
 
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    padding: 1.125rem 2.25rem;
+    font-size: 1.05rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 1rem 2rem;
     font-size: 1rem;
+  }
+  
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 0.875rem 1.75rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
   }
 `;
 
@@ -301,9 +473,28 @@ const SecondaryButton = styled.button`
     box-shadow: ${theme.shadowLg};
   }
 
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    padding: 1.125rem 2.25rem;
+    font-size: 1.05rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 1rem 2rem;
     font-size: 1rem;
+  }
+  
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 0.875rem 1.75rem;
+    font-size: 0.95rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
   }
 `;
 
@@ -314,13 +505,34 @@ const StatsSection = styled.div`
   margin-top: 4rem;
   animation: fadeInUp 1s ease-out 0.4s both;
 
+  /* Grands écrans */
+  @media (max-width: 1400px) {
+    gap: 3.5rem;
+  }
+
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    gap: 3rem;
+    margin-top: 3.5rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
-    gap: 2rem;
+    gap: 2.5rem;
+    margin-top: 3rem;
     flex-wrap: wrap;
   }
 
+  /* Mobiles */
   @media (max-width: ${theme.breakpoints.sm}) {
+    gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
     gap: 1.5rem;
+    margin-top: 2rem;
   }
 `;
 
@@ -329,23 +541,65 @@ const StatItem = styled.div`
 `;
 
 const StatNumber = styled.div`
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 800;
   color: ${theme.secondary};
   margin-bottom: 0.5rem;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 
+  /* Grands écrans */
+  @media (max-width: 1400px) {
+    font-size: 3.25rem;
+  }
+
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    font-size: 3rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
+    font-size: 2.5rem;
+  }
+
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 2.25rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
     font-size: 2rem;
   }
 `;
 
 const StatLabel = styled.div`
-  font-size: 1rem;
+  font-size: 1.125rem;
   color: rgba(255, 255, 255, 0.8);
   font-weight: 500;
 
+  /* Grands écrans */
+  @media (max-width: 1400px) {
+    font-size: 1.1rem;
+  }
+
+  /* Tablettes */
+  @media (max-width: ${theme.breakpoints.lg}) {
+    font-size: 1.05rem;
+  }
+
+  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
+    font-size: 1rem;
+  }
+
+  /* Mobiles */
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 0.95rem;
+  }
+  
+  /* Très petits écrans */
+  @media (max-width: 480px) {
     font-size: 0.9rem;
   }
 `;

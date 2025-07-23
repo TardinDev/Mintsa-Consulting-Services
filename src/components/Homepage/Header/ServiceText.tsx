@@ -12,7 +12,7 @@ function ServiceText() {
       </LogoContainer>
       <WhatsappContainer>
         <FaWhatsappSquare size={25} color="#88C273" />
-        <span className="number">+241 74 85 34 84</span>
+        <span className="number">+241 74 85 34 84 / 62 43 75 11</span>
       </WhatsappContainer>
     </ServiceTextStyle>
   )
@@ -29,7 +29,7 @@ const ServiceTextStyle = styled.div`
 
   .number {
     color: ${theme.secondary};
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
 `;
 

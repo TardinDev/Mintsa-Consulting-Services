@@ -48,7 +48,7 @@ const Footer: React.FC = () => (
             <ContactIcon>
               <FaPhone size={20} color={theme.white} />
             </ContactIcon>
-            <ContactText>+241 74 85 34 84</ContactText>
+            <ContactText>+241 74 85 34 84 / 62 43 75 11</ContactText>
           </ContactItem>
           
           <ContactItem>
