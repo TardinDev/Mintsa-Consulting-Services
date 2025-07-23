@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { BsPersonCircle } from "react-icons/bs";
 import { FaCog, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import { useClerkAuth } from '../../../context/ClerkAuthContext';
+import { useClerkAuth } from '../../../hooks/useClerkAuth';
 
 type RightSideHeaderType = {
   isAuthenticated: boolean;   // Indique si l'utilisateur est connecté

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useClerkAuth } from '../../../context/ClerkAuthContext';
+import { useClerkAuth } from '../../../hooks/useClerkAuth';
 import theme from '../../../utils/Theme/theme';
 import AdminProductManagement from '../../Admin/AdminProductManagement';
 import ServiceText from './ServiceText';
@@ -8,7 +8,7 @@ import SearchContainer from './SearchContainer';
 import RightSideHeader from './RightSideHeader';
 import { ProductType } from '../../../utils/type/type';
 import { useState, useEffect } from 'react';
-import { useAdminMode } from '../../../context/AdminModeContext';
+import { useUIStore } from '../../../stores';
 
 type HeaderType = {
   selectedProductForEdit: ProductType | null;
@@ -18,7 +18,7 @@ type HeaderType = {
 const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProductForEdit}) => {
   const navigate = useNavigate();
   const { isAuthenticated, logout, isAdmin } = useClerkAuth();
-  const { isAdminPanelVisible } = useAdminMode();
+  const { isAdminPanelVisible } = useUIStore();
   const [isScrolled, setIsScrolled] = useState(false);
 
   // Effet pour détecter le scroll

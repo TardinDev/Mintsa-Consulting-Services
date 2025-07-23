@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useClerkAuth } from '../../context/ClerkAuthContext';
+import { useAuthStore } from '../../stores/authStore';
 
 interface ClerkProtectedRouteProps {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ const ClerkProtectedRoute: React.FC<ClerkProtectedRouteProps> = ({
   requireAdmin = false,
   redirectTo = '/login' 
 }) => {
-  const { isAuthenticated, isLoaded, isAdmin } = useClerkAuth();
+  const { isAuthenticated, isLoaded, isAdmin } = useAuthStore();
 
   // Afficher un loader pendant le chargement
   if (!isLoaded) {

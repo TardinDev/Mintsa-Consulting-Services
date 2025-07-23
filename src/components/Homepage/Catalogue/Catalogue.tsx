@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import ProductCard from "./ProductCard";
 import ProductDetailsModal from "./productDetailsModal";
-import { useProducts } from "../../../context/ProductContext";
+import { useProductStore, useUIStore } from "../../../stores";
 import { ProductType } from "../../../utils/type/type";
 import EmptyState from "./EmptyState";
 import Tabs from "./Tabs";
@@ -13,9 +13,8 @@ type CatalogueType = {
 }
 
 const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
-  const [activeTab, setActiveTab] = useState<"all" | "voiture" | "home" | "electronic" | "terrain">("all");
-  const [selectedProductForDetails, setSelectedProductForDetails] = useState<ProductType | null>(null);
-  const { products, deleteProduct } = useProducts();
+  const { products, deleteProduct } = useProductStore();
+  const { activeTab, setActiveTab, selectedProductForDetails, setSelectedProductForDetails } = useUIStore();
 
   console.log('Catalogue - Nombre de produits reçus:', products.length);
   console.log('Catalogue - Produits:', products);

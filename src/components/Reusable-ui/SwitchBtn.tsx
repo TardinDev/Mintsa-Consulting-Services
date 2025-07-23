@@ -2,13 +2,13 @@
 import React from 'react';
 import { FaCircle } from 'react-icons/fa';
 import styled from 'styled-components';
-import { useClerkAuth } from '../../context/ClerkAuthContext';
-import { useAdminMode } from '../../context/AdminModeContext';
+import { useClerkAuth } from '../../hooks/useClerkAuth';
+import { useUIStore } from '../../stores';
 import theme from '../../utils/Theme/theme';
 
 const SwitchBtn: React.FC = () => {
   const { isAdmin } = useClerkAuth();
-  const { isAdminPanelVisible, toggleAdminPanel } = useAdminMode();
+  const { isAdminPanelVisible, toggleAdminPanel } = useUIStore();
 
   const handleClick = () => {
     if (isAdmin) {

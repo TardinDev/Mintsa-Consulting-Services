@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useClerkAuth } from '../../context/ClerkAuthContext';
+import { useAuthStore } from '../../stores/authStore';
 import theme from '../../utils/Theme/theme';
 
 const UserProfile: React.FC = () => {
-  const { user, isAuthenticated, isAdmin, logout } = useClerkAuth();
+  const { user, isAuthenticated, isAdmin, logout } = useAuthStore();
 
   if (!isAuthenticated || !user) {
     return null;

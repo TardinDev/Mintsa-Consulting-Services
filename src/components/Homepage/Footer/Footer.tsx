@@ -89,7 +89,7 @@ const Footer: React.FC = () => (
 
     <FooterBottom>
       <FooterBottomContent>
-        <Copyright>&copy; 2025 Mintsaconsulting. Tous droits réservés.</Copyright>
+        <Copyright>&copy; 2025 Mintsa Services. Tous droits réservés.</Copyright>
         <FooterLinks>
           <FooterLink href="#">Politique de confidentialité</FooterLink>
           <FooterLink href="#">Conditions d'utilisation</FooterLink>

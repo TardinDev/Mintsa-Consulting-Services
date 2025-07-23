@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FaEdit, FaTrash, FaEye } from 'react-icons/fa';
-import { useClerkAuth } from '../../../context/ClerkAuthContext';
+import { useClerkAuth } from '../../../hooks/useClerkAuth';
 import theme from '../../../utils/Theme/theme';
 import ImageGallery from './ImageGallery';
 
