@@ -6,7 +6,7 @@ import dataProduct from '../../utils/data/dataProducts'
 
 const Admin = () => {
   const [products, setProducts] = useState<ProductType[]>(dataProduct);
-  const [newProduct, setNewProduct] = useState({ name: '', description: '', price: 0, image: '' });
+  const [newProduct, setNewProduct] = useState({ name: '', description: '', price: 0, images: [''] });
 
   // Supprimer un produit
   const handleDelete = (id: number) => {
@@ -23,7 +23,7 @@ const Admin = () => {
       status: 'disponible',
     };
     setProducts([...products, product]);
-    setNewProduct({ name: '', description: '', price: 0, image: '' });
+    setNewProduct({ name: '', description: '', price: 0, images: [''] });
   };
 
   return (
@@ -53,8 +53,8 @@ const Admin = () => {
         <input
           type="text"
           placeholder="Lien de l'image"
-          value={newProduct.image}
-          onChange={(e) => setNewProduct({ ...newProduct, image: e.target.value })}
+          value={newProduct.images[0]}
+          onChange={(e) => setNewProduct({ ...newProduct, images: [e.target.value] })}
         />
         <button onClick={handleAdd}>Ajouter</button>
       </Form>

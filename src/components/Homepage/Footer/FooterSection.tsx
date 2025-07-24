@@ -9,7 +9,7 @@ type FooterSectionType = {
 
 const FooterSection: React.FC<FooterSectionType> = ({ title, children }) => (
   <SectionContainer>
-    <h3>{title}</h3>
+    <h3 style={{ color: theme.white }}>{title}</h3>
     {children}
   </SectionContainer>
 );
