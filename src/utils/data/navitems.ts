@@ -4,40 +4,27 @@
 const navitems = [
     {
       title: 'Services administratifs',
-      subLinks: [
-        { label: 'Option 1', href: '#' },
-        { label: 'Option 2', href: '#' },
-      ],
+      href: '/services/administratifs',
+      subLinks: [],
     },
     {
       title: 'Assistance comptable et fiscale',
-      subLinks: [
-        { label: 'Fiscalité', href: '#' },
-        { label: 'Comptabilité', href: '#' },
-      ],
+      href: '/services/fiscaux',
+      subLinks: [],
     },
     {
       title: 'Services Automobiles',
-      subLinks: [
-        { label: 'Location', href: '#' },
-        { label: 'Achat', href: '#' },
-        { label: 'Vente', href: '#' },
-      ],
+      href: '/services/automobiles',
+      subLinks: [],
     },
     {
       title: 'Services Immobiliers',
-      subLinks: [
-        { label: 'Location maison/terrain', href: '#' },
-        { label: 'Achat maison/terrain', href: '#' },
-        { label: 'Vente maison/terrain', href: '#' },
-      ],
-    },
-    {
-      title: 'Transit & Douanes',
+      href: '/services/immobiliers',
       subLinks: [],
     },
     {
       title: "Création d'entreprises",
+      href: '/services/entreprises',
       subLinks: [],
     },
   ];

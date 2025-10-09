@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import theme from '../../../utils/Theme/theme';
 import navitems from '../../../utils/data/navitems';
 
 const Hero: React.FC = () => {
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
-
-  const toggleMenu = (menu: string) => {
-    setActiveMenu(activeMenu === menu ? null : menu);
-  };
 
   return (
     <HeroContainer>
@@ -17,19 +12,9 @@ const Hero: React.FC = () => {
         <NavBar>
           {navitems.map((item, index) => (
             <NavItem key={item.title} style={{ animationDelay: `${index * 0.1}s` }}>
-              <NavLink onClick={() => toggleMenu(item.title)}>
+              <NavLink onClick={() => window.location.href = item.href}>
                 {item.title}
               </NavLink>
-
-              {activeMenu === item.title && (
-                <SubMenu>
-                  {item.subLinks.map((subLink, index) => (
-                    <li key={index}>
-                      <SubLink href={subLink.href}>{subLink.label}</SubLink>
-                    </li>
-                  ))}
-                </SubMenu>
-              )}
             </NavItem>
           ))}
         </NavBar>
@@ -41,8 +26,12 @@ const Hero: React.FC = () => {
             Nous accompagnons votre croissance avec expertise et innovation.
           </SubTitle>
           <HeroButtons>
-            <PrimaryButton>Découvrir nos services</PrimaryButton>
-            <SecondaryButton>Demander un devis</SecondaryButton>
+            <PrimaryButton onClick={() => window.scrollTo({ top: document.querySelector('#catalogue')?.getBoundingClientRect().top! + window.scrollY - 100, behavior: 'smooth' })}>
+              Découvrir nos services
+            </PrimaryButton>
+            <SecondaryButton onClick={() => window.location.href = '/demande-devis'}>
+              Demander un devis
+            </SecondaryButton>
           </HeroButtons>
         </TitleSection>
 
@@ -235,68 +224,6 @@ const NavLink = styled.div`
   }
 `;
 
-const SubMenu = styled.ul`
-  display: block;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  list-style: none;
-  padding: 0.5rem 0;
-  margin: 0.5rem 0 0 0;
-  box-shadow: ${theme.shadowXl};
-  border-radius: ${theme.borderRadius.lg};
-  z-index: ${theme.zDropdown};
-  min-width: 200px;
-  animation: slideDown 0.3s ease-out;
-
-  & > li {
-    padding: 0;
-  }
-
-  & > li:hover {
-    background: ${theme.gray100};
-  }
-
-  /* Tablettes et mobiles */
-  @media (max-width: ${theme.breakpoints.md}) {
-    min-width: 180px;
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    min-width: 160px;
-    font-size: 0.9rem;
-  }
-
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-`;
-
-const SubLink = styled.a`
-  display: block;
-  text-decoration: none;
-  color: ${theme.gray800};
-  font-size: 0.9rem;
-  padding: 0.75rem 1rem;
-  transition: all ${theme.transition.fast};
-
-  &:hover {
-    color: ${theme.primary};
-    background: ${theme.gray50};
-  }
-`;
 
 const TitleSection = styled.div`
   animation: fadeInUp 0.8s ease-out 0.2s both;

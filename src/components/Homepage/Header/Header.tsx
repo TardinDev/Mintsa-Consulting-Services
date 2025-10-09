@@ -108,31 +108,31 @@ const HeaderContent = styled.div`
 `;
 
 const HeaderContainer = styled.header<{ isScrolled: boolean; isAdminConnected: boolean }>`
-  position: fixed; 
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: ${theme.zFixed};
-  background: ${({ isScrolled }) => 
-    isScrolled 
-      ? 'rgba(30, 64, 175, 0.95)' 
+  background: ${({ isScrolled }) =>
+    isScrolled
+      ? 'rgba(37, 99, 235, 0.95)'
       : theme.gradientPrimary
   };
-  backdrop-filter: ${({ isScrolled }) => 
-    isScrolled ? 'blur(10px)' : 'none'
+  backdrop-filter: ${({ isScrolled }) =>
+    isScrolled ? 'blur(15px)' : 'blur(5px)'
   };
-  border-bottom: ${({ isScrolled }) => 
-    isScrolled 
-      ? `1px solid ${theme.gray200}` 
+  border-bottom: ${({ isScrolled }) =>
+    isScrolled
+      ? `1px solid rgba(255, 255, 255, 0.2)`
       : 'none'
   };
-  box-shadow: ${({ isScrolled }) => 
-    isScrolled 
-      ? theme.shadowLg 
-      : 'none'
+  box-shadow: ${({ isScrolled }) =>
+    isScrolled
+      ? '0 10px 30px rgba(0, 0, 0, 0.2)'
+      : '0 4px 6px rgba(0, 0, 0, 0.1)'
   };
   transition: all ${theme.transition.normal};
-  padding: ${({ isScrolled }) => 
+  padding: ${({ isScrolled }) =>
     isScrolled ? '0.75rem 0' : '1rem 0'
   };
 

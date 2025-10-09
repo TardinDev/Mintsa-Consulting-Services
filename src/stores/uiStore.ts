@@ -7,7 +7,8 @@ interface UIStore {
   activeTab: "all" | "voiture" | "home" | "electronic" | "terrain";
   selectedProductForEdit: any | null;
   selectedProductForDetails: any | null;
-  
+  searchQuery: string;
+
   // Actions
   toggleAdminPanel: () => void;
   setAdminPanelVisible: (visible: boolean) => void;
@@ -15,16 +16,18 @@ interface UIStore {
   setSelectedProductForEdit: (product: any | null) => void;
   setSelectedProductForDetails: (product: any | null) => void;
   closeDetailsModal: () => void;
+  setSearchQuery: (query: string) => void;
 }
 
 export const useUIStore = create<UIStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // État initial
       isAdminPanelVisible: false,
       activeTab: 'all',
       selectedProductForEdit: null,
       selectedProductForDetails: null,
+      searchQuery: '',
 
       // Actions
       toggleAdminPanel: () => {
@@ -51,6 +54,10 @@ export const useUIStore = create<UIStore>()(
 
       closeDetailsModal: () => {
         set({ selectedProductForDetails: null });
+      },
+
+      setSearchQuery: (query: string) => {
+        set({ searchQuery: query });
       },
     }),
     {

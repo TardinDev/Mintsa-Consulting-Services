@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
-import { useProductStore, useUIStore } from "../../stores";
+import { useProductStore } from "../../stores";
 import { ProductType } from "../../utils/type/type";
 import theme from "../../utils/Theme/theme";
 import ProductForm from './ProductForm';
@@ -16,7 +16,6 @@ type AdminProductManagementType = {
 const AdminProductManagement: React.FC<AdminProductManagementType> = ({selectedProductForEdit, setSelectedProductForEdit }) => {
 
   const { addProduct, updateProduct, resetToDefaultData, products, carProducts, homeProducts, electronicsProducts, terrainProducts } = useProductStore();
-  const { isAdminPanelVisible } = useUIStore();
   const [isAccordionOpen, setIsAccordionOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"add" | "edit">("add");
   const [formData, setFormData] = useState({

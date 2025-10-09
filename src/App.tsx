@@ -7,12 +7,16 @@ import ErrorPage from './components/ErrorPage/ErrorPage';
 import ClerkProtectedRoute from './utils/Route/ClerkProtectedRoute';
 import Admin from './components/Admin/Admin';
 import UserProfile from './components/UserProfile/UserProfile';
+import QuoteRequestPage from './components/QuoteRequest/QuoteRequestPage';
+import ServiceDetailsPage from './components/Services/ServiceDetailsPage';
 import { SignUp } from '@clerk/clerk-react';
 
 const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<Homepage />} />
+      <Route path="/demande-devis" element={<QuoteRequestPage />} />
+      <Route path="/services/:category" element={<ServiceDetailsPage />} />
       <Route path="/login/*" element={<ClerkLoginPage />} />
       <Route path="/signup/*" element={<ClerkSignUpPage />} />
       <Route path="/verify-email" element={<SignUp routing="path" path="/verify-email" />} />

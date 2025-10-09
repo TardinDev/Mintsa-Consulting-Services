@@ -96,6 +96,9 @@ const Footer: React.FC = () => (
           <FooterLink href="#">Mentions légales</FooterLink>
         </FooterLinks>
       </FooterBottomContent>
+      <DevelopedBy>
+        Développé par <DeveloperLink href="https://evoubap.com" target="_blank" rel="noopener noreferrer">evoubap.com</DeveloperLink>
+      </DevelopedBy>
     </FooterBottom>
   </FooterContainer>
 );
@@ -262,6 +265,44 @@ const FooterLink = styled.a`
   &:hover {
     color: ${theme.white};
     text-decoration: underline;
+  }
+`;
+
+const DevelopedBy = styled.div`
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin-top: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.85rem;
+  font-weight: 400;
+`;
+
+const DeveloperLink = styled.a`
+  color: ${theme.secondary};
+  text-decoration: none;
+  font-weight: 600;
+  transition: all ${theme.transition.fast};
+  position: relative;
+
+  &:hover {
+    color: ${theme.white};
+    text-shadow: 0 0 10px ${theme.secondary};
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: ${theme.secondary};
+    transition: width ${theme.transition.normal};
+  }
+
+  &:hover::after {
+    width: 100%;
   }
 `;
 

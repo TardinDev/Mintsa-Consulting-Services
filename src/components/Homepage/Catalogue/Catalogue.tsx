@@ -14,21 +14,36 @@ type CatalogueType = {
 
 const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
   const { products, deleteProduct } = useProductStore();
-  const { activeTab, setActiveTab, selectedProductForDetails, setSelectedProductForDetails } = useUIStore();
+  const { activeTab, setActiveTab, selectedProductForDetails, setSelectedProductForDetails, searchQuery } = useUIStore();
 
   console.log('Catalogue - Nombre de produits reçus:', products.length);
   console.log('Catalogue - Produits:', products);
 
-  // Filtering products according to the active tab
+  // Filtering products according to the active tab and search query
   const filteredProducts = products.filter((product) => {
-    if (activeTab === "voiture") return product.isVoiture;
-    if (activeTab === "home") return product.isHome;
-    if (activeTab === "electronic") return product.isElectronic;
-    if (activeTab === "terrain") return product.isTerrain;
-    return true; // if "all", show all products
+    // Filtre par onglet
+    let tabMatch = true;
+    if (activeTab === "voiture") tabMatch = product.isVoiture ?? false;
+    else if (activeTab === "home") tabMatch = product.isHome ?? false;
+    else if (activeTab === "electronic") tabMatch = product.isElectronic ?? false;
+    else if (activeTab === "terrain") tabMatch = product.isTerrain ?? false;
+
+    // Filtre par recherche
+    let searchMatch = true;
+    if (searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase();
+      searchMatch =
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query) ||
+        product.price.toString().includes(query) ||
+        product.status.toLowerCase().includes(query);
+    }
+
+    return tabMatch && searchMatch;
   });
 
   console.log('Catalogue - Produits filtrés:', filteredProducts.length);
+  console.log('Catalogue - Recherche:', searchQuery);
 
   // Delete a product
   const handleDelete = (id: number) => {
@@ -54,7 +69,7 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
   };
 
   return (
-    <CatalogueContainer>
+    <CatalogueContainer id="catalogue">
       <CatalogueHeader>
         <CatalogueTitle>Nos Services & Solutions</CatalogueTitle>
         <CatalogueSubtitle>
@@ -62,11 +77,24 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
         </CatalogueSubtitle>
       </CatalogueHeader>
 
-      <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
+      {searchQuery ? (
+        <SearchInfo>
+          <SearchText>
+            Résultats pour : <SearchQuery>"{searchQuery}"</SearchQuery>
+          </SearchText>
+          <ResultCount>{filteredProducts.length} résultat{filteredProducts.length > 1 ? 's' : ''} trouvé{filteredProducts.length > 1 ? 's' : ''}</ResultCount>
+        </SearchInfo>
+      ) : (
+        <Tabs activeTab={activeTab} onTabChange={setActiveTab} />
+      )}
 
       {filteredProducts.length === 0 ? (
-        <EmptyState 
-          message="Aucun service disponible pour le moment. Revenez plus tard !"
+        <EmptyState
+          message={
+            searchQuery
+              ? `Aucun résultat trouvé pour "${searchQuery}". Essayez avec d'autres mots-clés.`
+              : "Aucun service disponible pour le moment. Revenez plus tard !"
+          }
           contactEmail="mintsaservicesc@gmail.com"
           adress="Akournam 1, Owendo"
         />
@@ -136,6 +164,7 @@ const CatalogueTitle = styled.h2`
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  letter-spacing: -0.02em;
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: 2.5rem;
@@ -151,32 +180,89 @@ const CatalogueSubtitle = styled.p`
   color: ${theme.gray600};
   max-width: 700px;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.7;
+  font-weight: 400;
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: 1.1rem;
   }
 `;
 
+const SearchInfo = styled.div`
+  background: linear-gradient(135deg, ${theme.primary}10 0%, ${theme.secondary}10 100%);
+  border-left: 4px solid ${theme.primary};
+  border-radius: ${theme.borderRadius.lg};
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideIn 0.3s ease-out;
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+`;
+
+const SearchText = styled.div`
+  font-size: 1.1rem;
+  color: ${theme.gray700};
+  font-weight: 500;
+`;
+
+const SearchQuery = styled.span`
+  color: ${theme.primary};
+  font-weight: 700;
+`;
+
+const ResultCount = styled.div`
+  background: ${theme.primary};
+  color: ${theme.white};
+  padding: 0.5rem 1.25rem;
+  border-radius: ${theme.borderRadius.full};
+  font-weight: 600;
+  font-size: 0.95rem;
+  box-shadow: ${theme.shadowMd};
+`;
+
 const CardContainer = styled.div`
   display: grid;
-  gap: 0.25rem;
+  gap: 1.5rem;
   grid-template-columns: repeat(4, 1fr);
   padding: 2rem 0;
+  justify-items: center;
+
+  @media (max-width: ${theme.breakpoints.xl}) {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
 
   @media (max-width: ${theme.breakpoints.lg}) {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.2rem;
+    gap: 1.25rem;
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 0.15rem;
+    gap: 1rem;
   }
 
   @media (max-width: ${theme.breakpoints.sm}) {
     grid-template-columns: 1fr;
-    gap: 0.15rem;
+    gap: 1.5rem;
   }
 `;
 

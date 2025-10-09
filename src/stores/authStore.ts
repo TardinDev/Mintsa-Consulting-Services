@@ -32,7 +32,7 @@ const ADMIN_EMAILS = [
 
 export const useAuthStore = create<AuthStore>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       // État initial
       user: null,
       isAuthenticated: false,
