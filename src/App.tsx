@@ -8,7 +8,9 @@ import ClerkProtectedRoute from './utils/Route/ClerkProtectedRoute';
 import Admin from './components/Admin/Admin';
 import UserProfile from './components/UserProfile/UserProfile';
 import QuoteRequestPage from './components/QuoteRequest/QuoteRequestPage';
+import MultiStepQuoteForm from './components/QuoteRequest/MultiStepQuoteForm';
 import ServiceDetailsPage from './components/Services/ServiceDetailsPage';
+import BlogPage from './components/Blog/BlogPage';
 import { SignUp } from '@clerk/clerk-react';
 
 const App: React.FC = () => {
@@ -16,6 +18,8 @@ const App: React.FC = () => {
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="/demande-devis" element={<QuoteRequestPage />} />
+      <Route path="/devis-wizard" element={<MultiStepQuoteForm />} />
+      <Route path="/blog" element={<BlogPage />} />
       <Route path="/services/:category" element={<ServiceDetailsPage />} />
       <Route path="/login/*" element={<ClerkLoginPage />} />
       <Route path="/signup/*" element={<ClerkSignUpPage />} />

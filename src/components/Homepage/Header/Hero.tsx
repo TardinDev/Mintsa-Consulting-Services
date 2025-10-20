@@ -112,6 +112,18 @@ const HeroBackground = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   opacity: 0.3;
+  animation: slowZoomIn 2s ease-out both;
+
+  @keyframes slowZoomIn {
+    0% {
+      transform: scale(1.1);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0.3;
+    }
+  }
   
   /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
@@ -170,16 +182,19 @@ const NavBar = styled.nav`
 
 const NavItem = styled.div`
   position: relative;
-  animation: fadeInUp 0.6s ease-out both;
-  
-  @keyframes fadeInUp {
-    from {
+  animation: fadeInUpSlow 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  @keyframes fadeInUpSlow {
+    0% {
       opacity: 0;
-      transform: translateY(30px);
+      transform: translateY(40px) scale(0.95);
     }
-    to {
+    60% {
+      transform: translateY(-5px) scale(1.02);
+    }
+    100% {
       opacity: 1;
-      transform: translateY(0);
+      transform: translateY(0) scale(1);
     }
   }
 `;
@@ -195,14 +210,18 @@ const NavLink = styled.div`
   cursor: pointer;
   border-radius: ${theme.borderRadius.xl};
   border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all ${theme.transition.normal};
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   white-space: nowrap;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-    box-shadow: ${theme.shadowLg};
-    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.25);
+    transform: translateY(-5px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(1.02);
   }
 
   /* Tablettes */
@@ -232,8 +251,19 @@ const NavLink = styled.div`
 
 
 const TitleSection = styled.div`
-  animation: fadeInUp 0.8s ease-out 0.2s both;
+  animation: fadeInUpTitle 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
   margin-bottom: 3rem;
+
+  @keyframes fadeInUpTitle {
+    0% {
+      opacity: 0;
+      transform: translateY(50px) scale(0.9);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
 `;
 
 const MainTitle = styled.h1`
@@ -321,6 +351,18 @@ const HeroButtons = styled.div`
   gap: 1.5rem;
   justify-content: center;
   flex-wrap: wrap;
+  animation: fadeInScale 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+
+  @keyframes fadeInScale {
+    0% {
+      opacity: 0;
+      transform: scale(0.8);
+    }
+    100% {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 
   /* Tablettes */
   @media (max-width: ${theme.breakpoints.lg}) {
@@ -354,13 +396,17 @@ const PrimaryButton = styled.button`
   border: none;
   border-radius: ${theme.borderRadius.full};
   cursor: pointer;
-  transition: all ${theme.transition.normal};
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   box-shadow: ${theme.shadowLg};
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${theme.shadowXl};
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
     background: ${theme.gray50};
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(1.02);
   }
 
   /* Tablettes */
@@ -397,13 +443,17 @@ const SecondaryButton = styled.button`
   border: 2px solid ${theme.white};
   border-radius: ${theme.borderRadius.full};
   cursor: pointer;
-  transition: all ${theme.transition.normal};
+  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 
   &:hover {
     background: ${theme.white};
     color: ${theme.primary};
-    transform: translateY(-2px);
-    box-shadow: ${theme.shadowLg};
+    transform: translateY(-6px) scale(1.05);
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.4);
+  }
+
+  &:active {
+    transform: translateY(-2px) scale(1.02);
   }
 
   /* Tablettes */
@@ -436,7 +486,18 @@ const StatsSection = styled.div`
   grid-template-columns: repeat(4, 1fr);
   gap: 3rem;
   margin-top: 4rem;
-  animation: fadeInUp 1s ease-out 0.4s both;
+  animation: fadeInUpStats 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+
+  @keyframes fadeInUpStats {
+    0% {
+      opacity: 0;
+      transform: translateY(60px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 
   /* Grands écrans */
   @media (max-width: 1400px) {
@@ -472,6 +533,11 @@ const StatsSection = styled.div`
 
 const StatItem = styled.div`
   text-align: center;
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  &:hover {
+    transform: translateY(-8px) scale(1.05);
+  }
 `;
 
 const StatNumber = styled.div`

@@ -82,11 +82,23 @@ const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform ${theme.transition.normal};
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   flex-shrink: 0;
+  animation: fadeInLeft 1s ease-out 0.3s both;
 
   &:hover {
-    transform: scale(1.02);
+    transform: scale(1.05) translateX(5px);
+  }
+
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 `;
 
@@ -131,7 +143,7 @@ const HeaderContainer = styled.header<{ isScrolled: boolean; isAdminConnected: b
       ? '0 10px 30px rgba(0, 0, 0, 0.2)'
       : '0 4px 6px rgba(0, 0, 0, 0.1)'
   };
-  transition: all ${theme.transition.normal};
+  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
   padding: ${({ isScrolled }) =>
     isScrolled ? '0.75rem 0' : '1rem 0'
   };
@@ -158,17 +170,21 @@ const HeaderContainer = styled.header<{ isScrolled: boolean; isAdminConnected: b
     padding: 0.75rem 0;
   }
 
-  /* Animation d'entrée - seulement sur les écrans larges */
+  /* Animation d'entrée slow motion - seulement sur les écrans larges */
   @media (min-width: ${theme.breakpoints.sm}) {
-    animation: slideDown 0.5s ease-out;
+    animation: slideDownSlowMotion 1.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  @keyframes slideDown {
-    from {
+  @keyframes slideDownSlowMotion {
+    0% {
       transform: translateY(-100%);
       opacity: 0;
     }
-    to {
+    60% {
+      transform: translateY(5px);
+      opacity: 0.9;
+    }
+    100% {
       transform: translateY(0);
       opacity: 1;
     }
@@ -187,10 +203,22 @@ const CenterSection = styled.div`
   justify-content: center;
   flex: 1;
   max-width: 500px;
+  animation: fadeInUp 1s ease-out 0.5s both;
 
   @media (max-width: ${theme.breakpoints.md}) {
     width: 100%;
     max-width: none;
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 `;
 
@@ -199,6 +227,18 @@ const RightSection = styled.div`
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
+  animation: fadeInRight 1s ease-out 0.7s both;
+
+  @keyframes fadeInRight {
+    0% {
+      opacity: 0;
+      transform: translateX(30px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
 `;
 
 
