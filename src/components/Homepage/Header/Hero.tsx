@@ -1,9 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import theme from '../../../utils/Theme/theme';
 import navitems from '../../../utils/data/navitems';
 
 const Hero: React.FC = () => {
+  const navigate = useNavigate();
 
   return (
     <HeroContainer>
@@ -12,7 +14,7 @@ const Hero: React.FC = () => {
         <NavBar>
           {navitems.map((item, index) => (
             <NavItem key={item.title} style={{ animationDelay: `${index * 0.1}s` }}>
-              <NavLink onClick={() => window.location.href = item.href}>
+              <NavLink onClick={() => navigate(item.href)}>
                 {item.title}
               </NavLink>
             </NavItem>
@@ -20,33 +22,37 @@ const Hero: React.FC = () => {
         </NavBar>
 
         <TitleSection>
-          <MainTitle>Excellence en Consulting</MainTitle>
+          <MainTitle>Votre Partenaire d'Excellence en Consulting</MainTitle>
           <SubTitle>
-            Votre partenaire de confiance pour transformer vos défis en opportunités.<br />
-            Nous accompagnons votre croissance avec expertise et innovation.
+            Solutions sur-mesure pour propulser votre entreprise vers le succès.<br />
+            De l'administration à la fiscalité, de l'automobile à l'immobilier, nous transformons vos ambitions en réalité.
           </SubTitle>
           <HeroButtons>
             <PrimaryButton onClick={() => window.scrollTo({ top: document.querySelector('#catalogue')?.getBoundingClientRect().top! + window.scrollY - 100, behavior: 'smooth' })}>
-              Découvrir nos services
+              Explorer nos solutions
             </PrimaryButton>
-            <SecondaryButton onClick={() => window.location.href = '/demande-devis'}>
-              Demander un devis
+            <SecondaryButton onClick={() => navigate('/demande-devis')}>
+              Obtenir un devis gratuit
             </SecondaryButton>
           </HeroButtons>
         </TitleSection>
 
         <StatsSection>
           <StatItem>
-            <StatNumber>500+</StatNumber>
-            <StatLabel>Projets Réalisés</StatLabel>
+            <StatNumber>1000+</StatNumber>
+            <StatLabel>Projets Accompagnés</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>50+</StatNumber>
-            <StatLabel>Clients Satisfaits</StatLabel>
+            <StatNumber>200+</StatNumber>
+            <StatLabel>Entreprises Partenaires</StatLabel>
           </StatItem>
           <StatItem>
-            <StatNumber>10+</StatNumber>
-            <StatLabel>Années d'Expérience</StatLabel>
+            <StatNumber>15+</StatNumber>
+            <StatLabel>Années d'Excellence</StatLabel>
+          </StatItem>
+          <StatItem>
+            <StatNumber>98%</StatNumber>
+            <StatLabel>Satisfaction Client</StatLabel>
           </StatItem>
         </StatsSection>
       </HeroContent>
@@ -426,39 +432,40 @@ const SecondaryButton = styled.button`
 `;
 
 const StatsSection = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 4rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3rem;
   margin-top: 4rem;
   animation: fadeInUp 1s ease-out 0.4s both;
 
   /* Grands écrans */
   @media (max-width: 1400px) {
-    gap: 3.5rem;
+    gap: 2.5rem;
   }
 
   /* Tablettes */
   @media (max-width: ${theme.breakpoints.lg}) {
-    gap: 3rem;
+    gap: 2rem;
     margin-top: 3.5rem;
   }
 
   /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
-    gap: 2.5rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
     margin-top: 3rem;
-    flex-wrap: wrap;
   }
 
   /* Mobiles */
   @media (max-width: ${theme.breakpoints.sm}) {
-    gap: 2rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
     margin-top: 2.5rem;
   }
-  
+
   /* Très petits écrans */
   @media (max-width: 480px) {
-    gap: 1.5rem;
+    gap: 1.25rem;
     margin-top: 2rem;
   }
 `;

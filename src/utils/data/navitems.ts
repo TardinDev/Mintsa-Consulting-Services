@@ -3,27 +3,27 @@
 
 const navitems = [
     {
-      title: 'Services administratifs',
+      title: 'Gestion Administrative',
       href: '/services/administratifs',
       subLinks: [],
     },
     {
-      title: 'Assistance comptable et fiscale',
+      title: 'Expertise Comptable & Fiscale',
       href: '/services/fiscaux',
       subLinks: [],
     },
     {
-      title: 'Services Automobiles',
+      title: 'Solutions Automobiles',
       href: '/services/automobiles',
       subLinks: [],
     },
     {
-      title: 'Services Immobiliers',
+      title: 'Conseil Immobilier',
       href: '/services/immobiliers',
       subLinks: [],
     },
     {
-      title: "Création d'entreprises",
+      title: "Accompagnement Création d'Entreprises",
       href: '/services/entreprises',
       subLinks: [],
     },

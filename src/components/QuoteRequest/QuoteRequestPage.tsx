@@ -119,10 +119,24 @@ ${formData.message}
 
       <ContentWrapper>
         <HeaderSection>
-          <Title>Demander un Devis</Title>
+          <Title>Demandez Votre Devis Personnalisé</Title>
           <Subtitle>
-            Remplissez le formulaire ci-dessous et notre équipe vous contactera dans les plus brefs délais
+            Décrivez-nous votre projet et recevez une réponse sur-mesure sous 24h. Notre équipe d'experts est prête à transformer vos ambitions en succès concrets.
           </Subtitle>
+          <FeaturesList>
+            <FeatureItem>
+              <CheckIcon>✓</CheckIcon>
+              <span>Réponse sous 24h garantie</span>
+            </FeatureItem>
+            <FeatureItem>
+              <CheckIcon>✓</CheckIcon>
+              <span>Devis gratuit et sans engagement</span>
+            </FeatureItem>
+            <FeatureItem>
+              <CheckIcon>✓</CheckIcon>
+              <span>Conseil d'expert personnalisé</span>
+            </FeatureItem>
+          </FeaturesList>
         </HeaderSection>
 
         <FormCard onSubmit={handleSubmit}>
@@ -200,18 +214,34 @@ ${formData.message}
               required
             >
               <option value="">Sélectionnez un service</option>
-              <option value="voiture">Location/Vente de véhicules</option>
-              <option value="home">Immobilier</option>
-              <option value="electronic">Appareils électroniques</option>
-              <option value="terrain">Terrains</option>
-              <option value="consulting">Consulting</option>
-              <option value="autre">Autre service</option>
+              <optgroup label="Services de Conseil">
+                <option value="gestion-administrative">Gestion Administrative Complète</option>
+                <option value="comptable-fiscale">Expertise Comptable & Fiscale</option>
+                <option value="creation-entreprise">Accompagnement Création d'Entreprise</option>
+                <option value="audit-conseil">Audit & Conseil Stratégique</option>
+              </optgroup>
+              <optgroup label="Solutions Automobiles">
+                <option value="location-vehicule">Location de Véhicules Premium</option>
+                <option value="vente-vehicule">Vente de Véhicules Neufs & Occasions</option>
+                <option value="gestion-flotte">Gestion de Flotte Automobile</option>
+              </optgroup>
+              <optgroup label="Services Immobiliers">
+                <option value="vente-immobilier">Vente & Acquisition Immobilière</option>
+                <option value="location-immobilier">Location & Gestion Locative</option>
+                <option value="conseil-immobilier">Conseil en Investissement Immobilier</option>
+                <option value="terrain">Terrains & Parcelles</option>
+              </optgroup>
+              <optgroup label="Autres Services">
+                <option value="electronique">Équipements Électroniques & High-Tech</option>
+                <option value="fournitures">Fournitures & Équipements Professionnels</option>
+                <option value="autre">Autre Service Personnalisé</option>
+              </optgroup>
             </Select>
           </FormGroup>
 
           <FormGroup>
             <Label htmlFor="message">
-              <FaCommentDots /> Message *
+              <FaCommentDots /> Décrivez votre projet *
             </Label>
             <TextArea
               id="message"
@@ -219,41 +249,51 @@ ${formData.message}
               value={formData.message}
               onChange={handleChange}
               required
-              placeholder="Décrivez votre projet en détail..."
-              rows={6}
+              placeholder="Parlez-nous de votre projet : objectifs, délais souhaités, budget estimé, exigences spécifiques... Plus vous serez précis, plus notre devis sera adapté à vos besoins."
+              rows={8}
             />
           </FormGroup>
 
           {submitStatus === 'success' && (
             <SuccessMessage>
-              ✓ Votre demande a été envoyée avec succès ! Nous vous contacterons bientôt.
+              ✓ Excellente nouvelle ! Votre demande a été reçue avec succès. Notre équipe l'examine et vous contactera sous 24h maximum.
             </SuccessMessage>
           )}
 
           {submitStatus === 'error' && (
             <ErrorMessage>
-              ✗ Une erreur s'est produite. Veuillez réessayer ou nous contacter directement.
+              ✗ Oups ! Un problème technique est survenu. Veuillez réessayer ou nous contacter directement par téléphone ou email.
             </ErrorMessage>
           )}
 
           <SubmitButton type="submit" disabled={isSubmitting}>
             {isSubmitting ? (
-              <>Envoi en cours...</>
+              <>⏳ Envoi de votre demande en cours...</>
             ) : (
               <>
-                <FaPaperPlane /> Envoyer la demande
+                <FaPaperPlane /> Envoyer ma demande de devis
               </>
             )}
           </SubmitButton>
 
+          <InfoBox>
+            <InfoTitle>📞 Besoin d'une réponse immédiate ?</InfoTitle>
+            <InfoText>
+              Notre équipe est disponible du lundi au samedi de 8h à 18h pour répondre à toutes vos questions.
+            </InfoText>
+          </InfoBox>
+
           <ContactInfo>
-            <ContactTitle>Vous préférez nous contacter directement ?</ContactTitle>
+            <ContactTitle>Contactez-nous directement</ContactTitle>
             <ContactDetails>
               <ContactItem>
-                <FaPhone /> +241 74 85 34 84 / 62 43 75 11
+                <FaPhone /> <strong>+241 74 85 34 84</strong> / 62 43 75 11
               </ContactItem>
               <ContactItem>
-                <FaEnvelope /> mintsaservicesc@gmail.com
+                <FaEnvelope /> <a href="mailto:mintsaservicesc@gmail.com">mintsaservicesc@gmail.com</a>
+              </ContactItem>
+              <ContactItem>
+                📍 <strong>Akournam 1, Owendo</strong> - Libreville, Gabon
               </ContactItem>
             </ContactDetails>
           </ContactInfo>
@@ -342,11 +382,58 @@ const Title = styled.h1`
 const Subtitle = styled.p`
   font-size: 1.2rem;
   color: ${theme.gray600};
-  line-height: 1.6;
+  line-height: 1.7;
+  margin-bottom: 2rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: 1.1rem;
   }
+`;
+
+const FeaturesList = styled.div`
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    gap: 1.5rem;
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+`;
+
+const FeatureItem = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1rem;
+  color: ${theme.gray700};
+  font-weight: 500;
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 0.95rem;
+  }
+`;
+
+const CheckIcon = styled.span`
+  background: ${theme.success};
+  color: ${theme.white};
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px ${theme.success}40;
 `;
 
 const FormCard = styled.form`
@@ -514,35 +601,76 @@ const ErrorMessage = styled.div`
   animation: slideIn 0.3s ease-out;
 `;
 
+const InfoBox = styled.div`
+  background: linear-gradient(135deg, ${theme.primary}10 0%, ${theme.secondary}10 100%);
+  border-left: 4px solid ${theme.primary};
+  border-radius: ${theme.borderRadius.lg};
+  padding: 1.5rem;
+  margin-top: 2rem;
+  text-align: center;
+`;
+
+const InfoTitle = styled.h4`
+  font-size: 1.125rem;
+  color: ${theme.gray900};
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+`;
+
+const InfoText = styled.p`
+  color: ${theme.gray600};
+  font-size: 0.95rem;
+  line-height: 1.6;
+`;
+
 const ContactInfo = styled.div`
-  margin-top: 3rem;
+  margin-top: 2.5rem;
   padding-top: 2rem;
   border-top: 2px solid ${theme.gray200};
   text-align: center;
 `;
 
 const ContactTitle = styled.h3`
-  font-size: 1.1rem;
-  color: ${theme.gray700};
-  margin-bottom: 1rem;
-  font-weight: 600;
+  font-size: 1.25rem;
+  color: ${theme.gray900};
+  margin-bottom: 1.5rem;
+  font-weight: 700;
 `;
 
 const ContactDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
 `;
 
 const ContactItem = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  color: ${theme.gray600};
-  font-size: 1rem;
+  gap: 0.625rem;
+  color: ${theme.gray700};
+  font-size: 1.05rem;
+  line-height: 1.5;
 
   svg {
     color: ${theme.primary};
+    flex-shrink: 0;
+  }
+
+  a {
+    color: ${theme.primary};
+    text-decoration: none;
+    font-weight: 600;
+    transition: all ${theme.transition.fast};
+
+    &:hover {
+      color: ${theme.primaryDark};
+      text-decoration: underline;
+    }
+  }
+
+  strong {
+    color: ${theme.gray900};
+    font-weight: 700;
   }
 `;
