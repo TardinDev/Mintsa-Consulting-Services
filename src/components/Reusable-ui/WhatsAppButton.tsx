@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 import { FaWhatsapp, FaTimes } from 'react-icons/fa';
 import theme from '../../utils/Theme/theme';
 
@@ -159,10 +159,10 @@ const FloatingButton = styled.button<{ $isOpen: boolean }>`
   box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
   transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   z-index: ${theme.zFixed};
-  animation: ${({ $isOpen }) => ($isOpen ? 'none' : `${pulse} 2s infinite`)};
+  ${({ $isOpen }) => !$isOpen && css`animation: ${pulse} 2s infinite;`}
 
   &:hover {
-    transform: scale(1.1) rotate(${({ $isOpen }) => ($isOpen ? '90deg' : '0deg')});
+    transform: ${({ $isOpen }) => $isOpen ? 'scale(1.1) rotate(90deg)' : 'scale(1.1)'};
     box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
   }
 

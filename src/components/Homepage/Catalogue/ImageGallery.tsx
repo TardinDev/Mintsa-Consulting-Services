@@ -31,9 +31,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, alt, onImageClick }
   return (
     <GalleryContainer>
       <ImageContainer onClick={onImageClick}>
-        <GalleryImage 
-          src={images[currentImageIndex]} 
-          alt={`${alt} - Image ${currentImageIndex + 1}`} 
+        <GalleryImage
+          src={images[currentImageIndex]}
+          alt={`${alt} - Image ${currentImageIndex + 1}`}
+          loading="lazy"
+          decoding="async"
         />
         
         {images.length > 1 && (

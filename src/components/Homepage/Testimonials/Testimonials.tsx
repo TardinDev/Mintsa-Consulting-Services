@@ -93,9 +93,11 @@ const Testimonials: React.FC = () => {
   return (
     <TestimonialsContainer id="testimonials">
       <TestimonialsHeader>
+        <TestimonialEyebrow>Temoignages</TestimonialEyebrow>
         <Title>Ce Que Disent Nos Clients</Title>
+        <TestimonialDivider />
         <Subtitle>
-          Plus de 200 entreprises nous font confiance pour leurs démarches administratives, fiscales et juridiques
+          Plus de 200 entreprises nous font confiance pour leurs demarches administratives, fiscales et juridiques
         </Subtitle>
       </TestimonialsHeader>
 
@@ -174,7 +176,7 @@ export default Testimonials;
 
 const TestimonialsContainer = styled.section`
   padding: 6rem 2rem;
-  background: linear-gradient(135deg, ${theme.primary}05 0%, ${theme.secondary}05 100%);
+  background: ${theme.white};
 
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 4rem 1.5rem;
@@ -187,18 +189,29 @@ const TestimonialsHeader = styled.div`
   margin: 0 auto 4rem;
 `;
 
-const Title = styled.h2`
-  font-size: 2.75rem;
-  font-weight: 800;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+const TestimonialEyebrow = styled.div`
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: ${theme.secondary};
   margin-bottom: 1rem;
+`;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.25rem;
-  }
+const TestimonialDivider = styled.div`
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, ${theme.secondary}, ${theme.secondaryLight});
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
+`;
+
+const Title = styled.h2`
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: ${theme.gray900};
+  margin-bottom: 1rem;
 `;
 
 const Subtitle = styled.p`

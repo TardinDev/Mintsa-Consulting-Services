@@ -16,14 +16,15 @@ function SearchContainer() {
         <FaSearch />
       </SearchIcon>
       <SearchInput
-        type="text"
+        type="search"
         placeholder="Rechercher un service, produit..."
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+        aria-label="Rechercher un service ou produit"
       />
       {searchQuery && (
-        <ClearButton onClick={handleClear}>
-          <FaTimes />
+        <ClearButton onClick={handleClear} aria-label="Effacer la recherche">
+          <FaTimes aria-hidden="true" />
         </ClearButton>
       )}
     </SearchContainerStyle>
@@ -35,25 +36,25 @@ export default SearchContainer;
 const SearchContainerStyle = styled.div`
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
   border-radius: ${theme.borderRadius.full};
-  padding: 0.75rem 1.25rem;
+  padding: 0.65rem 1.15rem;
   width: 100%;
-  max-width: 500px;
+  max-width: 480px;
   flex-shrink: 1;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  border: 2px solid transparent;
-  transition: all ${theme.transition.normal};
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &:focus-within {
-    border-color: ${theme.primary};
-    box-shadow: 0 6px 20px rgba(37, 99, 235, 0.2);
-    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(200, 150, 62, 0.4);
+    box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.1);
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
     max-width: 100%;
+    background: rgba(255, 255, 255, 0.1);
   }
 `;
 
@@ -61,10 +62,10 @@ const SearchIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${theme.primary};
-  font-size: 1.1rem;
-  margin-right: 0.75rem;
-  transition: color ${theme.transition.fast};
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
+  margin-right: 0.65rem;
+  transition: color 0.3s ease;
 
   ${SearchContainerStyle}:focus-within & {
     color: ${theme.secondary};
@@ -75,12 +76,13 @@ const SearchInput = styled.input`
   border: none;
   background: transparent;
   flex: 1;
-  font-size: 1rem;
-  color: ${theme.gray800};
-  font-weight: 500;
+  font-size: 0.9rem;
+  color: ${theme.white};
+  font-weight: 400;
+  letter-spacing: 0.01em;
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: rgba(255, 255, 255, 0.35);
     font-weight: 400;
   }
 
@@ -90,26 +92,31 @@ const SearchInput = styled.input`
 `;
 
 const ClearButton = styled.button`
-  background: ${theme.gray200};
-  color: ${theme.gray600};
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.6);
   border: none;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all ${theme.transition.fast};
+  transition: all 0.25s ease;
   margin-left: 0.5rem;
 
   &:hover {
-    background: ${theme.error};
-    color: ${theme.white};
+    background: rgba(239, 68, 68, 0.25);
+    color: #fca5a5;
     transform: scale(1.1);
   }
 
+  &:focus-visible {
+    outline: 2px solid ${theme.secondary};
+    outline-offset: 1px;
+  }
+
   svg {
-    font-size: 0.75rem;
+    font-size: 0.65rem;
   }
 `;

@@ -9,6 +9,7 @@ import RightSideHeader from './RightSideHeader';
 import { ProductType } from '../../../utils/type/type';
 import { useState, useEffect } from 'react';
 import { useUIStore } from '../../../stores';
+import { FaBars, FaTimes } from 'react-icons/fa';
 
 type HeaderType = {
   selectedProductForEdit: ProductType | null;
@@ -20,15 +21,26 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
   const { isAuthenticated, logout, isAdmin } = useClerkAuth();
   const { isAdminPanelVisible } = useUIStore();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Effet pour détecter le scroll
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close mobile menu on resize to desktop
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const handleConnectionClick = () => {
@@ -37,38 +49,53 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
     } else {
       navigate('/login');
     }
+    setIsMobileMenuOpen(false);
   };
 
   return (
     <>
-      <HeaderContainer isScrolled={isScrolled} isAdminConnected={isAuthenticated && isAdmin}>
+      <HeaderContainer
+        $isScrolled={isScrolled}
+        $isAdminConnected={isAuthenticated && isAdmin}
+        role="banner"
+      >
+        <GoldAccent $isScrolled={isScrolled} aria-hidden="true" />
         <HeaderContent>
-          {/* Élément 1 : Logo à l'extrême gauche */}
           <LeftSection>
-            <LogoContainer>
+            <LogoContainer onClick={() => navigate('/')}>
               <ServiceText />
             </LogoContainer>
           </LeftSection>
 
-          {/* Élément 2 : Recherche au centre */}
-          <CenterSection>
+          <CenterSection className={isMobileMenuOpen ? 'mobile-visible' : ''}>
             <SearchContainer />
           </CenterSection>
 
-          {/* Élément 3 : Mode admin à l'extrême droite */}
-          <RightSection>
-            <RightSideHeader 
-              isAuthenticated={isAuthenticated} 
-              handleConnectionClick={handleConnectionClick} 
+          <RightSection className={isMobileMenuOpen ? 'mobile-visible' : ''}>
+            <RightSideHeader
+              isAuthenticated={isAuthenticated}
+              handleConnectionClick={handleConnectionClick}
             />
           </RightSection>
+
+          <MobileMenuButton
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Fermer le menu' : 'Ouvrir le menu'}
+            aria-expanded={isMobileMenuOpen}
+          >
+            {isMobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
+          </MobileMenuButton>
         </HeaderContent>
       </HeaderContainer>
 
-      {/* Panneau admin en position fixed */}
+      {/* Mobile overlay */}
+      {isMobileMenuOpen && (
+        <MobileOverlay onClick={() => setIsMobileMenuOpen(false)} />
+      )}
+
       {isAuthenticated && isAdmin && isAdminPanelVisible && (
-        <AdminProductManagement 
-          selectedProductForEdit={selectedProductForEdit} 
+        <AdminProductManagement
+          selectedProductForEdit={selectedProductForEdit}
           setSelectedProductForEdit={setSelectedProductForEdit}
         />
       )}
@@ -78,27 +105,66 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
 
 export default Header;
 
+const GoldAccent = styled.div<{ $isScrolled: boolean }>`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: ${theme.gradientGold};
+  opacity: ${({ $isScrolled }) => ($isScrolled ? 1 : 0.4)};
+  transition: opacity 0.6s ease;
+`;
+
+const MobileMenuButton = styled.button`
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(200, 150, 62, 0.3);
+  border-radius: ${theme.borderRadius.md};
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  backdrop-filter: blur(10px);
+
+  &:hover {
+    background: rgba(200, 150, 62, 0.15);
+    border-color: ${theme.secondary};
+    color: ${theme.white};
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.secondary};
+    outline-offset: 2px;
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: flex;
+  }
+`;
+
+const MobileOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 43, 91, 0.6);
+  z-index: ${theme.zFixed - 1};
+  backdrop-filter: blur(6px);
+`;
+
 const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   flex-shrink: 0;
-  animation: fadeInLeft 1s ease-out 0.3s both;
+  cursor: pointer;
 
   &:hover {
-    transform: scale(1.05) translateX(5px);
-  }
-
-  @keyframes fadeInLeft {
-    0% {
-      opacity: 0;
-      transform: translateX(-30px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
-    }
+    transform: scale(1.03);
   }
 `;
 
@@ -110,79 +176,61 @@ const HeaderContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-  gap: 1rem;
+  gap: 1.5rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    flex-direction: column;
-    gap: 1rem;
+    flex-wrap: wrap;
     padding: 0 1rem;
+    gap: 1rem;
   }
 `;
 
-const HeaderContainer = styled.header<{ isScrolled: boolean; isAdminConnected: boolean }>`
+const HeaderContainer = styled.header<{ $isScrolled: boolean; $isAdminConnected: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: ${theme.zFixed};
-  background: ${({ isScrolled }) =>
-    isScrolled
-      ? 'rgba(37, 99, 235, 0.95)'
+  background: ${({ $isScrolled }) =>
+    $isScrolled
+      ? 'rgba(15, 43, 91, 0.97)'
       : theme.gradientPrimary
   };
-  backdrop-filter: ${({ isScrolled }) =>
-    isScrolled ? 'blur(15px)' : 'blur(5px)'
+  backdrop-filter: ${({ $isScrolled }) =>
+    $isScrolled ? 'blur(20px) saturate(1.2)' : 'blur(8px)'
   };
-  border-bottom: ${({ isScrolled }) =>
-    isScrolled
-      ? `1px solid rgba(255, 255, 255, 0.2)`
-      : 'none'
+  border-bottom: none;
+  box-shadow: ${({ $isScrolled }) =>
+    $isScrolled
+      ? '0 4px 30px rgba(15, 43, 91, 0.25)'
+      : '0 2px 8px rgba(0, 0, 0, 0.08)'
   };
-  box-shadow: ${({ isScrolled }) =>
-    isScrolled
-      ? '0 10px 30px rgba(0, 0, 0, 0.2)'
-      : '0 4px 6px rgba(0, 0, 0, 0.1)'
-  };
-  transition: all 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
-  padding: ${({ isScrolled }) =>
-    isScrolled ? '0.75rem 0' : '1rem 0'
+  transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  padding: ${({ $isScrolled }) =>
+    $isScrolled ? '0.6rem 0' : '0.9rem 0'
   };
 
-  /* Tablettes moyennes - Header reste fixed mais avec ajustements */
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 1rem 0;
-  }
-
-  /* Mobiles - Header n'est plus fixed */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    position: relative;
-    padding: 1rem 0;
-    background: ${theme.gradientPrimary};
-    backdrop-filter: none;
-    border-bottom: none;
-    box-shadow: none;
-    animation: none;
-  }
-
-  /* Très petits écrans - Header n'est plus fixed */
-  @media (max-width: 480px) {
-    position: relative;
     padding: 0.75rem 0;
   }
 
-  /* Animation d'entrée slow motion - seulement sur les écrans larges */
-  @media (min-width: ${theme.breakpoints.sm}) {
-    animation: slideDownSlowMotion 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  @media (max-width: ${theme.breakpoints.sm}) {
+    position: relative;
+    padding: 0.75rem 0;
+    background: ${theme.gradientPrimary};
+    backdrop-filter: none;
+    box-shadow: none;
   }
 
-  @keyframes slideDownSlowMotion {
+  @media (min-width: ${theme.breakpoints.sm}) {
+    position: fixed;
+    animation: headerReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes headerReveal {
     0% {
       transform: translateY(-100%);
       opacity: 0;
-    }
-    60% {
-      transform: translateY(5px);
-      opacity: 0.9;
     }
     100% {
       transform: translateY(0);
@@ -202,22 +250,17 @@ const CenterSection = styled.div`
   align-items: center;
   justify-content: center;
   flex: 1;
-  max-width: 500px;
-  animation: fadeInUp 1s ease-out 0.5s both;
+  max-width: 480px;
 
   @media (max-width: ${theme.breakpoints.md}) {
+    display: none;
     width: 100%;
     max-width: none;
-  }
+    order: 3;
+    padding: 0.5rem 0;
 
-  @keyframes fadeInUp {
-    0% {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
+    &.mobile-visible {
+      display: flex;
     }
   }
 `;
@@ -227,22 +270,16 @@ const RightSection = styled.div`
   align-items: center;
   justify-content: flex-end;
   flex-shrink: 0;
-  animation: fadeInRight 1s ease-out 0.7s both;
 
-  @keyframes fadeInRight {
-    0% {
-      opacity: 0;
-      transform: translateX(30px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateX(0);
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: none;
+    width: 100%;
+    order: 4;
+
+    &.mobile-visible {
+      display: flex;
+      justify-content: center;
+      padding: 0.5rem 0;
     }
   }
 `;
-
-
-
-
-
-

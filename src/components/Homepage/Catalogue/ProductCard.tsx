@@ -75,18 +75,19 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <CardContainer>
+    <CardContainer role="article" aria-label={`Service: ${name}`}>
       <ImageContainer>
         <ImageGallery images={images} alt={name} onImageClick={onDetailsClick} />
         <ImageOverlay>
-          <ViewButton onClick={onDetailsClick}>
-            <FaEye size={20} />
-            Voir détails
+          <ViewButton onClick={onDetailsClick} aria-label={`Voir les details de ${name}`}>
+            <FaEye size={20} aria-hidden="true" />
+            Voir details
           </ViewButton>
         </ImageOverlay>
-        <StatusBadge 
+        <StatusBadge
           statusColor={getStatusColor(status)}
           statusBgColor={getStatusBgColor(status)}
+          aria-label={`Statut: ${getStatusText(status)}`}
         >
           {getStatusText(status)}
         </StatusBadge>
@@ -95,20 +96,20 @@ const ProductCard: React.FC<ProductCardProps> = ({
       <CardContent>
         <ProductName>{name}</ProductName>
         <ProductDescription>{description}</ProductDescription>
-        
+
         <PriceContainer>
-          <PriceLabel>Prix estimé :</PriceLabel>
-          <PriceValue>{price.toLocaleString()} FCFA</PriceValue>
+          <PriceLabel>Prix estime :</PriceLabel>
+          <PriceValue aria-label={`Prix: ${price.toLocaleString()} FCFA`}>{price.toLocaleString()} FCFA</PriceValue>
         </PriceContainer>
 
         {isAuthenticated && isAdmin && (
           <AdminControls>
-            <AdminButton onClick={onEditClick} variant="edit">
-              <FaEdit size={16} />
+            <AdminButton onClick={onEditClick} variant="edit" aria-label={`Modifier ${name}`}>
+              <FaEdit size={16} aria-hidden="true" />
               Modifier
             </AdminButton>
-            <AdminButton onClick={onDelete} variant="delete">
-              <FaTrash size={16} />
+            <AdminButton onClick={onDelete} variant="delete" aria-label={`Supprimer ${name}`}>
+              <FaTrash size={16} aria-hidden="true" />
               Supprimer
             </AdminButton>
           </AdminControls>

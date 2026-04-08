@@ -16,9 +16,6 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
   const { products, deleteProduct } = useProductStore();
   const { activeTab, setActiveTab, selectedProductForDetails, setSelectedProductForDetails, searchQuery } = useUIStore();
 
-  console.log('Catalogue - Nombre de produits reçus:', products.length);
-  console.log('Catalogue - Produits:', products);
-
   // Filtering products according to the active tab and search query
   const filteredProducts = products.filter((product) => {
     // Filtre par onglet
@@ -42,9 +39,6 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
     return tabMatch && searchMatch;
   });
 
-  console.log('Catalogue - Produits filtrés:', filteredProducts.length);
-  console.log('Catalogue - Recherche:', searchQuery);
-
   // Delete a product
   const handleDelete = (id: number) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer ce produit ?")) {
@@ -54,7 +48,6 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
 
   // Pass the selected product to modify
   const handleEditSelect = (product: ProductType) => {
-    console.log("Produit sélectionné pour modification :", product);
     setSelectedProductForEdit(product);
   };
 
@@ -71,9 +64,11 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
   return (
     <CatalogueContainer id="catalogue">
       <CatalogueHeader>
-        <CatalogueTitle>Nos Services & Solutions</CatalogueTitle>
+        <CatalogueEyebrow>Notre Catalogue</CatalogueEyebrow>
+        <CatalogueTitle>Services & Solutions</CatalogueTitle>
+        <GoldDivider />
         <CatalogueSubtitle>
-          Découvrez notre gamme complète de services professionnels et solutions innovantes
+          Decouvrez notre gamme complete de services professionnels et solutions innovantes
         </CatalogueSubtitle>
       </CatalogueHeader>
 
@@ -128,51 +123,45 @@ export default Catalogue;
 
 const CatalogueContainer = styled.div`
   position: relative;
-  padding: 4rem 2rem;
+  padding: 5rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
-  background: ${theme.gray50};
+  background: ${theme.cream};
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 2rem 1rem;
+    padding: 3rem 1rem;
   }
 `;
 
 const CatalogueHeader = styled.div`
   text-align: center;
   margin-bottom: 4rem;
-  animation: fadeInUp 0.8s ease-out;
+`;
 
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+const CatalogueEyebrow = styled.div`
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: ${theme.secondary};
+  margin-bottom: 1rem;
+`;
+
+const GoldDivider = styled.div`
+  width: 60px;
+  height: 3px;
+  background: ${theme.gradientGold};
+  border-radius: 2px;
+  margin: 0 auto 1.5rem;
 `;
 
 const CatalogueTitle = styled.h2`
-  font-size: 3rem;
-  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
   color: ${theme.gray900};
   margin-bottom: 1rem;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
   letter-spacing: -0.02em;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.5rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 2rem;
-  }
 `;
 
 const CatalogueSubtitle = styled.p`

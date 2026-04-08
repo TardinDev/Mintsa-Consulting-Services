@@ -1,20 +1,40 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../../utils/Theme/theme';
 import navitems from '../../../utils/data/navitems';
+import { useCountUp } from '../../../hooks/useCountUp';
+
+const StatWithCounter: React.FC<{ end: number; suffix: string; label: string }> = ({ end, suffix, label }) => {
+  const { count, ref } = useCountUp(end, 2200);
+  return (
+    <StatItem>
+      <StatNumber ref={ref as React.RefObject<HTMLDivElement>}>
+        {count}<StatSuffix>{suffix}</StatSuffix>
+      </StatNumber>
+      <StatLabel>{label}</StatLabel>
+    </StatItem>
+  );
+};
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <HeroContainer>
-      <HeroBackground />
+    <HeroContainer role="banner" aria-label="Section principale">
+      <HeroBackground aria-hidden="true" />
+      <NoiseOverlay aria-hidden="true" />
+      <GoldLine aria-hidden="true" />
       <HeroContent>
-        <NavBar>
+        <NavBar role="navigation" aria-label="Navigation des services">
           {navitems.map((item, index) => (
-            <NavItem key={item.title} style={{ animationDelay: `${index * 0.1}s` }}>
-              <NavLink onClick={() => navigate(item.href)}>
+            <NavItem key={item.title} style={{ animationDelay: `${0.3 + index * 0.08}s` }}>
+              <NavLink
+                onClick={() => navigate(item.href)}
+                role="link"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && navigate(item.href)}
+              >
                 {item.title}
               </NavLink>
             </NavItem>
@@ -22,38 +42,40 @@ const Hero: React.FC = () => {
         </NavBar>
 
         <TitleSection>
-          <MainTitle>Votre Partenaire d'Excellence en Consulting</MainTitle>
+          <Eyebrow>Cabinet de Conseil & Services</Eyebrow>
+          <MainTitle>
+            Votre Partenaire<br />
+            <GoldText>d'Excellence</GoldText> en Consulting
+          </MainTitle>
           <SubTitle>
-            Solutions sur-mesure pour propulser votre entreprise vers le succès.<br />
-            De l'administration à la fiscalité, de l'automobile à l'immobilier, nous transformons vos ambitions en réalité.
+            Solutions sur-mesure pour propulser votre entreprise vers le succes.
+            De l'administration a la fiscalite, de l'automobile a l'immobilier,
+            nous transformons vos ambitions en realite.
           </SubTitle>
           <HeroButtons>
-            <PrimaryButton onClick={() => window.scrollTo({ top: document.querySelector('#catalogue')?.getBoundingClientRect().top! + window.scrollY - 100, behavior: 'smooth' })}>
+            <PrimaryButton
+              onClick={() => window.scrollTo({ top: document.querySelector('#catalogue')?.getBoundingClientRect().top! + window.scrollY - 100, behavior: 'smooth' })}
+              aria-label="Explorer nos solutions de consulting"
+            >
               Explorer nos solutions
             </PrimaryButton>
-            <SecondaryButton onClick={() => navigate('/demande-devis')}>
+            <SecondaryButton
+              onClick={() => navigate('/demande-devis')}
+              aria-label="Demander un devis gratuit"
+            >
               Obtenir un devis gratuit
             </SecondaryButton>
           </HeroButtons>
         </TitleSection>
 
-        <StatsSection>
-          <StatItem>
-            <StatNumber>1000+</StatNumber>
-            <StatLabel>Projets Accompagnés</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNumber>200+</StatNumber>
-            <StatLabel>Entreprises Partenaires</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNumber>15+</StatNumber>
-            <StatLabel>Années d'Excellence</StatLabel>
-          </StatItem>
-          <StatItem>
-            <StatNumber>98%</StatNumber>
-            <StatLabel>Satisfaction Client</StatLabel>
-          </StatItem>
+        <StatsSection aria-label="Nos chiffres cles">
+          <StatWithCounter end={1000} suffix="+" label="Projets Accompagnes" />
+          <StatDivider />
+          <StatWithCounter end={200} suffix="+" label="Entreprises Partenaires" />
+          <StatDivider />
+          <StatWithCounter end={15} suffix="+" label="Annees d'Excellence" />
+          <StatDivider />
+          <StatWithCounter end={98} suffix="%" label="Satisfaction Client" />
         </StatsSection>
       </HeroContent>
     </HeroContainer>
@@ -61,6 +83,22 @@ const Hero: React.FC = () => {
 };
 
 export default Hero;
+
+const fadeInUp = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+const shimmer = keyframes`
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+`;
 
 const HeroContainer = styled.section`
   position: relative;
@@ -72,47 +110,28 @@ const HeroContainer = styled.section`
   padding: 8rem 2rem 6rem;
   overflow: hidden;
   background: ${theme.gradientConsulting};
-  
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    min-height: 90vh;
-    padding: 6rem 1.5rem 4rem;
-  }
-  
-  /* Tablettes moyennes */
+
   @media (max-width: ${theme.breakpoints.md}) {
-    min-height: 80vh;
+    min-height: 85vh;
     padding: 5rem 1rem 3rem;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.5) 100%);
   }
-  
-  /* Mobiles - Header n'est plus fixed, donc moins de padding-top */
+
   @media (max-width: ${theme.breakpoints.sm}) {
-    min-height: 70vh;
+    min-height: auto;
     padding: 2rem 0.75rem 2rem;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.6) 100%);
-  }
-  
-  /* Très petits écrans - Header n'est plus fixed, donc moins de padding-top */
-  @media (max-width: 480px) {
-    min-height: 60vh;
-    padding: 1.5rem 0.5rem 1.5rem;
-    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.7) 100%);
   }
 `;
 
 const HeroBackground = styled.div`
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: url('https://cdn.elearningindustry.com/wp-content/uploads/2023/02/shutterstock_665953069.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  opacity: 0.3;
-  animation: slowZoomIn 2s ease-out both;
+  opacity: 0.15;
+  filter: saturate(0.3);
+  animation: slowZoomIn 2.5s ease-out both;
 
   @keyframes slowZoomIn {
     0% {
@@ -121,485 +140,260 @@ const HeroBackground = styled.div`
     }
     100% {
       transform: scale(1);
-      opacity: 0.3;
+      opacity: 0.15;
     }
   }
-  
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    opacity: 0.4;
-  }
-  
-  /* Mobiles */
+
   @media (max-width: ${theme.breakpoints.sm}) {
-    opacity: 0.5;
+    opacity: 0.25;
+    filter: saturate(0.2);
   }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    opacity: 0.6;
-  }
+`;
+
+const NoiseOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  pointer-events: none;
+`;
+
+const GoldLine = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: ${theme.gradientGold};
+  z-index: 5;
 `;
 
 const HeroContent = styled.div`
   position: relative;
   z-index: 2;
-  max-width: 1200px;
+  max-width: 1100px;
   width: 100%;
 `;
 
 const NavBar = styled.nav`
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-bottom: 4rem;
   flex-wrap: wrap;
 
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    gap: 0.75rem;
-    margin-bottom: 3rem;
-  }
-
-  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     gap: 0.5rem;
     margin-bottom: 2.5rem;
   }
-  
-  /* Mobiles */
+
   @media (max-width: ${theme.breakpoints.sm}) {
-    gap: 0.25rem;
-    margin-bottom: 2rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    gap: 0.25rem;
+    gap: 0.35rem;
     margin-bottom: 1.5rem;
   }
 `;
 
 const NavItem = styled.div`
-  position: relative;
-  animation: fadeInUpSlow 1s cubic-bezier(0.16, 1, 0.3, 1) both;
-
-  @keyframes fadeInUpSlow {
-    0% {
-      opacity: 0;
-      transform: translateY(40px) scale(0.95);
-    }
-    60% {
-      transform: translateY(-5px) scale(1.02);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
+  animation: ${fadeInUp} 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
 `;
 
 const NavLink = styled.div`
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  padding: 1rem 2rem;
-  color: ${theme.white};
-  font-size: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(12px);
+  padding: clamp(0.5rem, 1.5vw, 0.875rem) clamp(0.875rem, 2.5vw, 1.75rem);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: clamp(0.78rem, 1.1vw, 0.95rem);
   font-weight: 600;
-  text-decoration: none;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
-  border-radius: ${theme.borderRadius.xl};
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: ${theme.borderRadius['2xl']};
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
   white-space: nowrap;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.25);
-    transform: translateY(-5px) scale(1.05);
+    background: rgba(200, 150, 62, 0.15);
+    color: ${theme.white};
+    transform: translateY(-4px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    border-color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(200, 150, 62, 0.3);
   }
 
-  &:active {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    padding: 0.875rem 1.75rem;
-    font-size: 0.95rem;
-  }
-
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.9rem;
-  }
-  
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    padding: 0.625rem 1.25rem;
-    font-size: 0.85rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    padding: 0.5rem 1rem;
-    font-size: 0.8rem;
+  &:focus-visible {
+    outline: 2px solid ${theme.secondary};
+    outline-offset: 2px;
   }
 `;
 
-
 const TitleSection = styled.div`
-  animation: fadeInUpTitle 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both;
-  margin-bottom: 3rem;
+  animation: ${fadeInUp} 1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
+  margin-bottom: 3.5rem;
+`;
 
-  @keyframes fadeInUpTitle {
-    0% {
-      opacity: 0;
-      transform: translateY(50px) scale(0.9);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
-  }
+const Eyebrow = styled.div`
+  font-family: 'Plus Jakarta Sans Variable', sans-serif;
+  font-size: clamp(0.75rem, 1vw, 0.875rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: ${theme.secondary};
+  margin-bottom: 1.5rem;
 `;
 
 const MainTitle = styled.h1`
-  font-size: 4.5rem;
-  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.25rem, 7vw, 5rem);
+  font-weight: 900;
   color: ${theme.white};
-  margin-bottom: 1.5rem;
-  text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  line-height: 1.1;
+  margin-bottom: 1.75rem;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+`;
 
-  /* Grands écrans */
-  @media (max-width: 1400px) {
-    font-size: 4rem;
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    font-size: 3.5rem;
-  }
-
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.75rem;
-    line-height: 1.2;
-  }
-
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 2.25rem;
-    margin-bottom: 1rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    font-size: 1.875rem;
-    line-height: 1.3;
-  }
+const GoldText = styled.span`
+  background: linear-gradient(90deg, #c8963e, #dbb06a, #e8c882, #dbb06a, #c8963e);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: ${shimmer} 4s linear infinite;
+  font-style: italic;
 `;
 
 const SubTitle = styled.p`
-  font-size: 1.375rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.65);
   margin-bottom: 2.5rem;
-  max-width: 800px;
+  max-width: 680px;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.6;
-
-  /* Grands écrans */
-  @media (max-width: 1400px) {
-    font-size: 1.25rem;
-    max-width: 750px;
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    font-size: 1.2rem;
-    max-width: 700px;
-  }
-
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1.1rem;
-    max-width: 600px;
-    margin-bottom: 2rem;
-  }
-
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 1rem;
-    max-width: 100%;
-    margin-bottom: 1.5rem;
-    line-height: 1.7;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    font-size: 0.95rem;
-    line-height: 1.8;
-  }
+  line-height: 1.8;
+  font-weight: 400;
 `;
 
 const HeroButtons = styled.div`
   display: flex;
-  gap: 1.5rem;
+  gap: 1.25rem;
   justify-content: center;
   flex-wrap: wrap;
-  animation: fadeInScale 1s cubic-bezier(0.16, 1, 0.3, 1) 0.6s both;
+  animation: ${fadeInUp} 1s cubic-bezier(0.16, 1, 0.3, 1) 0.5s both;
 
-  @keyframes fadeInScale {
-    0% {
-      opacity: 0;
-      transform: scale(0.8);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    gap: 1.25rem;
-  }
-
-  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
     flex-direction: column;
     align-items: center;
     gap: 1rem;
   }
-  
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    gap: 0.875rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    gap: 0.75rem;
-  }
 `;
 
 const PrimaryButton = styled.button`
-  background: ${theme.white};
-  color: ${theme.primary};
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding: 1.25rem 2.5rem;
+  background: ${theme.gradientGold};
+  color: ${theme.primaryDark};
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
+  font-weight: 700;
+  padding: clamp(0.875rem, 1.5vw, 1.125rem) clamp(1.75rem, 3vw, 2.5rem);
   border: none;
   border-radius: ${theme.borderRadius.full};
   cursor: pointer;
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: ${theme.shadowLg};
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 4px 20px rgba(200, 150, 62, 0.3);
+  letter-spacing: 0.02em;
 
   &:hover {
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
-    background: ${theme.gray50};
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 32px rgba(200, 150, 62, 0.45);
   }
 
   &:active {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    padding: 1.125rem 2.25rem;
-    font-size: 1.05rem;
-  }
-
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
-  
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    padding: 0.875rem 1.75rem;
-    font-size: 0.95rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.9rem;
+    transform: translateY(-1px) scale(1.01);
   }
 `;
 
 const SecondaryButton = styled.button`
   background: transparent;
-  color: ${theme.white};
-  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.875rem, 1.2vw, 1rem);
   font-weight: 600;
-  padding: 1.25rem 2.5rem;
-  border: 2px solid ${theme.white};
+  padding: clamp(0.875rem, 1.5vw, 1.125rem) clamp(1.75rem, 3vw, 2.5rem);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
   border-radius: ${theme.borderRadius.full};
   cursor: pointer;
-  transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  letter-spacing: 0.02em;
 
   &:hover {
-    background: ${theme.white};
-    color: ${theme.primary};
-    transform: translateY(-6px) scale(1.05);
-    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.5);
+    color: ${theme.white};
+    transform: translateY(-4px);
   }
 
   &:active {
-    transform: translateY(-2px) scale(1.02);
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    padding: 1.125rem 2.25rem;
-    font-size: 1.05rem;
-  }
-
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-  }
-  
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    padding: 0.875rem 1.75rem;
-    font-size: 0.95rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    padding: 0.75rem 1.5rem;
-    font-size: 0.9rem;
+    transform: translateY(-1px);
   }
 `;
 
 const StatsSection = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 3rem;
-  margin-top: 4rem;
-  animation: fadeInUpStats 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  animation: ${fadeInUp} 1s cubic-bezier(0.16, 1, 0.3, 1) 0.7s both;
+  padding: clamp(1.25rem, 2vw, 2rem) clamp(1rem, 3vw, 3rem);
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(16px);
+  border-radius: ${theme.borderRadius['3xl']};
+  border: 1px solid rgba(255, 255, 255, 0.06);
 
-  @keyframes fadeInUpStats {
-    0% {
-      opacity: 0;
-      transform: translateY(60px);
-    }
-    100% {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Grands écrans */
-  @media (max-width: 1400px) {
-    gap: 2.5rem;
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    gap: 2rem;
-    margin-top: 3.5rem;
-  }
-
-  /* Tablettes moyennes */
   @media (max-width: ${theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin-top: 3rem;
-  }
-
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    grid-template-columns: repeat(2, 1fr);
+    flex-wrap: wrap;
     gap: 1.5rem;
-    margin-top: 2.5rem;
   }
+`;
 
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    gap: 1.25rem;
-    margin-top: 2rem;
+const StatDivider = styled.div`
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.12);
+  flex-shrink: 0;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: none;
   }
 `;
 
 const StatItem = styled.div`
   text-align: center;
-  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  min-width: 120px;
 
   &:hover {
-    transform: translateY(-8px) scale(1.05);
+    transform: translateY(-4px);
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    min-width: 100px;
   }
 `;
 
 const StatNumber = styled.div`
-  font-size: 3.5rem;
-  font-weight: 800;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: ${theme.white};
+  margin-bottom: 0.25rem;
+  line-height: 1;
+`;
+
+const StatSuffix = styled.span`
   color: ${theme.secondary};
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-
-  /* Grands écrans */
-  @media (max-width: 1400px) {
-    font-size: 3.25rem;
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    font-size: 3rem;
-  }
-
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.5rem;
-  }
-
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 2.25rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    font-size: 2rem;
-  }
 `;
 
 const StatLabel = styled.div`
-  font-size: 1.125rem;
-  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(0.75rem, 1vw, 0.875rem);
+  color: rgba(255, 255, 255, 0.5);
   font-weight: 500;
-
-  /* Grands écrans */
-  @media (max-width: 1400px) {
-    font-size: 1.1rem;
-  }
-
-  /* Tablettes */
-  @media (max-width: ${theme.breakpoints.lg}) {
-    font-size: 1.05rem;
-  }
-
-  /* Tablettes moyennes */
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1rem;
-  }
-
-  /* Mobiles */
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 0.95rem;
-  }
-  
-  /* Très petits écrans */
-  @media (max-width: 480px) {
-    font-size: 0.9rem;
-  }
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 `;

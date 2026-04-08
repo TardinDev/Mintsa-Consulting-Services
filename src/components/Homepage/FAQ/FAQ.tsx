@@ -143,7 +143,7 @@ const FAQContainer = styled.section`
   padding: 6rem 2rem;
   max-width: 1000px;
   margin: 0 auto;
-  background: ${theme.gray50};
+  background: ${theme.cream};
 
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 4rem 1.5rem;
@@ -173,17 +173,11 @@ const HeaderIcon = styled.div`
 `;
 
 const FAQTitle = styled.h2`
-  font-size: 2.75rem;
-  font-weight: 800;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: ${theme.gray900};
   margin-bottom: 1rem;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.25rem;
-  }
 `;
 
 const FAQSubtitle = styled.p`

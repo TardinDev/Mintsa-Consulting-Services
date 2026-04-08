@@ -89,7 +89,7 @@ const Footer: React.FC = () => (
 
     <FooterBottom>
       <FooterBottomContent>
-        <Copyright>&copy; 2025 Mintsa Services. Tous droits réservés.</Copyright>
+        <Copyright>&copy; 2026 Mintsa Services. Tous droits reserves.</Copyright>
         <FooterLinks>
           <FooterLink href="#">Politique de confidentialité</FooterLink>
           <FooterLink href="#">Conditions d'utilisation</FooterLink>
@@ -210,12 +210,13 @@ const ContactLink = styled.a`
 `;
 
 const RecognitionTitle = styled.h3`
-  font-size: 1.1rem;
+  font-family: 'Plus Jakarta Sans Variable', sans-serif;
+  font-size: 0.85rem;
   font-weight: 700;
   margin: 2rem 0 1rem 0;
   color: ${theme.secondary};
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.15em;
 `;
 
 const FooterBottom = styled.div`
