@@ -10,9 +10,22 @@ function SearchContainer() {
     setSearchQuery('');
   };
 
+  const scrollToResults = () => {
+    const target = document.querySelector('#catalogue');
+    if (target) {
+      window.scrollTo({
+        top: target.getBoundingClientRect().top + window.scrollY - 100,
+        behavior: 'smooth',
+      });
+    }
+  };
+
   return (
-    <SearchContainerStyle>
-      <SearchIcon>
+    <SearchContainerStyle
+      role="search"
+      onSubmit={(e) => { e.preventDefault(); scrollToResults(); }}
+    >
+      <SearchIcon aria-hidden="true">
         <FaSearch />
       </SearchIcon>
       <SearchInput
@@ -23,22 +36,26 @@ function SearchContainer() {
         aria-label="Rechercher un service ou produit"
       />
       {searchQuery && (
-        <ClearButton onClick={handleClear} aria-label="Effacer la recherche">
+        <ClearButton type="button" onClick={handleClear} aria-label="Effacer la recherche">
           <FaTimes aria-hidden="true" />
         </ClearButton>
       )}
+      <SubmitButton type="submit" aria-label="Lancer la recherche">
+        <FaSearch aria-hidden="true" />
+      </SubmitButton>
     </SearchContainerStyle>
   );
 }
 
 export default SearchContainer;
 
-const SearchContainerStyle = styled.div`
+const SearchContainerStyle = styled.form`
   display: flex;
   align-items: center;
+  gap: 0.55rem;
   background: ${theme.gray100};
-  border-radius: ${theme.borderRadius.lg};
-  padding: 0.6rem 1.05rem;
+  border-radius: ${theme.borderRadius.full};
+  padding: 0.32rem 0.34rem 0.32rem 1.15rem;
   width: 100%;
   max-width: 480px;
   flex-shrink: 1;
@@ -47,12 +64,13 @@ const SearchContainerStyle = styled.div`
 
   &:hover {
     border-color: ${theme.lineStrong};
+    background: ${theme.gray200};
   }
 
   &:focus-within {
     background: ${theme.gray200};
     border-color: ${theme.copperLine};
-    box-shadow: 0 0 0 3px rgba(199, 123, 59, 0.08);
+    box-shadow: 0 0 0 4px rgba(240, 144, 30, 0.1);
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
@@ -61,13 +79,13 @@ const SearchContainerStyle = styled.div`
   }
 `;
 
-const SearchIcon = styled.div`
+const SearchIcon = styled.span`
   display: flex;
   align-items: center;
   justify-content: center;
   color: ${theme.gray500};
-  font-size: 0.88rem;
-  margin-right: 0.6rem;
+  font-size: 0.85rem;
+  flex-shrink: 0;
   transition: color 0.3s ease;
 
   ${SearchContainerStyle}:focus-within & {
@@ -79,6 +97,8 @@ const SearchInput = styled.input`
   border: none;
   background: transparent;
   flex: 1;
+  min-width: 0;
+  padding: 0.45rem 0;
   font-family: ${theme.fontBody};
   font-size: 0.9rem;
   color: ${theme.gray900};
@@ -93,24 +113,30 @@ const SearchInput = styled.input`
   &:focus {
     outline: none;
   }
+
+  /* masque la croix native du type=search (on a notre ClearButton) */
+  &::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 `;
 
 const ClearButton = styled.button`
-  background: ${theme.gray300};
-  color: ${theme.gray600};
+  background: transparent;
+  color: ${theme.gray500};
   border: none;
   border-radius: ${theme.borderRadius.full};
-  width: 22px;
-  height: 22px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   transition: all 0.3s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
-  margin-left: 0.5rem;
 
   &:hover {
-    background: rgba(199, 123, 59, 0.18);
+    background: rgba(240, 144, 30, 0.14);
     color: ${theme.primaryLight};
   }
 
@@ -119,7 +145,37 @@ const ClearButton = styled.button`
     outline-offset: 1px;
   }
 
-  svg {
-    font-size: 0.65rem;
+  svg { font-size: 0.7rem; }
+`;
+
+const SubmitButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  border: none;
+  border-radius: ${theme.borderRadius.full};
+  background: ${theme.gradientGold};
+  color: ${theme.black};
+  cursor: pointer;
+  box-shadow: 0 2px 12px rgba(240, 144, 30, 0.28);
+  transition: all 0.4s ${'cubic-bezier(0.34, 1.4, 0.64, 1)'};
+
+  svg { font-size: 0.82rem; }
+
+  &:hover {
+    transform: scale(1.06);
+    box-shadow: 0 4px 18px rgba(240, 144, 30, 0.42);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primaryLight};
+    outline-offset: 2px;
   }
 `;

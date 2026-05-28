@@ -94,19 +94,27 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
           aria-label="Domaines d'expertise"
         >
           <SubNavInner>
-            <SubNavLabel aria-hidden="true">Expertises</SubNavLabel>
-            {navitems.map((item, index) => (
-              <SubNavLink
-                key={item.title}
-                onClick={() => { navigate(item.href); setIsMobileMenuOpen(false); }}
-                role="link"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && (navigate(item.href), setIsMobileMenuOpen(false))}
-              >
-                <SubNavNum aria-hidden="true">{String(index + 1).padStart(2, '0')}</SubNavNum>
-                {item.title}
-              </SubNavLink>
-            ))}
+            <SubNavList>
+              {navitems.map((item, index) => (
+                <SubNavLink
+                  key={item.title}
+                  onClick={() => { navigate(item.href); setIsMobileMenuOpen(false); }}
+                  role="link"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === 'Enter' && (navigate(item.href), setIsMobileMenuOpen(false))}
+                >
+                  <SubNavNum aria-hidden="true">{String(index + 1).padStart(2, '0')}</SubNavNum>
+                  {item.title}
+                </SubNavLink>
+              ))}
+            </SubNavList>
+
+            {(!isAuthenticated || !isAdmin) && (
+              <AvailabilityBadge>
+                <BadgeDot aria-hidden="true" />
+                <span>Disponible 24/24</span>
+              </AvailabilityBadge>
+            )}
           </SubNavInner>
         </SubHeader>
       </HeaderContainer>
@@ -167,12 +175,12 @@ const SubHeader = styled.nav<{ $isScrolled: boolean }>`
 const SubNavInner = styled.div`
   display: flex;
   align-items: center;
-  gap: clamp(1rem, 2.2vw, 2rem);
+  justify-content: space-between;
+  gap: 1rem;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.65rem 2rem 0.15rem;
-  flex-wrap: wrap;
 
   @media (max-width: ${theme.breakpoints.md}) {
     flex-direction: column;
@@ -182,35 +190,79 @@ const SubNavInner = styled.div`
   }
 `;
 
-const SubNavLabel = styled.span`
-  font-family: ${theme.fontBody};
-  font-size: 0.66rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: ${theme.gray500};
-  padding-right: 0.35rem;
-  border-right: 1px solid ${theme.line};
+const SubNavList = styled.div`
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: clamp(0.55rem, 1vw, 0.95rem);
 
   @media (max-width: ${theme.breakpoints.md}) {
-    border-right: none;
-    padding: 0.5rem 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    width: 100%;
   }
 `;
 
+const AvailabilityBadge = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  color: ${theme.gray600};
+  padding: 0.36rem 0.85rem;
+  border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
+  font-weight: 600;
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: all 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
+
+  &:hover {
+    border-color: ${theme.copperLine};
+    color: ${theme.gray800};
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    width: 100%;
+    justify-content: center;
+    margin-top: 0.75rem;
+    padding: 0.55rem 0.85rem;
+  }
+`;
+
+const BadgeDot = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: ${theme.success};
+  box-shadow: 0 0 8px rgba(63, 185, 138, 0.6);
+  animation: badgePulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+
+  @keyframes badgePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.82); }
+  }
+`;
+
+
 const SubNavNum = styled.span`
   font-family: ${theme.fontDisplay};
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
   color: ${theme.primary};
-  margin-right: 0.45rem;
+  margin-right: 0.32rem;
   font-feature-settings: 'tnum';
 `;
 
 const SubNavLink = styled.div`
   position: relative;
   font-family: ${theme.fontBody};
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 500;
   color: ${theme.gray700};
   cursor: pointer;

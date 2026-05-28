@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { BsPersonCircle } from "react-icons/bs";
 import { FaCog, FaSignOutAlt, FaUser } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import { useClerkAuth } from '../../../hooks/useClerkAuth';
 
 type RightSideHeaderType = {
   isAuthenticated: boolean;
@@ -13,7 +12,6 @@ type RightSideHeaderType = {
 
 const RightSideHeader:React.FC<RightSideHeaderType> = ({ isAuthenticated, handleConnectionClick }) => {
   const navigate = useNavigate();
-  const { isAdmin } = useClerkAuth();
 
   const handleProfileClick = () => {
     navigate('/profile');
@@ -21,13 +19,6 @@ const RightSideHeader:React.FC<RightSideHeaderType> = ({ isAuthenticated, handle
 
   return (
     <RightSideHeaderStyle>
-      {!isAuthenticated || !isAdmin ? (
-        <AvailabilityBadge>
-          <BadgeDot aria-hidden="true" />
-          <span>Disponible 24/24</span>
-        </AvailabilityBadge>
-      ) : null}
-
       {isAuthenticated ? (
         <AdminSection>
           <AdminInfo>
@@ -83,52 +74,9 @@ const RightSideHeaderStyle = styled.div`
   flex-direction: column;
   align-items: flex-end;
   gap: 0.5rem;
-  min-width: 160px;
   flex-shrink: 0;
   position: relative;
   z-index: 9999;
-`;
-
-const AvailabilityBadge = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: ${theme.gray100};
-  border: 1px solid ${theme.line};
-  color: ${theme.gray600};
-  padding: 0.42rem 0.95rem;
-  border-radius: ${theme.borderRadius.full};
-  font-family: ${theme.fontBody};
-  font-weight: 600;
-  font-size: 0.72rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: all 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
-
-  &:hover {
-    border-color: ${theme.lineStrong};
-    color: ${theme.gray800};
-  }
-
-  @media (max-width: 768px) {
-    width: 100%;
-    justify-content: center;
-  }
-`;
-
-const BadgeDot = styled.div`
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: ${theme.success};
-  box-shadow: 0 0 8px rgba(106, 168, 134, 0.55);
-  animation: pulse 2.4s ease-in-out infinite;
-  flex-shrink: 0;
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.45; transform: scale(0.82); }
-  }
 `;
 
 const AdminSection = styled.div`

@@ -100,28 +100,42 @@ const HeroContainer = styled.section`
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 9rem 2rem 4rem;
+  padding: 12rem 2rem 4rem;
   overflow: hidden;
   background: ${theme.cream};
   isolation: isolate;
 
   @media (max-width: ${theme.breakpoints.md}) {
     min-height: auto;
-    padding: 6.5rem 1.25rem 3.5rem;
+    padding: 7.5rem 1.25rem 3.5rem;
   }
 `;
 
 /* Photo plein cadre */
 const HeroPhoto = styled.img`
   position: absolute;
-  inset: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: auto;
   width: 100%;
-  height: 100%;
+  height: 78%;
   object-fit: cover;
-  object-position: center 28%;
+  object-position: center 22%;
   z-index: -3;
   filter: saturate(0.9) contrast(1.02);
+  /* fondu du haut de l'image vers le bleu nuit (jointure invisible) */
+  -webkit-mask-image: linear-gradient(to top, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 82%, transparent 100%);
   animation: ${slowZoom} 9s ${'cubic-bezier(0.16, 1, 0.3, 1)'} both;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    inset: 0;
+    height: 100%;
+    object-position: center 28%;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 `;
 
 /* Voile bleu nuit pour la lisibilité du texte */
