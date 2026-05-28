@@ -2,7 +2,6 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../../utils/Theme/theme';
-import navitems from '../../../utils/data/navitems';
 import { useCountUp } from '../../../hooks/useCountUp';
 
 const StatWithCounter: React.FC<{ end: number; suffix: string; label: string }> = ({ end, suffix, label }) => {
@@ -74,26 +73,6 @@ const Hero: React.FC = () => {
           <StatDivider aria-hidden="true" />
           <StatWithCounter end={98} suffix="%" label="Satisfaction client" />
         </StatsSection>
-
-        <IndexSection aria-label="Nos domaines d'expertise">
-          <IndexLabel>Domaines d'expertise</IndexLabel>
-          <IndexGrid>
-            {navitems.map((item, index) => (
-              <IndexItem
-                key={item.title}
-                onClick={() => navigate(item.href)}
-                role="link"
-                tabIndex={0}
-                onKeyDown={(e) => e.key === 'Enter' && navigate(item.href)}
-                style={{ animationDelay: `${0.6 + index * 0.08}s` }}
-              >
-                <IndexNum>{String(index + 1).padStart(2, '0')}</IndexNum>
-                <IndexTitle>{item.title}</IndexTitle>
-                <IndexArrow aria-hidden="true">↗</IndexArrow>
-              </IndexItem>
-            ))}
-          </IndexGrid>
-        </IndexSection>
       </HeroInner>
     </HeroContainer>
   );
@@ -382,108 +361,4 @@ const StatLabel = styled.div`
   font-weight: 500;
   letter-spacing: 0.04em;
   line-height: 1.4;
-`;
-
-/* — Index des domaines, pleine largeur — */
-const IndexSection = styled.nav`
-  margin-top: clamp(2.5rem, 4vw, 3.5rem);
-  animation: ${fadeInUp} 1s ${'cubic-bezier(0.16, 1, 0.3, 1)'} 0.65s both;
-`;
-
-const IndexLabel = styled.div`
-  font-family: ${theme.fontBody};
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: ${theme.gray600};
-  margin-bottom: 1rem;
-`;
-
-const IndexGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  border-top: 1px solid ${theme.lineStrong};
-
-  @media (max-width: ${theme.breakpoints.lg}) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  @media (max-width: ${theme.breakpoints.sm}) {
-    grid-template-columns: 1fr;
-  }
-`;
-
-const IndexItem = styled.div`
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: start;
-  gap: 0.6rem;
-  padding: 1.1rem 1.1rem 1.1rem 0;
-  border-bottom: 1px solid ${theme.lineStrong};
-  cursor: pointer;
-  position: relative;
-  transition: all 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
-  animation: ${fadeInUp} 0.8s ${'cubic-bezier(0.16, 1, 0.3, 1)'} both;
-
-  & + & { border-left: 1px solid ${theme.lineStrong}; padding-left: 1.1rem; }
-
-  &::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(240, 144, 30, 0.08);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    z-index: -1;
-  }
-  &:hover::before { opacity: 1; }
-  &:hover { border-bottom-color: ${theme.orangeLine}; }
-
-  &:focus-visible {
-    outline: 2px solid ${theme.primary};
-    outline-offset: -2px;
-  }
-
-  @media (max-width: ${theme.breakpoints.lg}) {
-    &:nth-child(odd) { border-left: none; padding-left: 0; }
-    &:nth-child(even) { border-left: 1px solid ${theme.lineStrong}; padding-left: 1.1rem; }
-  }
-  @media (max-width: ${theme.breakpoints.sm}) {
-    border-left: none !important;
-    padding-left: 0 !important;
-  }
-`;
-
-const IndexNum = styled.span`
-  font-family: ${theme.fontDisplay};
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: ${theme.primary};
-  font-feature-settings: 'tnum';
-  padding-top: 2px;
-`;
-
-const IndexTitle = styled.span`
-  font-family: ${theme.fontBody};
-  font-size: 0.92rem;
-  font-weight: 500;
-  color: ${theme.gray800};
-  line-height: 1.3;
-  transition: color 0.3s ease;
-
-  ${IndexItem}:hover & { color: ${theme.white}; }
-`;
-
-const IndexArrow = styled.span`
-  font-size: 0.95rem;
-  color: ${theme.gray600};
-  opacity: 0;
-  transform: translate(-6px, 4px);
-  transition: all 0.4s ${'cubic-bezier(0.34, 1.4, 0.64, 1)'};
-
-  ${IndexItem}:hover & {
-    opacity: 1;
-    transform: translate(0, 0);
-    color: ${theme.primary};
-  }
 `;

@@ -10,6 +10,7 @@ import { ProductType } from '../../../utils/type/type';
 import { useState, useEffect } from 'react';
 import { useUIStore } from '../../../stores';
 import { FaBars, FaTimes } from 'react-icons/fa';
+import navitems from '../../../utils/data/navitems';
 
 type HeaderType = {
   selectedProductForEdit: ProductType | null;
@@ -86,6 +87,28 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
             {isMobileMenuOpen ? <FaTimes size={20} /> : <FaBars size={20} />}
           </MobileMenuButton>
         </HeaderContent>
+
+        <SubHeader
+          $isScrolled={isScrolled}
+          className={isMobileMenuOpen ? 'mobile-visible' : ''}
+          aria-label="Domaines d'expertise"
+        >
+          <SubNavInner>
+            <SubNavLabel aria-hidden="true">Expertises</SubNavLabel>
+            {navitems.map((item, index) => (
+              <SubNavLink
+                key={item.title}
+                onClick={() => { navigate(item.href); setIsMobileMenuOpen(false); }}
+                role="link"
+                tabIndex={0}
+                onKeyDown={(e) => e.key === 'Enter' && (navigate(item.href), setIsMobileMenuOpen(false))}
+              >
+                <SubNavNum aria-hidden="true">{String(index + 1).padStart(2, '0')}</SubNavNum>
+                {item.title}
+              </SubNavLink>
+            ))}
+          </SubNavInner>
+        </SubHeader>
       </HeaderContainer>
 
       {/* Mobile overlay */}
@@ -116,6 +139,110 @@ const GoldAccent = styled.div<{ $isScrolled: boolean }>`
   opacity: ${({ $isScrolled }) => ($isScrolled ? 1 : 0.6)};
   transition: opacity 0.5s ${'cubic-bezier(0.16, 1, 0.3, 1)'},
     background 0.5s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
+`;
+
+const SubHeader = styled.nav<{ $isScrolled: boolean }>`
+  border-top: 1px solid ${theme.line};
+  max-height: ${({ $isScrolled }) => ($isScrolled ? '0' : '60px')};
+  opacity: ${({ $isScrolled }) => ($isScrolled ? 0 : 1)};
+  overflow: hidden;
+  transition: max-height 0.5s ${'cubic-bezier(0.16, 1, 0.3, 1)'},
+    opacity 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'},
+    margin 0.5s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
+  margin-top: ${({ $isScrolled }) => ($isScrolled ? '0' : '0.7rem')};
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    display: none;
+    max-height: none;
+    opacity: 1;
+    border-top: none;
+
+    &.mobile-visible {
+      display: block;
+      width: 100%;
+    }
+  }
+`;
+
+const SubNavInner = styled.div`
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.2vw, 2rem);
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.65rem 2rem 0.15rem;
+  flex-wrap: wrap;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1rem 0.75rem;
+  }
+`;
+
+const SubNavLabel = styled.span`
+  font-family: ${theme.fontBody};
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: ${theme.gray500};
+  padding-right: 0.35rem;
+  border-right: 1px solid ${theme.line};
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    border-right: none;
+    padding: 0.5rem 0;
+  }
+`;
+
+const SubNavNum = styled.span`
+  font-family: ${theme.fontDisplay};
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: ${theme.primary};
+  margin-right: 0.45rem;
+  font-feature-settings: 'tnum';
+`;
+
+const SubNavLink = styled.div`
+  position: relative;
+  font-family: ${theme.fontBody};
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: ${theme.gray700};
+  cursor: pointer;
+  white-space: nowrap;
+  padding: 0.3rem 0;
+  transition: color 0.3s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -1px;
+    width: 0;
+    height: 1px;
+    background: ${theme.gradientGold};
+    transition: width 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
+  }
+
+  &:hover { color: ${theme.white}; }
+  &:hover::after { width: 100%; }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 3px;
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    white-space: normal;
+    padding: 0.7rem 0;
+    border-bottom: 1px solid ${theme.line};
+    &::after { display: none; }
+  }
 `;
 
 const MobileMenuButton = styled.button`
