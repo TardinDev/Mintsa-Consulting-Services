@@ -148,7 +148,7 @@ export const useProductStore = create<ProductStore>()(
       },
     }),
     {
-      name: 'mintsa-products-storage',
+      name: 'mintsa-products-storage-v2',
       partialize: (state) => ({
         products: state.products,
         carProducts: state.carProducts,

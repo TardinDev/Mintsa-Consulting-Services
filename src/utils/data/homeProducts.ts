@@ -3,7 +3,7 @@ import { ProductType } from "../type/type";
 const homeProducts: ProductType[] = [
     {
       id: 1,
-      images: ['https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=300&h=200&fit=crop'],
+      images: ['https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=600&h=400'],
       name: 'Maison Moderne',
       description: 'Une maison contemporaine avec toutes les commodités modernes.',
       price: 150000,
@@ -12,7 +12,7 @@ const homeProducts: ProductType[] = [
     },
     {
       id: 2,
-      images: ['https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=300&h=200&fit=crop'],
+      images: ['https://images.pexels.com/photos/17010997/pexels-photo-17010997.jpeg?auto=compress&cs=tinysrgb&w=600&h=400'],
       name: 'Villa de Luxe',
       description: 'Villa spacieuse avec jardin et piscine.',
       price: 300000,
@@ -21,7 +21,7 @@ const homeProducts: ProductType[] = [
     },
     {
       id: 3,
-      images: ['https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=300&h=200&fit=crop'],
+      images: ['https://images.pexels.com/photos/562199/pexels-photo-562199.jpeg?auto=compress&cs=tinysrgb&w=600&h=400'],
       name: 'Appartement Centre-Ville',
       description: 'Appartement moderne au cœur de la ville.',
       price: 80000,
@@ -30,7 +30,7 @@ const homeProducts: ProductType[] = [
     },
     {
       id: 4,
-      images: ['https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=300&h=200&fit=crop'],
+      images: ['https://images.pexels.com/photos/35751505/pexels-photo-35751505.jpeg?auto=compress&cs=tinysrgb&w=600&h=400'],
       name: 'Maison Traditionnelle',
       description: 'Charme et authenticité dans cette maison traditionnelle.',
       price: 120000,
@@ -39,7 +39,7 @@ const homeProducts: ProductType[] = [
     },
     {
       id: 5,
-      images: ['https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=300&h=200&fit=crop'],
+      images: ['https://images.pexels.com/photos/16451357/pexels-photo-16451357.jpeg?auto=compress&cs=tinysrgb&w=600&h=400'],
       name: 'Loft Industriel',
       description: 'Loft moderne avec style industriel.',
       price: 95000,
@@ -47,6 +47,5 @@ const homeProducts: ProductType[] = [
       isHome: true,
     },
   ];
-  
+
   export default homeProducts;
-  
