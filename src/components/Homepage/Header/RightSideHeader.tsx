@@ -23,7 +23,7 @@ const RightSideHeader:React.FC<RightSideHeaderType> = ({ isAuthenticated, handle
     <RightSideHeaderStyle>
       {!isAuthenticated || !isAdmin ? (
         <AvailabilityBadge>
-          <BadgeDot />
+          <BadgeDot aria-hidden="true" />
           <span>Disponible 24/24</span>
         </AvailabilityBadge>
       ) : null}
@@ -93,21 +93,21 @@ const AvailabilityBadge = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  background: rgba(200, 150, 62, 0.12);
-  border: 1px solid rgba(200, 150, 62, 0.25);
-  color: ${theme.secondary};
-  padding: 0.4rem 1rem;
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  color: ${theme.gray600};
+  padding: 0.42rem 0.95rem;
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 600;
-  font-size: 0.75rem;
-  letter-spacing: 0.03em;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  backdrop-filter: blur(10px);
-  transition: all 0.3s ease;
+  transition: all 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
 
   &:hover {
-    background: rgba(200, 150, 62, 0.18);
-    border-color: rgba(200, 150, 62, 0.4);
+    border-color: ${theme.lineStrong};
+    color: ${theme.gray800};
   }
 
   @media (max-width: 768px) {
@@ -120,13 +120,14 @@ const BadgeDot = styled.div`
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #22c55e;
-  box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
-  animation: pulse 2s ease-in-out infinite;
+  background: ${theme.success};
+  box-shadow: 0 0 8px rgba(106, 168, 134, 0.55);
+  animation: pulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
 
   @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.45; transform: scale(0.82); }
   }
 `;
 
@@ -136,10 +137,9 @@ const AdminSection = styled.div`
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem;
-  background: rgba(255, 255, 255, 0.06);
+  background: ${theme.gray200};
   border-radius: ${theme.borderRadius.lg};
-  backdrop-filter: blur(12px);
-  border: 1px solid rgba(200, 150, 62, 0.15);
+  border: 1px solid ${theme.line};
 `;
 
 const AdminInfo = styled.div`
@@ -154,9 +154,9 @@ const AdminIcon = styled.div`
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: rgba(200, 150, 62, 0.1);
+  background: rgba(199, 123, 59, 0.1);
   border-radius: ${theme.borderRadius.full};
-  border: 1px solid rgba(200, 150, 62, 0.2);
+  border: 1px solid ${theme.copperLine};
 `;
 
 const AdminDetails = styled.div`
@@ -166,6 +166,7 @@ const AdminDetails = styled.div`
 `;
 
 const AdminName = styled.div`
+  font-family: ${theme.fontBody};
   color: ${theme.white};
   font-weight: 600;
   font-size: 0.78rem;
@@ -173,11 +174,12 @@ const AdminName = styled.div`
 `;
 
 const AdminStatus = styled.div`
-  color: ${theme.secondary};
-  font-size: 0.65rem;
+  font-family: ${theme.fontBody};
+  color: ${theme.secondaryLight};
+  font-size: 0.62rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.14em;
 `;
 
 const AdminControls = styled.div`
@@ -192,65 +194,65 @@ const ControlButton = styled.button`
   align-items: center;
   justify-content: center;
   gap: 0.3rem;
-  padding: 0.35rem 0.5rem;
-  background: rgba(255, 255, 255, 0.06);
-  color: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.4rem 0.55rem;
+  background: ${theme.gray100};
+  color: ${theme.gray700};
+  border: 1px solid ${theme.line};
   border-radius: ${theme.borderRadius.sm};
+  font-family: ${theme.fontBody};
   font-size: 0.68rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.25s ease;
-  backdrop-filter: blur(10px);
+  transition: all 0.3s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
 
   &:hover {
-    background: rgba(200, 150, 62, 0.12);
-    border-color: rgba(200, 150, 62, 0.3);
+    background: rgba(199, 123, 59, 0.1);
+    border-color: ${theme.copperLine};
     color: ${theme.white};
   }
 
   &.logout-btn:hover {
-    background: rgba(239, 68, 68, 0.12);
-    border-color: rgba(239, 68, 68, 0.4);
-    color: #fca5a5;
+    background: rgba(208, 106, 91, 0.12);
+    border-color: rgba(208, 106, 91, 0.4);
+    color: ${theme.error};
   }
 
   &:focus-visible {
-    outline: 2px solid ${theme.secondary};
+    outline: 2px solid ${theme.primary};
     outline-offset: 1px;
   }
 `;
 
 const LoginButton = styled.button`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.35rem;
-  background: rgba(200, 150, 62, 0.1);
-  color: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(200, 150, 62, 0.3);
+  padding: 0.62rem 1.4rem;
+  background: transparent;
+  color: ${theme.gray800};
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-size: 0.875rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  backdrop-filter: blur(10px);
-  letter-spacing: 0.02em;
+  transition: all 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
+  letter-spacing: 0.01em;
 
   &:hover {
-    background: rgba(200, 150, 62, 0.2);
-    border-color: ${theme.secondary};
+    background: rgba(199, 123, 59, 0.08);
+    border-color: ${theme.primary};
     color: ${theme.white};
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(200, 150, 62, 0.2);
+    transform: translateY(-3px);
+    box-shadow: ${theme.shadowCopper};
   }
 
   &:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
   }
 
   &:focus-visible {
-    outline: 2px solid ${theme.secondary};
+    outline: 2px solid ${theme.primary};
     outline-offset: 2px;
   }
 `;

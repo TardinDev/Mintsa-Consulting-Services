@@ -68,7 +68,7 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
+# Note: "public" n'est PAS ignoré — dans Vite c'est un dossier source d'assets statiques
 
 # Storybook build outputs
 .out
@@ -102,3 +102,11 @@ src/middleware/
 src/models/
 src/routes/
 src/types/
+.gstack/
+
+# Outils / agents IA (ne pas committer)
+.agents/
+.claude/
+.continue/
+.junie/
+skills-lock.json

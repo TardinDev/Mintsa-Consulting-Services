@@ -36,25 +36,28 @@ export default SearchContainer;
 const SearchContainerStyle = styled.div`
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: ${theme.borderRadius.full};
-  padding: 0.65rem 1.15rem;
+  background: ${theme.gray100};
+  border-radius: ${theme.borderRadius.lg};
+  padding: 0.6rem 1.05rem;
   width: 100%;
   max-width: 480px;
   flex-shrink: 1;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid ${theme.line};
+  transition: all 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
+
+  &:hover {
+    border-color: ${theme.lineStrong};
+  }
 
   &:focus-within {
-    background: rgba(255, 255, 255, 0.12);
-    border-color: rgba(200, 150, 62, 0.4);
-    box-shadow: 0 0 0 3px rgba(200, 150, 62, 0.1);
+    background: ${theme.gray200};
+    border-color: ${theme.copperLine};
+    box-shadow: 0 0 0 3px rgba(199, 123, 59, 0.08);
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
     max-width: 100%;
-    background: rgba(255, 255, 255, 0.1);
+    background: ${theme.gray200};
   }
 `;
 
@@ -62,13 +65,13 @@ const SearchIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.4);
-  font-size: 0.9rem;
-  margin-right: 0.65rem;
+  color: ${theme.gray500};
+  font-size: 0.88rem;
+  margin-right: 0.6rem;
   transition: color 0.3s ease;
 
   ${SearchContainerStyle}:focus-within & {
-    color: ${theme.secondary};
+    color: ${theme.primaryLight};
   }
 `;
 
@@ -76,13 +79,14 @@ const SearchInput = styled.input`
   border: none;
   background: transparent;
   flex: 1;
+  font-family: ${theme.fontBody};
   font-size: 0.9rem;
-  color: ${theme.white};
+  color: ${theme.gray900};
   font-weight: 400;
   letter-spacing: 0.01em;
 
   &::placeholder {
-    color: rgba(255, 255, 255, 0.35);
+    color: ${theme.gray500};
     font-weight: 400;
   }
 
@@ -92,27 +96,26 @@ const SearchInput = styled.input`
 `;
 
 const ClearButton = styled.button`
-  background: rgba(255, 255, 255, 0.12);
-  color: rgba(255, 255, 255, 0.6);
+  background: ${theme.gray300};
+  color: ${theme.gray600};
   border: none;
-  border-radius: 50%;
+  border-radius: ${theme.borderRadius.full};
   width: 22px;
   height: 22px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.25s ease;
+  transition: all 0.3s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
   margin-left: 0.5rem;
 
   &:hover {
-    background: rgba(239, 68, 68, 0.25);
-    color: #fca5a5;
-    transform: scale(1.1);
+    background: rgba(199, 123, 59, 0.18);
+    color: ${theme.primaryLight};
   }
 
   &:focus-visible {
-    outline: 2px solid ${theme.secondary};
+    outline: 2px solid ${theme.primary};
     outline-offset: 1px;
   }
 

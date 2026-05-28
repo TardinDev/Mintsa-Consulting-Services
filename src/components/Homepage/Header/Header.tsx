@@ -110,35 +110,35 @@ const GoldAccent = styled.div<{ $isScrolled: boolean }>`
   bottom: 0;
   left: 0;
   right: 0;
-  height: 2px;
-  background: ${theme.gradientGold};
-  opacity: ${({ $isScrolled }) => ($isScrolled ? 1 : 0.4)};
-  transition: opacity 0.6s ease;
+  height: 1px;
+  background: ${({ $isScrolled }) =>
+    $isScrolled ? theme.gradientGold : theme.line};
+  opacity: ${({ $isScrolled }) => ($isScrolled ? 1 : 0.6)};
+  transition: opacity 0.5s ${'cubic-bezier(0.16, 1, 0.3, 1)'},
+    background 0.5s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
 `;
 
 const MobileMenuButton = styled.button`
   display: none;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(200, 150, 62, 0.3);
+  background: ${theme.gray100};
+  color: ${theme.gray800};
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.md};
   width: 44px;
   height: 44px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  backdrop-filter: blur(10px);
+  transition: all 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
 
   &:hover {
-    background: rgba(200, 150, 62, 0.15);
-    border-color: ${theme.secondary};
+    background: rgba(199, 123, 59, 0.08);
+    border-color: ${theme.primary};
     color: ${theme.white};
-    transform: scale(1.05);
   }
 
   &:focus-visible {
-    outline: 2px solid ${theme.secondary};
+    outline: 2px solid ${theme.primary};
     outline-offset: 2px;
   }
 
@@ -150,7 +150,7 @@ const MobileMenuButton = styled.button`
 const MobileOverlay = styled.div`
   position: fixed;
   inset: 0;
-  background: rgba(15, 43, 91, 0.6);
+  background: rgba(14, 11, 9, 0.72);
   z-index: ${theme.zFixed - 1};
   backdrop-filter: blur(6px);
 `;
@@ -159,12 +159,12 @@ const LogoContainer = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: opacity 0.4s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
   flex-shrink: 0;
   cursor: pointer;
 
   &:hover {
-    transform: scale(1.03);
+    opacity: 0.82;
   }
 `;
 
@@ -193,21 +193,19 @@ const HeaderContainer = styled.header<{ $isScrolled: boolean; $isAdminConnected:
   z-index: ${theme.zFixed};
   background: ${({ $isScrolled }) =>
     $isScrolled
-      ? 'rgba(15, 43, 91, 0.97)'
-      : theme.gradientPrimary
+      ? 'rgba(20, 17, 14, 0.92)'
+      : 'rgba(20, 17, 14, 0.55)'
   };
   backdrop-filter: ${({ $isScrolled }) =>
-    $isScrolled ? 'blur(20px) saturate(1.2)' : 'blur(8px)'
+    $isScrolled ? 'blur(20px) saturate(1.1)' : 'blur(10px)'
   };
   border-bottom: none;
   box-shadow: ${({ $isScrolled }) =>
-    $isScrolled
-      ? '0 4px 30px rgba(15, 43, 91, 0.25)'
-      : '0 2px 8px rgba(0, 0, 0, 0.08)'
+    $isScrolled ? theme.shadowMd : 'none'
   };
-  transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+  transition: all 0.5s ${'cubic-bezier(0.16, 1, 0.3, 1)'};
   padding: ${({ $isScrolled }) =>
-    $isScrolled ? '0.6rem 0' : '0.9rem 0'
+    $isScrolled ? '0.6rem 0' : '0.95rem 0'
   };
 
   @media (max-width: ${theme.breakpoints.md}) {
@@ -217,7 +215,7 @@ const HeaderContainer = styled.header<{ $isScrolled: boolean; $isAdminConnected:
   @media (max-width: ${theme.breakpoints.sm}) {
     position: relative;
     padding: 0.75rem 0;
-    background: ${theme.gradientPrimary};
+    background: ${theme.cream};
     backdrop-filter: none;
     box-shadow: none;
   }

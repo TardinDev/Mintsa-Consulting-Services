@@ -62,33 +62,36 @@ const slideIn = keyframes`
   }
 `;
 
+const accentFor = ($type: ToastType): string => {
+  switch ($type) {
+    case 'success':
+      return theme.success;
+    case 'error':
+      return theme.error;
+    case 'warning':
+      return theme.warning;
+    case 'info':
+      return theme.info;
+    default:
+      return theme.info;
+  }
+};
+
 const ToastContainer = styled.div<{ $type: ToastType }>`
   display: flex;
   align-items: center;
   gap: 1rem;
-  background: ${theme.white};
+  background: ${theme.gray100};
   padding: 1rem 1.25rem;
-  border-radius: ${theme.borderRadius.lg};
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border: 1px solid ${theme.lineStrong};
+  border-left: 3px solid ${({ $type }) => accentFor($type)};
+  border-radius: ${theme.borderRadius.md};
+  box-shadow: ${theme.shadowLg};
   min-width: 320px;
   max-width: 400px;
   position: relative;
   overflow: hidden;
-  animation: ${slideIn} 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-  border-left: 4px solid ${({ $type }) => {
-    switch ($type) {
-      case 'success':
-        return theme.success;
-      case 'error':
-        return theme.error;
-      case 'warning':
-        return theme.warning;
-      case 'info':
-        return theme.info;
-      default:
-        return theme.info;
-    }
-  }};
+  animation: ${slideIn} 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   @media (max-width: ${theme.breakpoints.sm}) {
     min-width: 280px;
@@ -97,27 +100,15 @@ const ToastContainer = styled.div<{ $type: ToastType }>`
 `;
 
 const ToastIcon = styled.div<{ $type: ToastType }>`
-  font-size: 1.5rem;
-  color: ${({ $type }) => {
-    switch ($type) {
-      case 'success':
-        return theme.success;
-      case 'error':
-        return theme.error;
-      case 'warning':
-        return theme.warning;
-      case 'info':
-        return theme.info;
-      default:
-        return theme.info;
-    }
-  }};
+  font-size: 1.4rem;
+  color: ${({ $type }) => accentFor($type)};
   flex-shrink: 0;
 `;
 
 const ToastMessage = styled.div`
   flex: 1;
-  font-size: 0.95rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.92rem;
   color: ${theme.gray800};
   line-height: 1.5;
   font-weight: 500;
@@ -132,14 +123,14 @@ const CloseButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.125rem;
+  font-size: 1rem;
   transition: all ${theme.transition.fast};
-  border-radius: ${theme.borderRadius.md};
+  border-radius: ${theme.borderRadius.sm};
   flex-shrink: 0;
 
   &:hover {
-    color: ${theme.gray700};
-    background: ${theme.gray100};
+    color: ${theme.primaryLight};
+    background: ${theme.gray200};
   }
 `;
 
@@ -156,20 +147,8 @@ const ProgressBar = styled.div<{ $duration: number; $type: ToastType }>`
   position: absolute;
   bottom: 0;
   left: 0;
-  height: 3px;
-  background: ${({ $type }) => {
-    switch ($type) {
-      case 'success':
-        return theme.success;
-      case 'error':
-        return theme.error;
-      case 'warning':
-        return theme.warning;
-      case 'info':
-        return theme.info;
-      default:
-        return theme.info;
-    }
-  }};
+  height: 2px;
+  background: ${({ $type }) => accentFor($type)};
+  opacity: 0.7;
   animation: ${progressAnimation} ${({ $duration }) => $duration}ms linear;
 `;

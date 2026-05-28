@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaChevronDown, FaQuestionCircle } from 'react-icons/fa';
 import theme from '../../../utils/Theme/theme';
 
 interface FAQItem {
@@ -87,52 +86,69 @@ const FAQ: React.FC = () => {
   };
 
   return (
-    <FAQContainer id="faq">
-      <FAQHeader>
-        <HeaderIcon>
-          <FaQuestionCircle />
-        </HeaderIcon>
-        <FAQTitle>Questions Fréquentes</FAQTitle>
-        <FAQSubtitle>
-          Trouvez rapidement les réponses à vos questions. Si vous ne trouvez pas ce que vous cherchez, n'hésitez pas à nous contacter.
-        </FAQSubtitle>
-      </FAQHeader>
+    <FAQContainer id="faq" aria-label="Questions fréquentes">
+      <Glow aria-hidden="true" />
 
-      <CategoryFilter>
-        {categories.map((category) => (
-          <CategoryButton
-            key={category}
-            $active={activeCategory === category}
-            onClick={() => setActiveCategory(category)}
-          >
-            {category}
-          </CategoryButton>
-        ))}
-      </CategoryFilter>
+      <FAQInner>
+        <FAQHeader>
+          <FAQEyebrow>
+            <EyebrowDot aria-hidden="true" />
+            FAQ
+          </FAQEyebrow>
+          <FAQTitle>
+            Questions <Accent>fréquentes</Accent>
+          </FAQTitle>
+          <FAQSubtitle>
+            Trouvez rapidement les réponses à vos questions. Si vous ne trouvez pas
+            ce que vous cherchez, n'hésitez pas à nous contacter.
+          </FAQSubtitle>
+        </FAQHeader>
 
-      <FAQList>
-        {filteredFAQ.map((item, index) => (
-          <FAQItemContainer key={index}>
-            <FAQQuestion
-              onClick={() => toggleAccordion(index)}
-              $isActive={activeIndex === index}
+        <CategoryFilter role="tablist" aria-label="Filtrer par catégorie">
+          {categories.map((category) => (
+            <CategoryButton
+              key={category}
+              $active={activeCategory === category}
+              onClick={() => setActiveCategory(category)}
+              aria-pressed={activeCategory === category}
             >
-              <QuestionText>{item.question}</QuestionText>
-              <ChevronIcon $isActive={activeIndex === index}>
-                <FaChevronDown />
-              </ChevronIcon>
-            </FAQQuestion>
-            <FAQAnswer $isActive={activeIndex === index}>
-              <AnswerContent>{item.answer}</AnswerContent>
-            </FAQAnswer>
-          </FAQItemContainer>
-        ))}
-      </FAQList>
+              {category}
+            </CategoryButton>
+          ))}
+        </CategoryFilter>
 
-      <FAQFooter>
-        <FooterText>Vous avez d'autres questions ?</FooterText>
-        <ContactButton href="/demande-devis">Contactez-nous</ContactButton>
-      </FAQFooter>
+        <FAQList>
+          {filteredFAQ.map((item, index) => (
+            <FAQItemContainer key={index} $isActive={activeIndex === index}>
+              <FAQQuestion
+                onClick={() => toggleAccordion(index)}
+                $isActive={activeIndex === index}
+                aria-expanded={activeIndex === index}
+              >
+                <ItemNum $isActive={activeIndex === index} aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </ItemNum>
+                <QuestionText>{item.question}</QuestionText>
+                <ToggleIcon $isActive={activeIndex === index} aria-hidden="true">
+                  <ToggleBar />
+                  <ToggleBar $vertical $isActive={activeIndex === index} />
+                </ToggleIcon>
+              </FAQQuestion>
+              <FAQAnswer $isActive={activeIndex === index}>
+                <AnswerContent>{item.answer}</AnswerContent>
+              </FAQAnswer>
+            </FAQItemContainer>
+          ))}
+        </FAQList>
+
+        <FAQFooter>
+          <FooterText>Vous avez d'autres questions ?</FooterText>
+          <ContactButton href="/demande-devis">
+            Contactez-nous
+            <ButtonArrow aria-hidden="true">→</ButtonArrow>
+          </ContactButton>
+        </FAQFooter>
+      </FAQInner>
     </FAQContainer>
   );
 };
@@ -140,179 +156,282 @@ const FAQ: React.FC = () => {
 export default FAQ;
 
 const FAQContainer = styled.section`
-  padding: 6rem 2rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  position: relative;
+  padding: clamp(5rem, 9vw, 8rem) 2rem;
   background: ${theme.cream};
+  overflow: hidden;
+  isolation: isolate;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 4rem 1.5rem;
+    padding: 4rem 1.25rem;
   }
+`;
+
+const Glow = styled.div`
+  position: absolute;
+  bottom: -20%;
+  right: -12%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 720px;
+  max-height: 720px;
+  background: radial-gradient(circle, rgba(199, 123, 59, 0.13) 0%, rgba(199, 123, 59, 0.04) 42%, transparent 66%);
+  pointer-events: none;
+  z-index: -1;
+`;
+
+const FAQInner = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 920px;
+  margin: 0 auto;
 `;
 
 const FAQHeader = styled.div`
   text-align: center;
-  margin-bottom: 3rem;
+  max-width: 640px;
+  margin: 0 auto clamp(2.5rem, 5vw, 3.5rem);
 `;
 
-const HeaderIcon = styled.div`
-  font-size: 3.5rem;
-  color: ${theme.primary};
-  margin-bottom: 1rem;
-  display: inline-block;
-  animation: bounce 2s infinite;
+const EyebrowDot = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: ${theme.primary};
+  box-shadow: 0 0 12px ${theme.copperGlow};
+`;
 
-  @keyframes bounce {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-10px);
-    }
-  }
+const FAQEyebrow = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.secondaryLight};
+  margin-bottom: 1.5rem;
 `;
 
 const FAQTitle = styled.h2`
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: ${theme.gray900};
-  margin-bottom: 1rem;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+  font-variation-settings: 'opsz' 144;
+`;
+
+const Accent = styled.em`
+  font-style: italic;
+  font-weight: 500;
+  color: ${theme.primaryLight};
+  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const FAQSubtitle = styled.p`
-  font-size: 1.125rem;
+  font-family: ${theme.fontBody};
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
   color: ${theme.gray600};
   line-height: 1.7;
-  max-width: 700px;
-  margin: 0 auto;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1rem;
-  }
 `;
 
 const CategoryFilter = styled.div`
   display: flex;
-  gap: 0.75rem;
+  gap: 0.6rem;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: clamp(2.5rem, 5vw, 3.5rem);
 `;
 
 const CategoryButton = styled.button<{ $active: boolean }>`
-  padding: 0.625rem 1.5rem;
+  padding: 0.5rem 1.15rem;
   border-radius: ${theme.borderRadius.full};
-  border: 2px solid ${({ $active }) => ($active ? theme.primary : theme.gray300)};
-  background: ${({ $active }) => ($active ? theme.primary : theme.white)};
-  color: ${({ $active }) => ($active ? theme.white : theme.gray700)};
+  border: 1px solid ${({ $active }) => ($active ? theme.copperLine : theme.line)};
+  background: ${({ $active }) => ($active ? 'rgba(199, 123, 59, 0.1)' : 'transparent')};
+  color: ${({ $active }) => ($active ? theme.primaryLight : theme.gray500)};
+  font-family: ${theme.fontBody};
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${theme.shadowMd};
-    border-color: ${theme.primary};
+    border-color: ${theme.copperLine};
+    color: ${theme.gray800};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 3px;
   }
 `;
 
 const FAQList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  border-top: 1px solid ${theme.line};
 `;
 
-const FAQItemContainer = styled.div`
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.lg};
-  overflow: hidden;
-  box-shadow: ${theme.shadow};
-  transition: all 0.3s ease;
-
-  &:hover {
-    box-shadow: ${theme.shadowMd};
-  }
+const FAQItemContainer = styled.div<{ $isActive: boolean }>`
+  border-bottom: 1px solid ${({ $isActive }) => ($isActive ? theme.copperLine : theme.line)};
+  transition: border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
 const FAQQuestion = styled.button<{ $isActive: boolean }>`
   width: 100%;
-  display: flex;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
-  justify-content: space-between;
-  padding: 1.5rem;
-  background: ${({ $isActive }) => ($isActive ? theme.primary + '10' : theme.white)};
+  gap: 1.25rem;
+  padding: 1.5rem 0.25rem;
+  background: transparent;
   border: none;
   cursor: pointer;
   text-align: left;
-  transition: all 0.3s ease;
+  transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    background: ${theme.primary}08;
+    padding-left: 0.75rem;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 3px;
+    border-radius: ${theme.borderRadius.sm};
+  }
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    gap: 0.85rem;
   }
 `;
 
-const QuestionText = styled.span`
-  font-size: 1.0625rem;
+const ItemNum = styled.span<{ $isActive: boolean }>`
+  font-family: ${theme.fontDisplay};
+  font-size: 0.92rem;
   font-weight: 600;
-  color: ${theme.gray900};
-  line-height: 1.5;
-  flex: 1;
-  padding-right: 1rem;
+  font-feature-settings: 'tnum';
+  color: ${({ $isActive }) => ($isActive ? theme.primary : theme.gray500)};
+  transition: color 0.3s ease;
 `;
 
-const ChevronIcon = styled.div<{ $isActive: boolean }>`
-  font-size: 1.125rem;
-  color: ${theme.primary};
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  transform: ${({ $isActive }) => ($isActive ? 'rotate(180deg)' : 'rotate(0)')};
+const QuestionText = styled.span`
+  font-family: ${theme.fontBody};
+  font-size: clamp(1rem, 1.5vw, 1.1rem);
+  font-weight: 500;
+  color: ${theme.white};
+  line-height: 1.45;
+`;
+
+const ToggleBar = styled.span<{ $vertical?: boolean; $isActive?: boolean }>`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 1.5px;
+  background: ${theme.primary};
+  border-radius: 2px;
+  transform: ${({ $vertical, $isActive }) =>
+    $vertical
+      ? `translate(-50%, -50%) rotate(${$isActive ? '0deg' : '90deg'})`
+      : 'translate(-50%, -50%)'};
+  opacity: ${({ $vertical, $isActive }) => ($vertical && $isActive ? 0 : 1)};
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+`;
+
+const ToggleIcon = styled.div<{ $isActive: boolean }>`
+  position: relative;
+  width: 30px;
+  height: 30px;
   flex-shrink: 0;
+  border: 1px solid ${({ $isActive }) => ($isActive ? theme.copperLine : theme.lineStrong)};
+  border-radius: 50%;
+  background: ${({ $isActive }) => ($isActive ? 'rgba(199, 123, 59, 0.08)' : 'transparent')};
+  transition: border-color 0.4s ease, background 0.4s ease;
+
+  ${FAQQuestion}:hover & {
+    border-color: ${theme.copperLine};
+  }
 `;
 
 const FAQAnswer = styled.div<{ $isActive: boolean }>`
-  max-height: ${({ $isActive }) => ($isActive ? '500px' : '0')};
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: grid;
+  grid-template-rows: ${({ $isActive }) => ($isActive ? '1fr' : '0fr')};
+  opacity: ${({ $isActive }) => ($isActive ? 1 : 0)};
+  transition: grid-template-rows 0.45s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 `;
 
 const AnswerContent = styled.div`
-  padding: 0 1.5rem 1.5rem 1.5rem;
-  font-size: 1rem;
-  color: ${theme.gray700};
+  overflow: hidden;
+  padding: 0 3.25rem 1.75rem 2.4rem;
+  font-family: ${theme.fontBody};
+  font-size: clamp(0.95rem, 1.3vw, 1.02rem);
+  color: ${theme.gray600};
   line-height: 1.7;
+  max-width: 64ch;
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    padding: 0 0.5rem 1.5rem 1.85rem;
+  }
 `;
 
 const FAQFooter = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
   text-align: center;
-  margin-top: 4rem;
-  padding: 2.5rem;
-  background: linear-gradient(135deg, ${theme.primary}10 0%, ${theme.secondary}10 100%);
+  margin-top: clamp(3rem, 6vw, 4.5rem);
+  padding: clamp(2.25rem, 5vw, 3rem);
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
   border-radius: ${theme.borderRadius.xl};
-  border: 2px solid ${theme.primary}20;
 `;
 
 const FooterText = styled.p`
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: ${theme.gray900};
-  margin-bottom: 1.5rem;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(1.25rem, 2.4vw, 1.6rem);
+  font-weight: 500;
+  color: ${theme.white};
+  letter-spacing: -0.015em;
+  font-variation-settings: 'opsz' 80;
+`;
+
+const ButtonArrow = styled.span`
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
 `;
 
 const ContactButton = styled.a`
-  display: inline-block;
-  padding: 1rem 2.5rem;
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.85rem;
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 700;
-  font-size: 1.0625rem;
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: ${theme.shadowMd};
+  box-shadow: ${theme.shadowCopper};
+  transition: all 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: ${theme.shadow2xl};
+    box-shadow: 0 16px 44px rgba(199, 123, 59, 0.42);
+  }
+
+  &:hover ${ButtonArrow} {
+    transform: translateX(5px);
+  }
+
+  &:active {
+    transform: translateY(-1px);
   }
 `;

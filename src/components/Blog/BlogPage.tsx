@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../utils/Theme/theme';
 import {
@@ -188,7 +188,13 @@ const BlogPage: React.FC = () => {
       </BackButton>
 
       <HeaderSection>
-        <Title>Blog & Ressources</Title>
+        <Eyebrow>
+          <EyebrowDot aria-hidden="true" />
+          Journal &amp; ressources — Gabon
+        </Eyebrow>
+        <Title>
+          Conseils d'experts &amp; <Accent>actualités</Accent>
+        </Title>
         <Subtitle>
           Conseils d'experts, guides pratiques et actualités pour vous accompagner
           dans vos démarches administratives et entrepreneuriales au Gabon
@@ -246,7 +252,7 @@ const BlogPage: React.FC = () => {
           ))
         ) : (
           <NoResults>
-            <NoResultsIcon>🔍</NoResultsIcon>
+            <NoResultsIcon aria-hidden="true"><FaSearch /></NoResultsIcon>
             <NoResultsText>Aucun article trouvé</NoResultsText>
             <NoResultsSubtext>
               Essayez de modifier votre recherche ou de sélectionner une autre catégorie
@@ -261,59 +267,104 @@ const BlogPage: React.FC = () => {
 export default BlogPage;
 
 // Styled Components
+const fadeInUp = keyframes`
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const pulse = keyframes`
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+`;
+
 const PageContainer = styled.div`
   min-height: 100vh;
-  background: ${theme.gray50};
-  padding: 2rem;
+  background: ${theme.gradientConsulting};
+  padding: 7rem 2rem 4rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 1rem;
+    padding: 5.5rem 1.25rem 3rem;
   }
 `;
 
 const BackButton = styled.button`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: ${theme.white};
-  color: ${theme.primary};
-  border: 2px solid ${theme.primary};
+  gap: 0.55rem;
+  padding: 0.7rem 1.4rem;
+  background: transparent;
+  color: ${theme.gray700};
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 600;
+  font-size: 0.92rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  margin-bottom: 2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 2.75rem;
+
+  svg { color: ${theme.primary}; }
 
   &:hover {
-    background: ${theme.primary};
+    border-color: ${theme.primary};
     color: ${theme.white};
-    transform: translateX(-5px);
+    background: rgba(199, 123, 59, 0.08);
+    transform: translateX(-4px);
   }
+`;
+
+const Eyebrow = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.secondaryLight};
+  margin-bottom: 1.5rem;
+`;
+
+const EyebrowDot = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: ${theme.primary};
+  box-shadow: 0 0 12px ${theme.copperGlow};
+  animation: ${pulse} 2.4s ease-in-out infinite;
 `;
 
 const HeaderSection = styled.div`
-  text-align: center;
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto 3rem;
+  text-align: center;
+  animation: ${fadeInUp} 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+
+  ${Eyebrow} { justify-content: center; }
 `;
 
 const Title = styled.h1`
-  font-size: 2.75rem;
-  font-weight: 800;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2.4rem, 5vw, 3.4rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.1rem;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+`;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.25rem;
-  }
+const Accent = styled.span`
+  font-style: italic;
+  font-weight: 500;
+  color: ${theme.primaryLight};
+  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const Subtitle = styled.p`
-  font-size: 1.125rem;
+  font-family: ${theme.fontBody};
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
   color: ${theme.gray600};
   line-height: 1.7;
 
@@ -324,10 +375,10 @@ const Subtitle = styled.p`
 
 const FiltersSection = styled.div`
   max-width: 1200px;
-  margin: 0 auto 3rem;
+  margin: 0 auto 3.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.75rem;
 `;
 
 const SearchContainer = styled.div`
@@ -339,54 +390,61 @@ const SearchContainer = styled.div`
 
 const SearchIcon = styled.div`
   position: absolute;
-  left: 1.25rem;
+  left: 1.4rem;
   top: 50%;
   transform: translateY(-50%);
-  color: ${theme.gray400};
-  font-size: 1.125rem;
+  color: ${theme.gray500};
+  font-size: 1rem;
+  display: flex;
 `;
 
 const SearchInput = styled.input`
   width: 100%;
-  padding: 1rem 1rem 1rem 3.5rem;
-  border: 2px solid ${theme.gray300};
+  padding: 1rem 1.25rem 1rem 3.5rem;
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-size: 1rem;
-  transition: all 0.3s ease;
+  color: ${theme.gray900};
+  background: ${theme.gray200};
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
     border-color: ${theme.primary};
-    box-shadow: 0 0 0 3px ${theme.primary}20;
+    box-shadow: 0 0 0 3px ${theme.copperGlow};
   }
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: ${theme.gray500};
   }
 `;
 
 const CategoriesFilter = styled.div`
   display: flex;
-  gap: 0.75rem;
+  gap: 0.65rem;
   flex-wrap: wrap;
   justify-content: center;
 `;
 
 const CategoryButton = styled.button<{ $active: boolean }>`
-  padding: 0.625rem 1.5rem;
+  padding: 0.55rem 1.3rem;
   border-radius: ${theme.borderRadius.full};
-  border: 2px solid ${({ $active }) => ($active ? theme.primary : theme.gray300)};
-  background: ${({ $active }) => ($active ? theme.primary : theme.white)};
-  color: ${({ $active }) => ($active ? theme.white : theme.gray700)};
+  border: 1px solid ${({ $active }) => ($active ? 'transparent' : theme.lineStrong)};
+  background: ${({ $active }) => ($active ? theme.gradientGold : 'transparent')};
+  color: ${({ $active }) => ($active ? theme.black : theme.gray700)};
+  font-family: ${theme.fontBody};
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: ${({ $active }) => ($active ? theme.shadowCopper : 'none')};
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${theme.shadowMd};
-    border-color: ${theme.primary};
+    border-color: ${({ $active }) => ($active ? 'transparent' : theme.primary)};
+    color: ${({ $active }) => ($active ? theme.black : theme.white)};
+    background: ${({ $active }) => ($active ? theme.gradientGold : 'rgba(199, 123, 59, 0.08)')};
   }
 `;
 
@@ -394,8 +452,8 @@ const BlogGrid = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 1.75rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: 1fr;
@@ -404,38 +462,49 @@ const BlogGrid = styled.div`
 `;
 
 const BlogCard = styled.article`
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.xl};
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.lg};
   overflow: hidden;
-  box-shadow: ${theme.shadow};
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: ${theme.shadow2xl};
+    transform: translateY(-6px);
+    border-color: ${theme.copperLine};
+    box-shadow: ${theme.shadowLg};
   }
 `;
 
 const CardImage = styled.img`
   width: 100%;
-  height: 220px;
+  height: 210px;
   object-fit: cover;
+  filter: grayscale(0.2) brightness(0.85);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+
+  ${BlogCard}:hover & {
+    transform: scale(1.05);
+    filter: grayscale(0) brightness(0.95);
+  }
 `;
 
 const CardBadge = styled.div`
   position: absolute;
   top: 1rem;
   left: 1rem;
-  padding: 0.5rem 1rem;
-  background: ${theme.primary};
-  color: ${theme.white};
+  padding: 0.4rem 0.85rem;
+  background: rgba(20, 17, 14, 0.7);
+  color: ${theme.primaryLight};
+  border: 1px solid ${theme.copperLine};
   border-radius: ${theme.borderRadius.full};
-  font-size: 0.8125rem;
-  font-weight: 700;
+  font-family: ${theme.fontBody};
+  font-size: 0.7rem;
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.1em;
+  backdrop-filter: blur(8px);
 `;
 
 const CardContent = styled.div`
@@ -443,45 +512,52 @@ const CardContent = styled.div`
 `;
 
 const CardTitle = styled.h3`
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: ${theme.gray900};
-  margin-bottom: 0.75rem;
-  line-height: 1.4;
+  font-family: ${theme.fontDisplay};
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: ${theme.white};
+  margin-bottom: 0.7rem;
+  line-height: 1.3;
+  letter-spacing: -0.015em;
 `;
 
 const CardExcerpt = styled.p`
-  font-size: 0.9375rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.92rem;
   color: ${theme.gray600};
   line-height: 1.6;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 `;
 
 const CardMeta = styled.div`
   display: flex;
   gap: 1.5rem;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
 `;
 
 const MetaItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.8125rem;
+  gap: 0.45rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.8rem;
   color: ${theme.gray500};
+
+  svg { color: ${theme.primary}; }
 `;
 
 const ReadMoreButton = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  color: ${theme.primary};
-  font-weight: 700;
-  font-size: 0.9375rem;
-  transition: gap 0.3s ease;
+  color: ${theme.primaryLight};
+  font-family: ${theme.fontBody};
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: gap 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
 
   ${BlogCard}:hover & {
-    gap: 0.75rem;
+    gap: 0.8rem;
   }
 `;
 
@@ -492,30 +568,37 @@ const NoResults = styled.div`
 `;
 
 const NoResultsIcon = styled.div`
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-size: 2.6rem;
+  color: ${theme.gray500};
+  margin-bottom: 1.25rem;
+  display: flex;
+  justify-content: center;
 `;
 
 const NoResultsText = styled.div`
+  font-family: ${theme.fontDisplay};
   font-size: 1.5rem;
-  font-weight: 700;
-  color: ${theme.gray700};
+  font-weight: 600;
+  color: ${theme.gray800};
   margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
 `;
 
 const NoResultsSubtext = styled.div`
+  font-family: ${theme.fontBody};
   font-size: 1rem;
   color: ${theme.gray500};
 `;
 
 // Article View Styles
 const ArticleContainer = styled.article`
-  max-width: 900px;
+  max-width: 860px;
   margin: 0 auto;
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.xl};
-  padding: 3rem;
-  box-shadow: ${theme.shadow2xl};
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.lg};
+  padding: 3.25rem;
+  box-shadow: ${theme.shadowLg};
 
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 2rem 1.5rem;
@@ -523,33 +606,33 @@ const ArticleContainer = styled.article`
 `;
 
 const ArticleHeader = styled.header`
-  margin-bottom: 2rem;
+  margin-bottom: 2.25rem;
   text-align: center;
 `;
 
 const CategoryBadge = styled.div`
   display: inline-block;
-  padding: 0.5rem 1.25rem;
-  background: ${theme.primary}15;
-  color: ${theme.primary};
+  padding: 0.4rem 1.1rem;
+  background: rgba(199, 123, 59, 0.1);
+  color: ${theme.primaryLight};
+  border: 1px solid ${theme.copperLine};
   border-radius: ${theme.borderRadius.full};
-  font-weight: 700;
-  font-size: 0.875rem;
+  font-family: ${theme.fontBody};
+  font-weight: 600;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.12em;
   margin-bottom: 1.5rem;
 `;
 
 const ArticleTitle = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 800;
-  color: ${theme.gray900};
-  line-height: 1.2;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1.1;
+  letter-spacing: -0.025em;
   margin-bottom: 1.5rem;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2rem;
-  }
 `;
 
 const ArticleMeta = styled.div`
@@ -563,8 +646,9 @@ const ArticleImage = styled.img`
   width: 100%;
   height: 400px;
   object-fit: cover;
-  border-radius: ${theme.borderRadius.lg};
-  margin-bottom: 2rem;
+  border-radius: ${theme.borderRadius.md};
+  margin-bottom: 2.25rem;
+  filter: grayscale(0.15);
 
   @media (max-width: ${theme.breakpoints.md}) {
     height: 250px;
@@ -572,7 +656,8 @@ const ArticleImage = styled.img`
 `;
 
 const ArticleContent = styled.div`
-  font-size: 1.0625rem;
+  font-family: ${theme.fontBody};
+  font-size: 1.05rem;
   line-height: 1.8;
   color: ${theme.gray700};
   margin-bottom: 2rem;
@@ -582,10 +667,12 @@ const ArticleContent = styled.div`
   }
 
   h3 {
+    font-family: ${theme.fontDisplay};
     font-size: 1.5rem;
-    font-weight: 700;
-    color: ${theme.gray900};
-    margin: 2rem 0 1rem;
+    font-weight: 600;
+    color: ${theme.white};
+    letter-spacing: -0.02em;
+    margin: 2.25rem 0 1rem;
   }
 
   ul {
@@ -600,48 +687,56 @@ const ArticleContent = styled.div`
 
 const ArticleTags = styled.div`
   display: flex;
-  gap: 0.75rem;
+  gap: 0.65rem;
   flex-wrap: wrap;
   margin-bottom: 3rem;
   padding-top: 2rem;
-  border-top: 2px solid ${theme.gray100};
+  border-top: 1px solid ${theme.line};
 `;
 
 const Tag = styled.div`
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  background: ${theme.gray100};
-  color: ${theme.gray700};
+  padding: 0.45rem 0.95rem;
+  background: ${theme.gray200};
+  color: ${theme.gray600};
+  border: 1px solid ${theme.line};
   border-radius: ${theme.borderRadius.full};
-  font-size: 0.875rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.82rem;
   font-weight: 500;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+  svg { color: ${theme.primary}; }
 
   &:hover {
-    background: ${theme.primary}15;
-    color: ${theme.primary};
+    border-color: ${theme.copperLine};
+    color: ${theme.primaryLight};
   }
 `;
 
 const CTASection = styled.div`
-  padding: 2.5rem;
-  background: linear-gradient(135deg, ${theme.primary}10 0%, ${theme.secondary}10 100%);
-  border-radius: ${theme.borderRadius.xl};
-  border: 2px solid ${theme.primary}20;
+  padding: 2.75rem;
+  background: ${theme.gray200};
+  border-radius: ${theme.borderRadius.md};
+  border: 1px solid ${theme.line};
+  border-left: 2px solid ${theme.primary};
   text-align: center;
 `;
 
 const CTATitle = styled.h3`
-  font-size: 1.75rem;
-  font-weight: 800;
-  color: ${theme.gray900};
+  font-family: ${theme.fontDisplay};
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: ${theme.white};
+  letter-spacing: -0.02em;
   margin-bottom: 1rem;
 `;
 
 const CTAText = styled.p`
-  font-size: 1.0625rem;
+  font-family: ${theme.fontBody};
+  font-size: 1.02rem;
   color: ${theme.gray600};
   line-height: 1.7;
   margin-bottom: 2rem;
@@ -653,20 +748,22 @@ const CTAText = styled.p`
 const CTAButton = styled.button`
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2.5rem;
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
+  gap: 0.65rem;
+  padding: 1rem 2.4rem;
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border: none;
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 700;
-  font-size: 1.0625rem;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: ${theme.shadowMd};
+  transition: all 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+  box-shadow: ${theme.shadowCopper};
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: ${theme.shadow2xl};
+    box-shadow: 0 16px 44px rgba(199, 123, 59, 0.42);
   }
 `;

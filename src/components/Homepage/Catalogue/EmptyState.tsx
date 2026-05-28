@@ -42,26 +42,54 @@ interface EmptyStateProps {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 5px;
+    gap: 1.5rem;
     text-align: center;
-    margin-top: 50px;
-    font-size: 3em;
-    color: #555;
-  
+    margin: 3rem auto 1rem;
+    max-width: 560px;
+    padding: 3rem 2rem;
+    background: ${theme.gray100};
+    border: 1px solid ${theme.line};
+    border-radius: ${theme.borderRadius.lg};
+    color: ${theme.gray600};
+
     h3 {
-      color: ${theme.primary};
+      font-family: ${theme.fontDisplay};
+      font-size: clamp(1.15rem, 2.4vw, 1.5rem);
+      font-weight: 500;
+      font-style: italic;
+      line-height: 1.4;
+      letter-spacing: -0.01em;
+      color: ${theme.gray800};
+      margin: 0;
+      font-variation-settings: 'opsz' 80, 'SOFT' 4;
     }
-  
+
+    h6 {
+      font-family: ${theme.fontBody};
+      color: ${theme.gray500};
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      margin: 0;
+
+      span {
+        color: ${theme.secondaryLight};
+      }
+    }
+
     .lottieAndText {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 10px;
+      gap: 1rem;
     }
-  
+
     .whatsappAndMail {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0.1rem;
+      gap: 0.6rem;
+      padding-top: 1.5rem;
+      width: 100%;
+      border-top: 1px solid ${theme.line};
     }
   `;

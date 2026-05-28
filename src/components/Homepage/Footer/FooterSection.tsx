@@ -9,7 +9,7 @@ type FooterSectionType = {
 
 const FooterSection: React.FC<FooterSectionType> = ({ title, children }) => (
   <SectionContainer>
-    <h3 style={{ color: theme.white }}>{title}</h3>
+    <SectionTitle>{title}</SectionTitle>
     {children}
   </SectionContainer>
 );
@@ -17,29 +17,15 @@ const FooterSection: React.FC<FooterSectionType> = ({ title, children }) => (
 export default FooterSection;
 
 const SectionContainer = styled.div`
-  margin: 20px;
-  flex: 1;
-  min-width: 200px;
+  min-width: 0;
+`;
 
-  h3 {
-    color: ${theme.blue};
-    margin-bottom: 10px;
-  }
-
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  ul li {
-    margin: 8px 0;
-  }
-
-  p, a {
-    color: ${theme.white};
-  }
-
-  a:hover {
-    text-decoration: underline;
-  }
+const SectionTitle = styled.h3`
+  font-family: ${theme.fontBody};
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: ${theme.gray500};
+  margin: 0 0 1.1rem;
 `;

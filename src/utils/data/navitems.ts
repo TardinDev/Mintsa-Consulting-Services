@@ -8,7 +8,7 @@ const navitems = [
       subLinks: [],
     },
     {
-      title: 'Expertise Comptable & Fiscale',
+      title: 'Assistance Comptable et Fiscale',
       href: '/services/fiscaux',
       subLinks: [],
     },

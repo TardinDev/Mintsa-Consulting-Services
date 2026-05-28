@@ -44,20 +44,21 @@ const BackToTopButton = styled.button<{ $isVisible: boolean }>`
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  width: 56px;
-  height: 56px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
-  border: none;
+  background: ${theme.gray100};
+  color: ${theme.gray700};
+  border: 1px solid ${theme.lineStrong};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
-  box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 1.05rem;
+  box-shadow: ${theme.shadowMd};
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: ${theme.zFixed};
+  isolation: isolate;
   opacity: ${({ $isVisible }) => ($isVisible ? '1' : '0')};
   visibility: ${({ $isVisible }) => ($isVisible ? 'visible' : 'hidden')};
   transform: ${({ $isVisible }) => ($isVisible ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.8)')};
@@ -65,17 +66,19 @@ const BackToTopButton = styled.button<{ $isVisible: boolean }>`
   &::before {
     content: '';
     position: absolute;
-    inset: -3px;
+    inset: -1px;
     border-radius: 50%;
-    background: linear-gradient(135deg, ${theme.primary}, ${theme.secondary});
+    background: radial-gradient(circle at center, ${theme.copperGlow} 0%, transparent 70%);
     z-index: -1;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.4s ease;
   }
 
   &:hover {
-    transform: translateY(-8px) scale(1.1);
-    box-shadow: 0 12px 32px rgba(37, 99, 235, 0.5);
+    transform: translateY(-6px);
+    color: ${theme.primaryLight};
+    border-color: ${theme.copperLine};
+    box-shadow: ${theme.shadowCopper};
 
     &::before {
       opacity: 1;
@@ -83,14 +86,19 @@ const BackToTopButton = styled.button<{ $isVisible: boolean }>`
   }
 
   &:active {
-    transform: translateY(-4px) scale(1.05);
+    transform: translateY(-2px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 3px;
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
     bottom: 1.5rem;
     right: 1.5rem;
-    width: 48px;
-    height: 48px;
-    font-size: 1.125rem;
+    width: 46px;
+    height: 46px;
+    font-size: 0.95rem;
   }
 `;

@@ -64,12 +64,19 @@ const Catalogue: React.FC<CatalogueType> = ({setSelectedProductForEdit}) => {
   return (
     <CatalogueContainer id="catalogue">
       <CatalogueHeader>
-        <CatalogueEyebrow>Notre Catalogue</CatalogueEyebrow>
-        <CatalogueTitle>Services & Solutions</CatalogueTitle>
-        <GoldDivider />
+        <HeaderText>
+          <CatalogueEyebrow>
+            <EyebrowDot aria-hidden="true" />
+            Notre catalogue
+          </CatalogueEyebrow>
+          <CatalogueTitle>
+            Services <Amp>&amp;</Amp> Solutions
+          </CatalogueTitle>
+        </HeaderText>
         <CatalogueSubtitle>
           Decouvrez notre gamme complete de services professionnels et solutions innovantes
         </CatalogueSubtitle>
+        <HeaderLine aria-hidden="true" />
       </CatalogueHeader>
 
       {searchQuery ? (
@@ -123,70 +130,103 @@ export default Catalogue;
 
 const CatalogueContainer = styled.div`
   position: relative;
-  padding: 5rem 2rem;
+  padding: 6rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
   background: ${theme.cream};
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 3rem 1rem;
+    padding: 3.5rem 1.25rem;
   }
 `;
 
 const CatalogueHeader = styled.div`
-  text-align: center;
-  margin-bottom: 4rem;
-`;
-
-const CatalogueEyebrow = styled.div`
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: ${theme.secondary};
-  margin-bottom: 1rem;
-`;
-
-const GoldDivider = styled.div`
-  width: 60px;
-  height: 3px;
-  background: ${theme.gradientGold};
-  border-radius: 2px;
-  margin: 0 auto 1.5rem;
-`;
-
-const CatalogueTitle = styled.h2`
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  color: ${theme.gray900};
-  margin-bottom: 1rem;
-  letter-spacing: -0.02em;
-`;
-
-const CatalogueSubtitle = styled.p`
-  font-size: 1.25rem;
-  color: ${theme.gray600};
-  max-width: 700px;
-  margin: 0 auto;
-  line-height: 1.7;
-  font-weight: 400;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 1.5rem 3rem;
+  margin-bottom: 3.5rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1.1rem;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
   }
 `;
 
+const HeaderText = styled.div``;
+
+const CatalogueEyebrow = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.secondaryLight};
+  margin-bottom: 1.1rem;
+`;
+
+const EyebrowDot = styled.span`
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: ${theme.primary};
+  box-shadow: 0 0 10px ${theme.copperGlow};
+`;
+
+const CatalogueTitle = styled.h2`
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2.1rem, 4.4vw, 3.2rem);
+  font-weight: 600;
+  color: ${theme.white};
+  margin: 0;
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+`;
+
+const Amp = styled.span`
+  font-style: italic;
+  font-weight: 500;
+  color: ${theme.primaryLight};
+  font-variation-settings: 'opsz' 144, 'SOFT' 6;
+`;
+
+const CatalogueSubtitle = styled.p`
+  font-family: ${theme.fontBody};
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+  color: ${theme.gray600};
+  max-width: 440px;
+  margin: 0;
+  line-height: 1.65;
+  font-weight: 400;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    max-width: none;
+  }
+`;
+
+const HeaderLine = styled.div`
+  grid-column: 1 / -1;
+  height: 1px;
+  margin-top: 1rem;
+  background: linear-gradient(90deg, ${theme.copperLine} 0%, ${theme.line} 32%, transparent 100%);
+`;
+
 const SearchInfo = styled.div`
-  background: linear-gradient(135deg, ${theme.primary}10 0%, ${theme.secondary}10 100%);
-  border-left: 4px solid ${theme.primary};
-  border-radius: ${theme.borderRadius.lg};
-  padding: 1.5rem 2rem;
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-left: 2px solid ${theme.primary};
+  border-radius: ${theme.borderRadius.md};
+  padding: 1.25rem 1.75rem;
   margin-bottom: 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  animation: slideIn 0.3s ease-out;
+  animation: slideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 
   @keyframes slideIn {
     from {
@@ -207,31 +247,36 @@ const SearchInfo = styled.div`
 `;
 
 const SearchText = styled.div`
-  font-size: 1.1rem;
+  font-family: ${theme.fontBody};
+  font-size: 1rem;
   color: ${theme.gray700};
   font-weight: 500;
 `;
 
 const SearchQuery = styled.span`
-  color: ${theme.primary};
-  font-weight: 700;
+  font-family: ${theme.fontDisplay};
+  font-style: italic;
+  color: ${theme.primaryLight};
+  font-weight: 500;
 `;
 
 const ResultCount = styled.div`
-  background: ${theme.primary};
-  color: ${theme.white};
-  padding: 0.5rem 1.25rem;
+  font-family: ${theme.fontBody};
+  background: rgba(199, 123, 59, 0.1);
+  border: 1px solid ${theme.copperLine};
+  color: ${theme.secondaryLight};
+  padding: 0.4rem 1.1rem;
   border-radius: ${theme.borderRadius.full};
   font-weight: 600;
-  font-size: 0.95rem;
-  box-shadow: ${theme.shadowMd};
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
 `;
 
 const CardContainer = styled.div`
   display: grid;
-  gap: 1.5rem;
+  gap: 1.75rem;
   grid-template-columns: repeat(4, 1fr);
-  padding: 2rem 0;
+  padding: 0.5rem 0;
   justify-items: center;
 
   @media (max-width: ${theme.breakpoints.xl}) {

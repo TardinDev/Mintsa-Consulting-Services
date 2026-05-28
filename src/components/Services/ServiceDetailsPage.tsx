@@ -16,13 +16,13 @@ interface ServiceData {
   category: string;
 }
 
-// Images pour les catégories
+// Images pour les catégories (photos locales Mintsa)
 const categoryImages: Record<string, string> = {
-  administratifs: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1200',
-  fiscaux: 'https://images.unsplash.com/photo-1554224311-beee4ece8c35?w=1200',
-  automobiles: 'https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=1200',
-  immobiliers: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200',
-  entreprises: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1200'
+  administratifs: '/imagesMintsaservices/pexels-mikhail-nilov-9301316.jpg',
+  fiscaux: '/imagesMintsaservices/pexels-pavel-danilyuk-7658399.jpg',
+  automobiles: '/imagesMintsaservices/pexels-ninthgrid-2149521550-30688596.jpg',
+  immobiliers: '/imagesMintsaservices/pexels-picha-stock-2210122-3869641.jpg',
+  entreprises: '/imagesMintsaservices/pexels-yomi-solomon-623557805-20719271.jpg'
 };
 
 const categoryIcons: Record<string, React.ReactElement> = {
@@ -282,6 +282,7 @@ const ServiceDetailsPage: React.FC = () => {
             <FaArrowLeft /> Retour à l'accueil
           </BackButton>
           <HeroIcon>{categoryIcons[category!]}</HeroIcon>
+          <HeroEyebrow>Nos prestations — Gabon</HeroEyebrow>
           <HeroTitle>{categoryData.title}</HeroTitle>
           <HeroSubtitle>{categoryData.description}</HeroSubtitle>
         </HeroContent>
@@ -448,17 +449,18 @@ const slideIn = keyframes`
 // Styled Components
 const PageContainer = styled.div`
   min-height: 100vh;
-  background: ${theme.gray50};
+  background: ${theme.cream};
 `;
 
 const HeroSection = styled.div`
   position: relative;
-  height: 50vh;
-  min-height: 400px;
+  height: 52vh;
+  min-height: 420px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  border-bottom: 1px solid ${theme.copperLine};
 `;
 
 const HeroBackground = styled.div`
@@ -471,6 +473,7 @@ const HeroBackground = styled.div`
   background-size: cover;
   background-position: center;
   will-change: transform;
+  filter: grayscale(0.35) brightness(0.6);
 `;
 
 const HeroOverlay = styled.div`
@@ -479,7 +482,7 @@ const HeroOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(15, 23, 42, 0.85) 100%);
+  background: linear-gradient(165deg, rgba(20, 17, 14, 0.78) 0%, rgba(14, 11, 9, 0.92) 100%);
 `;
 
 const HeroContent = styled.div`
@@ -487,42 +490,57 @@ const HeroContent = styled.div`
   z-index: 2;
   text-align: center;
   padding: 2rem;
-  max-width: 800px;
-  animation: ${fadeInUp} 0.8s ease-out;
+  max-width: 820px;
+  animation: ${fadeInUp} 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
 const HeroIcon = styled.div`
-  font-size: 4rem;
-  color: ${theme.secondary};
-  margin-bottom: 1rem;
-  animation: ${slideIn} 0.6s ease-out;
+  font-size: 2.6rem;
+  color: ${theme.primary};
+  margin-bottom: 1.25rem;
+  animation: ${slideIn} 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
   svg {
-    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+    filter: drop-shadow(0 0 18px ${theme.copperGlow});
   }
 `;
 
+const HeroEyebrow = styled.div`
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.secondaryLight};
+  margin-bottom: 1rem;
+`;
+
 const HeroTitle = styled.h1`
-  font-size: 3.5rem;
-  font-weight: 800;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  font-weight: 600;
   color: ${theme.white};
   margin-bottom: 1rem;
-  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.5rem;
+    font-size: 2.4rem;
   }
 `;
 
 const HeroSubtitle = styled.p`
-  font-size: 1.4rem;
-  color: rgba(255, 255, 255, 0.95);
+  font-family: ${theme.fontBody};
+  font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  color: ${theme.gray600};
   font-weight: 400;
-  line-height: 1.6;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  line-height: 1.65;
+  max-width: 620px;
+  margin: 0 auto;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1.1rem;
+    font-size: 1.05rem;
   }
 `;
 
@@ -532,63 +550,70 @@ const BackButton = styled.button`
   left: 2rem;
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  background: rgba(255, 255, 255, 0.95);
-  color: ${theme.primary};
-  border: none;
-  padding: 0.75rem 1.5rem;
+  gap: 0.55rem;
+  background: rgba(20, 17, 14, 0.55);
+  color: ${theme.gray800};
+  border: 1px solid ${theme.lineStrong};
+  padding: 0.7rem 1.4rem;
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 600;
+  font-size: 0.92rem;
   cursor: pointer;
-  transition: all ${theme.transition.normal};
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(8px);
   z-index: 10;
 
+  svg { color: ${theme.primary}; }
+
   &:hover {
-    background: ${theme.white};
-    transform: translateX(-5px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    border-color: ${theme.primary};
+    color: ${theme.white};
+    background: rgba(199, 123, 59, 0.14);
+    transform: translateX(-4px);
   }
 `;
 
 const ContentSection = styled.div`
-  padding: 4rem 2rem;
+  padding: 4.5rem 2rem;
   max-width: 1400px;
   margin: 0 auto;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 2rem 1rem;
+    padding: 2.5rem 1rem;
   }
 `;
 
 const ServicesGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 2.5rem;
+  gap: 2rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 1.75rem;
   }
 `;
 
 const ServiceCard = styled.div`
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.xl};
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.lg};
   overflow: hidden;
-  box-shadow: ${theme.shadowLg};
-  transition: all ${theme.transition.normal};
-  animation: ${fadeInUp} 0.6s ease-out both;
+  box-shadow: ${theme.shadowMd};
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  animation: ${fadeInUp} 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
 
   &:hover {
-    transform: translateY(-8px);
-    box-shadow: ${theme.shadow2xl};
+    transform: translateY(-6px);
+    border-color: ${theme.copperLine};
+    box-shadow: ${theme.shadowLg};
   }
 `;
 
 const ServiceImageContainer = styled.div`
   position: relative;
-  height: 280px;
+  height: 260px;
   overflow: hidden;
 `;
 
@@ -596,10 +621,12 @@ const ServiceImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s ease;
+  filter: grayscale(0.2) brightness(0.85);
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
 
   ${ServiceCard}:hover & {
-    transform: scale(1.1);
+    transform: scale(1.06);
+    filter: grayscale(0) brightness(0.95);
   }
 `;
 
@@ -609,12 +636,13 @@ const ServiceImageOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(135deg, rgba(30, 64, 175, 0.9) 0%, rgba(245, 158, 11, 0.8) 100%);
+  background: linear-gradient(180deg, rgba(14, 11, 9, 0.1) 0%, rgba(14, 11, 9, 0.82) 100%);
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: center;
+  padding-bottom: 1.75rem;
   opacity: 0;
-  transition: all ${theme.transition.normal};
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 
   ${ServiceCard}:hover & {
     opacity: 1;
@@ -622,27 +650,28 @@ const ServiceImageOverlay = styled.div`
 `;
 
 const QuickViewButton = styled.button`
-  background: ${theme.white};
-  color: ${theme.primary};
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border: none;
-  padding: 1rem 2rem;
+  padding: 0.85rem 1.75rem;
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.92rem;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  transition: all ${theme.transition.fast};
-  transform: translateY(20px);
-  box-shadow: ${theme.shadowXl};
+  gap: 0.6rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+  transform: translateY(16px);
+  box-shadow: ${theme.shadowCopper};
 
   ${ServiceCard}:hover & {
     transform: translateY(0);
   }
 
   &:hover {
-    transform: scale(1.05) translateY(0);
+    transform: translateY(-2px);
   }
 `;
 
@@ -655,18 +684,17 @@ const ServiceHeader = styled.div`
 `;
 
 const ServiceTitle = styled.h2`
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: ${theme.gray900};
-  margin-bottom: 0.75rem;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: ${theme.fontDisplay};
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: ${theme.white};
+  margin-bottom: 0.7rem;
+  letter-spacing: -0.02em;
 `;
 
 const ServiceDescription = styled.p`
-  font-size: 1rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.98rem;
   color: ${theme.gray600};
   line-height: 1.6;
 `;
@@ -681,21 +709,21 @@ const InfoGrid = styled.div`
 const InfoCard = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 1.25rem;
-  background: linear-gradient(135deg, ${theme.gray50} 0%, ${theme.white} 100%);
-  border-radius: ${theme.borderRadius.lg};
-  border-left: 4px solid ${theme.primary};
-  transition: all ${theme.transition.normal};
+  gap: 0.9rem;
+  padding: 1.1rem 1.25rem;
+  background: ${theme.gray200};
+  border-radius: ${theme.borderRadius.md};
+  border-left: 2px solid ${theme.primary};
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateX(5px);
-    box-shadow: ${theme.shadowMd};
+    border-color: ${theme.primaryLight};
+    background: ${theme.gray300};
   }
 `;
 
 const InfoIcon = styled.div`
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: ${theme.primary};
 `;
 
@@ -704,16 +732,21 @@ const InfoDetails = styled.div`
 `;
 
 const InfoLabel = styled.div`
-  font-size: 0.85rem;
-  color: ${theme.gray600};
-  margin-bottom: 0.25rem;
-  font-weight: 500;
+  font-family: ${theme.fontBody};
+  font-size: 0.72rem;
+  color: ${theme.gray500};
+  margin-bottom: 0.3rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 `;
 
 const InfoValue = styled.div`
+  font-family: ${theme.fontDisplay};
   font-size: 1.1rem;
-  font-weight: 700;
-  color: ${theme.gray900};
+  font-weight: 600;
+  color: ${theme.white};
+  letter-spacing: -0.01em;
 `;
 
 const DetailsAccordion = styled.div`
@@ -726,21 +759,23 @@ const DetailsAccordion = styled.div`
 const DetailSection = styled.div`
   background: ${theme.gray50};
   padding: 1.5rem;
-  border-radius: ${theme.borderRadius.lg};
-  border: 1px solid ${theme.gray200};
+  border-radius: ${theme.borderRadius.md};
+  border: 1px solid ${theme.line};
 `;
 
 const DetailHeader = styled.h3`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 1.1rem;
+  gap: 0.6rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.92rem;
   font-weight: 600;
-  color: ${theme.gray800};
+  letter-spacing: 0.02em;
+  color: ${theme.gray700};
   margin-bottom: 1rem;
 
   svg {
-    color: ${theme.success};
+    color: ${theme.primary};
   }
 `;
 
@@ -750,28 +785,29 @@ const DetailList = styled.ul`
   margin: 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.75rem;
+  gap: 0.65rem;
 `;
 
 const DetailItem = styled.li`
-  font-size: 0.95rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.92rem;
   color: ${theme.gray700};
-  padding: 0.5rem 0.75rem;
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.md};
-  border-left: 3px solid ${theme.secondary};
+  padding: 0.55rem 0.8rem;
+  background: ${theme.gray200};
+  border-radius: ${theme.borderRadius.sm};
+  border-left: 2px solid ${theme.copperLine};
 
   &::before {
-    content: '✓';
-    color: ${theme.success};
+    content: '—';
+    color: ${theme.primary};
     margin-right: 0.5rem;
-    font-weight: bold;
+    font-weight: 600;
   }
 `;
 
 const ServiceFooter = styled.div`
   padding-top: 1.5rem;
-  border-top: 2px solid ${theme.gray100};
+  border-top: 1px solid ${theme.line};
 `;
 
 const AppointmentButton = styled.button`
@@ -779,21 +815,23 @@ const AppointmentButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
+  gap: 0.65rem;
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border: none;
-  padding: 1.25rem 2rem;
+  padding: 1.1rem 2rem;
   border-radius: ${theme.borderRadius.full};
-  font-size: 1.1rem;
+  font-family: ${theme.fontBody};
+  font-size: 1rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all ${theme.transition.normal};
-  box-shadow: ${theme.shadowMd};
+  transition: all 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
+  box-shadow: ${theme.shadowCopper};
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: ${theme.shadow2xl};
+    box-shadow: 0 16px 44px rgba(199, 123, 59, 0.42);
   }
 
   &:active {
@@ -807,60 +845,75 @@ const ModalOverlay = styled.div`
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.75);
+  background: rgba(8, 6, 5, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: ${theme.zModal};
   padding: 2rem;
-  backdrop-filter: blur(5px);
-  animation: ${fadeInUp} 0.3s ease-out;
+  backdrop-filter: blur(6px);
+  animation: ${fadeInUp} 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
 const AppointmentModal = styled.div`
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.xl};
+  background: ${theme.gray100};
+  border: 1px solid ${theme.lineStrong};
+  border-radius: ${theme.borderRadius.lg};
   max-width: 700px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: ${theme.shadow2xl};
-  animation: ${slideIn} 0.3s ease-out;
+  box-shadow: ${theme.shadowXl};
+  animation: ${slideIn} 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
 const ModalHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem;
-  border-bottom: 2px solid ${theme.gray100};
-  background: ${theme.gradientPrimary};
+  padding: 1.75rem 2rem;
+  border-bottom: 1px solid ${theme.line};
+  background: ${theme.gray50};
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2px;
+    background: ${theme.gradientGold};
+  }
 `;
 
 const ModalTitle = styled.h2`
-  font-size: 1.8rem;
-  font-weight: 700;
+  font-family: ${theme.fontDisplay};
+  font-size: 1.6rem;
+  font-weight: 600;
   color: ${theme.white};
+  letter-spacing: -0.02em;
   margin: 0;
 `;
 
 const CloseButton = styled.button`
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  font-size: 2rem;
-  color: ${theme.white};
+  background: transparent;
+  border: 1px solid ${theme.lineStrong};
+  font-size: 1.5rem;
+  color: ${theme.gray600};
   cursor: pointer;
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: ${theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all ${theme.transition.fast};
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    background: ${theme.white};
-    color: ${theme.error};
+    border-color: ${theme.primary};
+    color: ${theme.white};
+    background: rgba(199, 123, 59, 0.1);
     transform: rotate(90deg);
   }
 `;
@@ -872,19 +925,20 @@ const ModalBody = styled.div`
 const SelectedServiceInfo = styled.div`
   display: flex;
   gap: 1.5rem;
-  background: linear-gradient(135deg, ${theme.primary}10 0%, ${theme.secondary}10 100%);
-  padding: 1.5rem;
-  border-radius: ${theme.borderRadius.lg};
+  background: ${theme.gray200};
+  padding: 1.25rem;
+  border-radius: ${theme.borderRadius.md};
   margin-bottom: 2rem;
-  border: 2px solid ${theme.primary}30;
+  border: 1px solid ${theme.line};
+  border-left: 2px solid ${theme.primary};
 `;
 
 const ServiceInfoImage = styled.img`
-  width: 100px;
-  height: 100px;
+  width: 88px;
+  height: 88px;
   object-fit: cover;
-  border-radius: ${theme.borderRadius.lg};
-  box-shadow: ${theme.shadowMd};
+  border-radius: ${theme.borderRadius.md};
+  filter: grayscale(0.15);
 `;
 
 const ServiceInfoText = styled.div`
@@ -894,13 +948,16 @@ const ServiceInfoText = styled.div`
   justify-content: center;
 
   strong {
-    font-size: 1.2rem;
-    color: ${theme.gray900};
-    margin-bottom: 0.5rem;
+    font-family: ${theme.fontDisplay};
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: ${theme.white};
+    margin-bottom: 0.4rem;
   }
 
   p {
-    color: ${theme.gray600};
+    font-family: ${theme.fontBody};
+    color: ${theme.primaryLight};
     font-size: 0.95rem;
     margin: 0;
   }
@@ -931,52 +988,59 @@ const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: ${theme.fontBody};
   font-weight: 600;
-  color: ${theme.gray700};
-  margin-bottom: 0.75rem;
-  font-size: 0.95rem;
+  color: ${theme.gray600};
+  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
 
   svg {
     color: ${theme.primary};
+    font-size: 0.85rem;
   }
 `;
 
 const Input = styled.input`
-  padding: 1rem 1.25rem;
-  border: 2px solid ${theme.gray300};
-  border-radius: ${theme.borderRadius.lg};
+  padding: 0.95rem 1.1rem;
+  border: 1px solid ${theme.lineStrong};
+  border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-size: 1rem;
-  transition: all ${theme.transition.normal};
-  font-family: inherit;
+  color: ${theme.gray900};
+  background: ${theme.gray200};
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
     border-color: ${theme.primary};
-    box-shadow: 0 0 0 4px ${theme.primary}20;
+    box-shadow: 0 0 0 3px ${theme.copperGlow};
   }
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: ${theme.gray500};
   }
 `;
 
 const TextArea = styled.textarea`
-  padding: 1rem 1.25rem;
-  border: 2px solid ${theme.gray300};
-  border-radius: ${theme.borderRadius.lg};
+  padding: 0.95rem 1.1rem;
+  border: 1px solid ${theme.lineStrong};
+  border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-size: 1rem;
-  font-family: inherit;
+  color: ${theme.gray900};
+  background: ${theme.gray200};
   resize: vertical;
-  transition: all ${theme.transition.normal};
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
     border-color: ${theme.primary};
-    box-shadow: 0 0 0 4px ${theme.primary}20;
+    box-shadow: 0 0 0 3px ${theme.copperGlow};
   }
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: ${theme.gray500};
   }
 `;
 
@@ -984,22 +1048,24 @@ const SubmitButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
+  gap: 0.65rem;
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border: none;
-  padding: 1.25rem 2rem;
+  padding: 1.1rem 2rem;
   border-radius: ${theme.borderRadius.full};
-  font-size: 1.1rem;
+  font-family: ${theme.fontBody};
+  font-size: 1rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all ${theme.transition.normal};
+  transition: all 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
   margin-top: 1rem;
-  box-shadow: ${theme.shadowLg};
+  box-shadow: ${theme.shadowCopper};
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: ${theme.shadow2xl};
+    box-shadow: 0 16px 44px rgba(199, 123, 59, 0.42);
   }
 
   &:active {
@@ -1014,12 +1080,14 @@ const ErrorContainer = styled.div`
   align-items: center;
   justify-content: center;
   padding: 2rem;
-  background: ${theme.gray50};
+  background: ${theme.gradientConsulting};
 `;
 
 const ErrorMessage = styled.div`
-  font-size: 1.5rem;
-  color: ${theme.error};
+  font-family: ${theme.fontDisplay};
+  font-size: 1.6rem;
+  font-weight: 500;
+  color: ${theme.gray700};
   margin-bottom: 2rem;
-  font-weight: 600;
+  letter-spacing: -0.01em;
 `;

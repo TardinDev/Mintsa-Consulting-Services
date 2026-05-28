@@ -51,7 +51,7 @@ const WhatsAppButton: React.FC = () => {
             <WelcomeMessage>
               <MessageBubble>
                 <MessageText>
-                  👋 Bonjour ! Comment pouvons-nous vous aider aujourd'hui ?
+                  Bonjour ! Comment pouvons-nous vous aider aujourd'hui ?
                 </MessageText>
                 <MessageTime>Maintenant</MessageTime>
               </MessageBubble>
@@ -98,7 +98,7 @@ const WhatsAppButton: React.FC = () => {
       {/* Tooltip */}
       {!isOpen && (
         <Tooltip>
-          Besoin d'aide ? Discutons sur WhatsApp !
+          Besoin d'aide ?
         </Tooltip>
       )}
     </>
@@ -110,14 +110,19 @@ export default WhatsAppButton;
 // Animations
 const pulse = keyframes`
   0% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7);
+    box-shadow: 0 0 0 0 rgba(199, 123, 59, 0.55);
   }
   70% {
-    box-shadow: 0 0 0 15px rgba(37, 211, 102, 0);
+    box-shadow: 0 0 0 14px rgba(199, 123, 59, 0);
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(37, 211, 102, 0);
+    box-shadow: 0 0 0 0 rgba(199, 123, 59, 0);
   }
+`;
+
+const statusPulse = keyframes`
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
 `;
 
 const slideUp = keyframes`
@@ -145,81 +150,92 @@ const FloatingButton = styled.button<{ $isOpen: boolean }>`
   position: fixed;
   bottom: ${({ $isOpen }) => ($isOpen ? '430px' : '8rem')};
   right: 2rem;
-  width: 64px;
-  height: 64px;
+  width: 58px;
+  height: 58px;
   border-radius: 50%;
-  background: #25D366;
-  color: ${theme.white};
-  border: none;
+  background: ${({ $isOpen }) => ($isOpen ? theme.gray100 : theme.gradientGold)};
+  color: ${({ $isOpen }) => ($isOpen ? theme.gray700 : theme.black)};
+  border: 1px solid ${({ $isOpen }) => ($isOpen ? theme.lineStrong : 'transparent')};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
-  transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 1.6rem;
+  box-shadow: ${({ $isOpen }) => ($isOpen ? theme.shadowMd : theme.shadowCopper)};
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   z-index: ${theme.zFixed};
-  ${({ $isOpen }) => !$isOpen && css`animation: ${pulse} 2s infinite;`}
+  ${({ $isOpen }) => !$isOpen && css`animation: ${pulse} 2.4s infinite;`}
 
   &:hover {
-    transform: ${({ $isOpen }) => $isOpen ? 'scale(1.1) rotate(90deg)' : 'scale(1.1)'};
-    box-shadow: 0 12px 32px rgba(37, 211, 102, 0.5);
+    transform: ${({ $isOpen }) => $isOpen ? 'rotate(90deg)' : 'translateY(-4px)'};
+    color: ${({ $isOpen }) => ($isOpen ? theme.primaryLight : theme.black)};
+    border-color: ${({ $isOpen }) => ($isOpen ? theme.copperLine : 'transparent')};
+    box-shadow: ${({ $isOpen }) => ($isOpen ? theme.shadowCopper : '0 16px 44px rgba(199, 123, 59, 0.42)')};
   }
 
   &:active {
-    transform: scale(1.05);
+    transform: translateY(-1px);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 3px;
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
     bottom: ${({ $isOpen }) => ($isOpen ? '420px' : '7rem')};
     right: 1.5rem;
-    width: 56px;
-    height: 56px;
-    font-size: 1.75rem;
+    width: 52px;
+    height: 52px;
+    font-size: 1.45rem;
   }
 `;
 
 const NotificationBadge = styled.div`
   position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 24px;
-  height: 24px;
+  top: -3px;
+  right: -3px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
-  background: ${theme.error};
-  color: ${theme.white};
-  font-size: 0.75rem;
+  background: ${theme.black};
+  color: ${theme.primaryLight};
+  font-size: 0.7rem;
   font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid ${theme.white};
-  animation: ${bounce} 1s ease infinite;
+  border: 1px solid ${theme.copperLine};
+  animation: ${bounce} 1.4s ease infinite;
 `;
 
 const Tooltip = styled.div`
   position: fixed;
-  bottom: 9rem;
-  right: 7rem;
-  background: ${theme.gray900};
-  color: ${theme.white};
-  padding: 0.75rem 1rem;
-  border-radius: ${theme.borderRadius.lg};
-  font-size: 0.875rem;
+  bottom: 9.1rem;
+  right: 6.5rem;
+  background: ${theme.gray100};
+  color: ${theme.gray800};
+  padding: 0.55rem 0.9rem;
+  border: 1px solid ${theme.lineStrong};
+  border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
+  font-size: 0.82rem;
   font-weight: 500;
   white-space: nowrap;
-  box-shadow: ${theme.shadowLg};
+  box-shadow: ${theme.shadowMd};
   z-index: ${theme.zFixed};
   animation: ${slideUp} 0.3s ease;
 
   &::after {
     content: '';
     position: absolute;
-    bottom: -6px;
-    right: 20px;
-    width: 12px;
-    height: 12px;
-    background: ${theme.gray900};
+    bottom: -5px;
+    right: 18px;
+    width: 10px;
+    height: 10px;
+    background: ${theme.gray100};
+    border-right: 1px solid ${theme.lineStrong};
+    border-bottom: 1px solid ${theme.lineStrong};
     transform: rotate(45deg);
   }
 
@@ -234,14 +250,15 @@ const ChatPopup = styled.div`
   right: 2rem;
   width: 380px;
   max-height: 550px;
-  background: ${theme.white};
+  background: ${theme.gray50};
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.xl};
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.2);
+  box-shadow: ${theme.shadowXl};
   z-index: ${theme.zFixed};
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  animation: ${slideUp} 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: ${slideUp} 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   @media (max-width: ${theme.breakpoints.md}) {
     width: calc(100vw - 2rem);
@@ -252,12 +269,13 @@ const ChatPopup = styled.div`
 `;
 
 const ChatHeader = styled.div`
-  background: #25D366;
-  padding: 1.25rem;
+  background: ${theme.gray100};
+  padding: 1.1rem 1.25rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: ${theme.white};
+  border-bottom: 1px solid ${theme.copperLine};
 `;
 
 const HeaderContent = styled.div`
@@ -267,61 +285,67 @@ const HeaderContent = styled.div`
 `;
 
 const WhatsAppIcon = styled.div`
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
+  width: 44px;
+  height: 44px;
+  border-radius: ${theme.borderRadius.md};
+  background: ${theme.gray200};
+  border: 1px solid ${theme.copperLine};
+  color: ${theme.primaryLight};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
 `;
 
 const HeaderText = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.2rem;
 `;
 
 const HeaderTitle = styled.div`
-  font-size: 1rem;
-  font-weight: 700;
+  font-family: ${theme.fontDisplay};
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: ${theme.white};
 `;
 
 const HeaderStatus = styled.div`
-  font-size: 0.8125rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  opacity: 0.95;
+  gap: 0.4rem;
+  color: ${theme.gray500};
 `;
 
 const StatusDot = styled.div`
-  width: 8px;
-  height: 8px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
-  background: ${theme.white};
-  animation: ${pulse} 2s infinite;
+  background: ${theme.success};
+  box-shadow: 0 0 8px ${theme.success};
+  animation: ${statusPulse} 2.4s ease-in-out infinite;
 `;
 
 const CloseButton = styled.button`
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(10px);
-  border: none;
-  color: ${theme.white};
+  border-radius: ${theme.borderRadius.md};
+  background: ${theme.gray200};
+  border: 1px solid ${theme.line};
+  color: ${theme.gray600};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.125rem;
-  transition: all 0.3s ease;
+  font-size: 1rem;
+  transition: all ${theme.transition.fast};
 
   &:hover {
-    background: rgba(255, 255, 255, 0.3);
+    color: ${theme.primaryLight};
+    border-color: ${theme.copperLine};
     transform: rotate(90deg);
   }
 `;
@@ -329,7 +353,7 @@ const CloseButton = styled.button`
 const ChatBody = styled.div`
   flex: 1;
   padding: 1.5rem;
-  background: #E5DDD5;
+  background: ${theme.cream};
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -343,63 +367,70 @@ const WelcomeMessage = styled.div`
 `;
 
 const MessageBubble = styled.div`
-  background: ${theme.white};
+  background: ${theme.gray200};
+  border: 1px solid ${theme.line};
   padding: 0.875rem 1rem;
   border-radius: 0 ${theme.borderRadius.lg} ${theme.borderRadius.lg} ${theme.borderRadius.lg};
-  box-shadow: ${theme.shadow};
-  max-width: 80%;
+  box-shadow: ${theme.shadowSm};
+  max-width: 85%;
 `;
 
 const MessageText = styled.div`
-  color: ${theme.gray900};
-  font-size: 0.9375rem;
+  font-family: ${theme.fontBody};
+  color: ${theme.gray800};
+  font-size: 0.92rem;
   line-height: 1.5;
   margin-bottom: 0.375rem;
 `;
 
 const MessageTime = styled.div`
   color: ${theme.gray500};
-  font-size: 0.6875rem;
+  font-size: 0.68rem;
   text-align: right;
 `;
 
 const QuickReplies = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.625rem;
+  gap: 0.6rem;
 `;
 
 const QuickRepliesTitle = styled.div`
-  font-size: 0.8125rem;
-  color: ${theme.gray600};
+  font-family: ${theme.fontBody};
+  font-size: 0.7rem;
   font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.gray500};
   margin-bottom: 0.25rem;
 `;
 
 const QuickReplyButton = styled.button`
   padding: 0.75rem 1rem;
-  background: ${theme.white};
-  border: 2px solid #25D366;
-  border-radius: ${theme.borderRadius.lg};
-  color: #25D366;
-  font-size: 0.875rem;
+  background: ${theme.gray200};
+  border: 1px solid ${theme.lineStrong};
+  border-radius: ${theme.borderRadius.md};
+  color: ${theme.gray700};
+  font-family: ${theme.fontBody};
+  font-size: 0.86rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all ${theme.transition.fast};
   text-align: left;
   line-height: 1.4;
 
   &:hover {
-    background: #25D366;
+    background: rgba(199, 123, 59, 0.08);
+    border-color: ${theme.copperLine};
     color: ${theme.white};
-    transform: translateX(5px);
+    transform: translateX(4px);
   }
 `;
 
 const ChatFooter = styled.div`
   padding: 1rem;
-  background: ${theme.white};
-  border-top: 1px solid ${theme.gray200};
+  background: ${theme.gray100};
+  border-top: 1px solid ${theme.line};
   display: flex;
   gap: 0.75rem;
   align-items: center;
@@ -408,19 +439,22 @@ const ChatFooter = styled.div`
 const MessageInput = styled.input`
   flex: 1;
   padding: 0.75rem 1rem;
-  border: 2px solid ${theme.gray300};
+  background: ${theme.gray50};
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.full};
-  font-size: 0.9375rem;
-  transition: all 0.3s ease;
+  color: ${theme.gray900};
+  font-family: ${theme.fontBody};
+  font-size: 0.9rem;
+  transition: all ${theme.transition.fast};
 
   &:focus {
     outline: none;
-    border-color: #25D366;
-    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+    border-color: ${theme.primary};
+    box-shadow: 0 0 0 3px rgba(199, 123, 59, 0.15);
   }
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: ${theme.gray500};
   }
 `;
 
@@ -428,23 +462,24 @@ const SendButton = styled.button`
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #25D366;
-  color: ${theme.white};
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.25rem;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 1.2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   flex-shrink: 0;
+  box-shadow: ${theme.shadowCopper};
 
   &:hover {
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(199, 123, 59, 0.4);
   }
 
   &:active {
-    transform: scale(1.05);
+    transform: translateY(0);
   }
 `;

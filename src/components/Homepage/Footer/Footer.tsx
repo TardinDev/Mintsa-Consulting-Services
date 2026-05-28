@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import theme from '../../../utils/Theme/theme';
 import { services, agreements, recognitions } from '../../../utils/data/footerData';
-import { FaAddressCard, FaFacebook, FaInstagram, FaLinkedin, FaMap, FaPhone, FaPinterest, FaTwitter, FaYoutube } from 'react-icons/fa';
-import { FaMessage } from 'react-icons/fa6';
+import { FaFacebook, FaInstagram, FaLinkedin, FaPinterest, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaLocationDot, FaPhone, FaEnvelope } from 'react-icons/fa6';
 import FooterSection from './FooterSection';
 import SocialIcons from './SocialIcons';
 
@@ -15,81 +15,101 @@ type SocialLinkType = {
 
 // Définir le tableau socialLinks
 const socialLinks: SocialLinkType[] = [
-  { icon: <FaTwitter size={25} color="#1DA1F2" />, href: "#", aria: "Twitter" },
-  { icon: <FaFacebook size={25} color="#1877F2" />, href: "https://www.facebook.com/cedriclebonheur/?locale=fr_FR", aria: "Facebook" },
-  { icon: <FaLinkedin size={25} color="#0A66C2" />, href: "#", aria: "LinkedIn" },
-  { icon: <FaInstagram size={25} color="#E4405F" />, href: "#", aria: "Instagram" },
-  { icon: <FaPinterest size={25} color="#BD081C" />, href: "#", aria: "Pinterest" },
-  { icon: <FaYoutube size={25} color="#FF0000" />, href: "#", aria: "YouTube" },
+  { icon: <FaTwitter size={17} />, href: "#", aria: "Twitter" },
+  { icon: <FaFacebook size={17} />, href: "https://www.facebook.com/cedriclebonheur/?locale=fr_FR", aria: "Facebook" },
+  { icon: <FaLinkedin size={17} />, href: "#", aria: "LinkedIn" },
+  { icon: <FaInstagram size={17} />, href: "#", aria: "Instagram" },
+  { icon: <FaPinterest size={17} />, href: "#", aria: "Pinterest" },
+  { icon: <FaYoutube size={17} />, href: "#", aria: "YouTube" },
 ];
 
 const Footer: React.FC = () => (
   <FooterContainer>
+    <FooterGlow aria-hidden="true" />
+    <FooterWatermark aria-hidden="true">M</FooterWatermark>
+
     <FooterContent>
-      <FooterSection title="SERVICES">
-        <ServiceList>
-          {services.map((service, index) => (
-            <ServiceItem key={index}>{service}</ServiceItem>
-          ))}
-        </ServiceList>
-      </FooterSection>
+      {/* Bloc éditorial de marque */}
+      <BrandColumn>
+        <BrandName>
+          Mintsa<BrandMark>.</BrandMark>
+        </BrandName>
+        <BrandTagline>
+          Agence de conseil &amp; services au Gabon. L'expertise qui fait{' '}
+          <Emphasis>avancer</Emphasis> vos projets — de l'administratif au fiscal,
+          de l'automobile à l'immobilier.
+        </BrandTagline>
 
-      <FooterSection title="AGRÉMENTS">
-        <ServiceList>
-          {agreements.map((agreement, index) => (
-            <ServiceItem key={index}>{agreement}</ServiceItem>
-          ))}
-        </ServiceList>
-      </FooterSection>
-
-      <FooterSection title="CONTACTEZ-NOUS">
         <ContactList>
           <ContactItem>
-            <ContactIcon>
-              <FaPhone size={20} color={theme.white} />
+            <ContactIcon aria-hidden="true">
+              <FaPhone size={14} />
             </ContactIcon>
             <ContactText>+241 74 85 34 84 / 62 43 75 11</ContactText>
           </ContactItem>
-          
+
           <ContactItem>
-            <ContactIcon>
-              <FaMessage size={20} color={theme.white} />
+            <ContactIcon aria-hidden="true">
+              <FaEnvelope size={14} />
             </ContactIcon>
             <ContactLink href="mailto:mintsaservicesc@gmail.com">
               mintsaservicesc@gmail.com
             </ContactLink>
           </ContactItem>
-          
+
           <ContactItem>
-            <ContactIcon>
-              <FaAddressCard size={20} color={theme.white} />
+            <ContactIcon aria-hidden="true">
+              <FaLocationDot size={14} />
             </ContactIcon>
-            <ContactText>Akourname 1, Owendo</ContactText>
-          </ContactItem>
-          
-          <ContactItem>
-            <ContactIcon>
-              <FaMap size={20} color={theme.white} />
-            </ContactIcon>
-            <ContactLink href="#">Voir sur la carte</ContactLink>
+            <ContactText>Akournam 1, Owendo — Libreville, Gabon</ContactText>
           </ContactItem>
         </ContactList>
-      </FooterSection>
+      </BrandColumn>
 
-      <FooterSection title="RESTEZ CONNECTÉ">
-        <SocialIcons links={socialLinks} />
-        <RecognitionTitle>RECONNU PAR</RecognitionTitle>
-        <ServiceList>
-          {recognitions.map((item, index) => (
-            <ServiceItem key={index}>{item}</ServiceItem>
-          ))}
-        </ServiceList>
-      </FooterSection>
+      {/* Colonnes de liens */}
+      <LinksGrid>
+        <FooterSection title="Services">
+          <LinkList>
+            {services.map((service, index) => (
+              <LinkItem key={index} as="li">
+                <LinkAnchor href="#">{service}</LinkAnchor>
+              </LinkItem>
+            ))}
+          </LinkList>
+        </FooterSection>
+
+        <FooterSection title="Agréments">
+          <LinkList>
+            {agreements.map((agreement, index) => (
+              <LinkItem key={index} as="li">
+                <LinkAnchor href="#">{agreement}</LinkAnchor>
+              </LinkItem>
+            ))}
+          </LinkList>
+        </FooterSection>
+
+        <FooterSection title="Reconnu par">
+          <LinkList>
+            {recognitions.map((item, index) => (
+              <LinkItem key={index} as="li">
+                <RecognitionText>{item}</RecognitionText>
+              </LinkItem>
+            ))}
+          </LinkList>
+
+          <SocialBlock>
+            <SectionLabel>Restez connecté</SectionLabel>
+            <SocialIcons links={socialLinks} />
+          </SocialBlock>
+        </FooterSection>
+      </LinksGrid>
     </FooterContent>
+
+    <CopperRule aria-hidden="true" />
 
     <FooterBottom>
       <FooterBottomContent>
-        <Copyright>&copy; 2026 Mintsa Services. Tous droits reserves.</Copyright>
+        <Copyright>&copy; 2026 Mintsa Services. Tous droits réservés.</Copyright>
         <FooterLinks>
           <FooterLink href="#">Politique de confidentialité</FooterLink>
           <FooterLink href="#">Conditions d'utilisation</FooterLink>
@@ -97,137 +117,234 @@ const Footer: React.FC = () => (
         </FooterLinks>
       </FooterBottomContent>
       <DevelopedBy>
-        Développé par <DeveloperLink href="https://evoubap.com" target="_blank" rel="noopener noreferrer">evoubap.com</DeveloperLink>
+        Développé par{' '}
+        <DeveloperLink href="https://evoubap.com" target="_blank" rel="noopener noreferrer">
+          evoubap.com
+        </DeveloperLink>
       </DevelopedBy>
     </FooterBottom>
   </FooterContainer>
 );
 
 const FooterContainer = styled.footer`
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
   position: relative;
+  background: ${theme.black};
+  color: ${theme.gray600};
   overflow: hidden;
+  isolation: isolate;
+  border-top: 1px solid ${theme.copperLine};
+`;
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23ffffff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ffffff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="200" r="100" fill="url(%23a)"/><circle cx="800" cy="300" r="150" fill="url(%23a)"/><circle cx="400" cy="700" r="120" fill="url(%23a)"/></svg>');
-    opacity: 0.3;
-    animation: float 20s ease-in-out infinite;
-  }
+/* Lueur cuivrée diffuse — cohérente avec le Hero */
+const FooterGlow = styled.div`
+  position: absolute;
+  top: -30%;
+  left: -10%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 760px;
+  max-height: 760px;
+  background: radial-gradient(circle, rgba(199, 123, 59, 0.14) 0%, rgba(199, 123, 59, 0.04) 40%, transparent 66%);
+  pointer-events: none;
+  z-index: -1;
+`;
+
+/* Initiale géante en filigrane */
+const FooterWatermark = styled.div`
+  position: absolute;
+  bottom: -14%;
+  right: -2%;
+  font-family: ${theme.fontDisplay};
+  font-size: 34vw;
+  font-weight: 600;
+  line-height: 0.7;
+  color: rgba(237, 230, 216, 0.018);
+  pointer-events: none;
+  z-index: -1;
+  user-select: none;
 `;
 
 const FooterContent = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 3rem;
-  padding: 4rem 2rem;
-  max-width: 1200px;
+  grid-template-columns: 1fr 1.4fr;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  padding: clamp(3.5rem, 6vw, 6rem) 2rem clamp(2.5rem, 4vw, 3.5rem);
+  max-width: 1240px;
   margin: 0 auto;
   position: relative;
   z-index: 2;
 
-  @media (max-width: ${theme.breakpoints.md}) {
+  @media (max-width: ${theme.breakpoints.lg}) {
     grid-template-columns: 1fr;
-    gap: 2rem;
-    padding: 2rem 1rem;
+    gap: 3rem;
+  }
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    padding: 3rem 1.25rem 2rem;
   }
 `;
 
-const ServiceList = styled.ul`
-  list-style: none;
-  padding: 0;
-  margin: 0;
+const BrandColumn = styled.div`
+  max-width: 420px;
 `;
 
-const ServiceItem = styled.li`
-  padding: 0.5rem 0;
-  color: rgba(255, 255, 255, 0.9);
-  transition: all ${theme.transition.fast};
-  cursor: pointer;
+const BrandName = styled.div`
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2.4rem, 4vw, 3.2rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1;
+  letter-spacing: -0.03em;
+  font-variation-settings: 'opsz' 144;
+`;
 
-  &:hover {
-    color: ${theme.white};
-    transform: translateX(5px);
-  }
+const BrandMark = styled.span`
+  color: ${theme.primary};
+`;
 
-  &::before {
-    content: '•';
-    color: ${theme.secondary};
-    font-weight: bold;
-    margin-right: 0.5rem;
-  }
+const Emphasis = styled.em`
+  font-style: italic;
+  font-weight: 500;
+  color: ${theme.primaryLight};
+`;
+
+const BrandTagline = styled.p`
+  font-family: ${theme.fontBody};
+  font-size: 1rem;
+  color: ${theme.gray600};
+  line-height: 1.7;
+  margin: 1.5rem 0 2.25rem;
 `;
 
 const ContactList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 1.1rem;
 `;
 
 const ContactItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  transition: all ${theme.transition.fast};
-
-  &:hover {
-    transform: translateX(5px);
-  }
+  gap: 0.85rem;
 `;
 
 const ContactIcon = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: ${theme.borderRadius.full};
-  backdrop-filter: blur(10px);
-`;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  color: ${theme.primary};
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.md};
+  transition: border-color ${theme.transition.fast}, color ${theme.transition.fast};
 
-const ContactText = styled.span`
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: 500;
-`;
-
-const ContactLink = styled.a`
-  color: rgba(255, 255, 255, 0.9);
-  text-decoration: none;
-  font-weight: 500;
-  transition: all ${theme.transition.fast};
-
-  &:hover {
-    color: ${theme.white};
-    text-decoration: underline;
+  ${ContactItem}:hover & {
+    border-color: ${theme.copperLine};
+    color: ${theme.primaryLight};
   }
 `;
 
-const RecognitionTitle = styled.h3`
-  font-family: 'Plus Jakarta Sans Variable', sans-serif;
-  font-size: 0.85rem;
-  font-weight: 700;
-  margin: 2rem 0 1rem 0;
-  color: ${theme.secondary};
+const ContactText = styled.span`
+  font-family: ${theme.fontBody};
+  color: ${theme.gray700};
+  font-size: 0.94rem;
+  line-height: 1.5;
+`;
+
+const ContactLink = styled.a`
+  font-family: ${theme.fontBody};
+  color: ${theme.gray700};
+  font-size: 0.94rem;
+  text-decoration: none;
+  transition: color ${theme.transition.fast};
+
+  &:hover {
+    color: ${theme.primaryLight};
+  }
+`;
+
+const LinksGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 4vw, 3rem);
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem 1.5rem;
+  }
+`;
+
+const LinkList = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+`;
+
+const LinkItem = styled.li`
+  list-style: none;
+`;
+
+const LinkAnchor = styled.a`
+  font-family: ${theme.fontBody};
+  font-size: 0.92rem;
+  color: ${theme.gray600};
+  text-decoration: none;
+  line-height: 1.4;
+  transition: color ${theme.transition.fast};
+  cursor: pointer;
+
+  &:hover {
+    color: ${theme.primaryLight};
+  }
+`;
+
+const RecognitionText = styled.span`
+  font-family: ${theme.fontBody};
+  font-size: 0.82rem;
+  color: ${theme.gray500};
+  line-height: 1.45;
+  display: block;
+`;
+
+const SocialBlock = styled.div`
+  margin-top: 2rem;
+`;
+
+const SectionLabel = styled.div`
+  font-family: ${theme.fontBody};
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  letter-spacing: 0.15em;
+  color: ${theme.gray500};
+  margin-bottom: 1rem;
+`;
+
+const CopperRule = styled.div`
+  max-width: 1240px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, ${theme.copperLine} 30%, ${theme.copperLine} 70%, transparent);
 `;
 
 const FooterBottom = styled.div`
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 2rem;
+  padding: 1.75rem 2rem 2.25rem;
   position: relative;
   z-index: 2;
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    padding: 1.5rem 1.25rem 2rem;
+  }
 `;
 
 const FooterBottomContent = styled.div`
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -242,68 +359,54 @@ const FooterBottomContent = styled.div`
 `;
 
 const Copyright = styled.div`
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.9rem;
+  font-family: ${theme.fontBody};
+  color: ${theme.gray500};
+  font-size: 0.84rem;
+  letter-spacing: 0.01em;
 `;
 
 const FooterLinks = styled.div`
   display: flex;
-  gap: 2rem;
+  gap: 1.75rem;
   flex-wrap: wrap;
 
   @media (max-width: ${theme.breakpoints.md}) {
     justify-content: center;
-    gap: 1rem;
+    gap: 1.25rem;
   }
 `;
 
 const FooterLink = styled.a`
-  color: rgba(255, 255, 255, 0.7);
+  font-family: ${theme.fontBody};
+  color: ${theme.gray500};
   text-decoration: none;
-  font-size: 0.9rem;
-  transition: all ${theme.transition.fast};
+  font-size: 0.84rem;
+  transition: color ${theme.transition.fast};
 
   &:hover {
-    color: ${theme.white};
-    text-decoration: underline;
+    color: ${theme.primaryLight};
   }
 `;
 
 const DevelopedBy = styled.div`
+  max-width: 1240px;
+  margin: 1.5rem auto 0;
   text-align: center;
   padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  margin-top: 1.5rem;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.85rem;
-  font-weight: 400;
+  border-top: 1px solid ${theme.line};
+  font-family: ${theme.fontBody};
+  color: ${theme.gray500};
+  font-size: 0.8rem;
 `;
 
 const DeveloperLink = styled.a`
-  color: ${theme.secondary};
+  color: ${theme.primary};
   text-decoration: none;
-  font-weight: 600;
-  transition: all ${theme.transition.fast};
-  position: relative;
+  font-weight: 500;
+  transition: color ${theme.transition.fast};
 
   &:hover {
-    color: ${theme.white};
-    text-shadow: 0 0 10px ${theme.secondary};
-  }
-
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: ${theme.secondary};
-    transition: width ${theme.transition.normal};
-  }
-
-  &:hover::after {
-    width: 100%;
+    color: ${theme.primaryLight};
   }
 `;
 

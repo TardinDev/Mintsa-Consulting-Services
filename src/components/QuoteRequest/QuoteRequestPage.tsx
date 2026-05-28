@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import theme from '../../utils/Theme/theme';
@@ -113,27 +113,34 @@ ${formData.message}
 
   return (
     <PageContainer>
-      <BackButton onClick={() => navigate('/')}>
-        <FaArrowLeft /> Retour à l'accueil
-      </BackButton>
-
+      <Glow aria-hidden="true" />
       <ContentWrapper>
+        <BackButton onClick={() => navigate('/')}>
+          <FaArrowLeft /> Retour à l'accueil
+        </BackButton>
+
         <HeaderSection>
-          <Title>Demandez Votre Devis Personnalisé</Title>
+          <Eyebrow>
+            <EyebrowDot aria-hidden="true" />
+            Devis personnalisé — Gabon
+          </Eyebrow>
+          <Title>
+            Demandez votre <Accent>devis</Accent> sur-mesure
+          </Title>
           <Subtitle>
             Décrivez-nous votre projet et recevez une réponse sur-mesure sous 24h. Notre équipe d'experts est prête à transformer vos ambitions en succès concrets.
           </Subtitle>
           <FeaturesList>
             <FeatureItem>
-              <CheckIcon>✓</CheckIcon>
+              <CheckIcon aria-hidden="true">✓</CheckIcon>
               <span>Réponse sous 24h garantie</span>
             </FeatureItem>
             <FeatureItem>
-              <CheckIcon>✓</CheckIcon>
+              <CheckIcon aria-hidden="true">✓</CheckIcon>
               <span>Devis gratuit et sans engagement</span>
             </FeatureItem>
             <FeatureItem>
-              <CheckIcon>✓</CheckIcon>
+              <CheckIcon aria-hidden="true">✓</CheckIcon>
               <span>Conseil d'expert personnalisé</span>
             </FeatureItem>
           </FeaturesList>
@@ -216,7 +223,7 @@ ${formData.message}
               <option value="">Sélectionnez un service</option>
               <optgroup label="Services de Conseil">
                 <option value="gestion-administrative">Gestion Administrative Complète</option>
-                <option value="comptable-fiscale">Expertise Comptable & Fiscale</option>
+                <option value="comptable-fiscale">Assistance Comptable et Fiscale</option>
                 <option value="creation-entreprise">Accompagnement Création d'Entreprise</option>
                 <option value="audit-conseil">Audit & Conseil Stratégique</option>
               </optgroup>
@@ -268,16 +275,17 @@ ${formData.message}
 
           <SubmitButton type="submit" disabled={isSubmitting}>
             {isSubmitting ? (
-              <>⏳ Envoi de votre demande en cours...</>
+              <>Envoi de votre demande en cours…</>
             ) : (
               <>
                 <FaPaperPlane /> Envoyer ma demande de devis
+                <ButtonArrow aria-hidden="true">→</ButtonArrow>
               </>
             )}
           </SubmitButton>
 
           <InfoBox>
-            <InfoTitle>📞 Besoin d'une réponse immédiate ?</InfoTitle>
+            <InfoTitle>Besoin d'une réponse immédiate ?</InfoTitle>
             <InfoText>
               Notre équipe est disponible du lundi au samedi de 8h à 18h pour répondre à toutes vos questions.
             </InfoText>
@@ -293,7 +301,7 @@ ${formData.message}
                 <FaEnvelope /> <a href="mailto:mintsaservicesc@gmail.com">mintsaservicesc@gmail.com</a>
               </ContactItem>
               <ContactItem>
-                📍 <strong>Akournam 1, Owendo</strong> - Libreville, Gabon
+                <FaBuilding /> <strong>Akournam 1, Owendo</strong> — Libreville, Gabon
               </ContactItem>
             </ContactDetails>
           </ContactInfo>
@@ -305,143 +313,173 @@ ${formData.message}
 
 export default QuoteRequestPage;
 
+const fadeInUp = keyframes`
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const pulse = keyframes`
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+`;
+
 const PageContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, ${theme.gray50} 0%, ${theme.white} 100%);
-  padding: 2rem;
+  background: ${theme.gradientConsulting};
+  padding: 7rem 2rem 4rem;
   position: relative;
+  overflow: hidden;
+  isolation: isolate;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 1rem;
+    padding: 5.5rem 1.25rem 3rem;
   }
 `;
 
-const BackButton = styled.button`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: ${theme.white};
-  color: ${theme.primary};
-  border: 2px solid ${theme.primary};
-  padding: 0.75rem 1.5rem;
-  border-radius: ${theme.borderRadius.full};
-  font-weight: 600;
-  cursor: pointer;
-  transition: all ${theme.transition.normal};
-  margin-bottom: 2rem;
-  box-shadow: ${theme.shadowSm};
-
-  &:hover {
-    background: ${theme.primary};
-    color: ${theme.white};
-    transform: translateX(-5px);
-    box-shadow: ${theme.shadowMd};
-  }
+const Glow = styled.div`
+  position: absolute;
+  top: -20%;
+  right: -8%;
+  width: 60vw;
+  height: 60vw;
+  max-width: 820px;
+  max-height: 820px;
+  background: radial-gradient(circle, rgba(199, 123, 59, 0.18) 0%, rgba(199, 123, 59, 0.05) 40%, transparent 66%);
+  pointer-events: none;
+  z-index: -1;
+  animation: ${fadeIn} 2s ease-out both;
 `;
 
 const ContentWrapper = styled.div`
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+`;
+
+const BackButton = styled.button`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  background: transparent;
+  color: ${theme.gray700};
+  border: 1px solid ${theme.lineStrong};
+  padding: 0.7rem 1.4rem;
+  border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
+  font-weight: 600;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 2.75rem;
+
+  svg { color: ${theme.primary}; }
+
+  &:hover {
+    border-color: ${theme.primary};
+    color: ${theme.white};
+    background: rgba(199, 123, 59, 0.08);
+    transform: translateX(-4px);
+  }
 `;
 
 const HeaderSection = styled.div`
-  text-align: center;
   margin-bottom: 3rem;
-  animation: fadeInUp 0.6s ease-out;
+  animation: ${fadeInUp} 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+`;
 
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+const Eyebrow = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.secondaryLight};
+  margin-bottom: 1.5rem;
+`;
+
+const EyebrowDot = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: ${theme.primary};
+  box-shadow: 0 0 12px ${theme.copperGlow};
+  animation: ${pulse} 2.4s ease-in-out infinite;
 `;
 
 const Title = styled.h1`
-  font-size: 3rem;
-  font-weight: 800;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1.04;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+`;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2.5rem;
-  }
-
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 2rem;
-  }
+const Accent = styled.span`
+  font-style: italic;
+  font-weight: 500;
+  color: ${theme.primaryLight};
+  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const Subtitle = styled.p`
-  font-size: 1.2rem;
+  font-family: ${theme.fontBody};
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
   color: ${theme.gray600};
   line-height: 1.7;
+  max-width: 620px;
   margin-bottom: 2rem;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1.1rem;
-  }
 `;
 
 const FeaturesList = styled.div`
   display: flex;
   gap: 2rem;
-  justify-content: center;
   flex-wrap: wrap;
-  margin-top: 1.5rem;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    gap: 1.5rem;
-  }
+  margin-top: 1.75rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid ${theme.line};
 
   @media (max-width: ${theme.breakpoints.sm}) {
     flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    gap: 0.85rem;
   }
 `;
 
 const FeatureItem = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  font-size: 1rem;
+  gap: 0.7rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.95rem;
   color: ${theme.gray700};
   font-weight: 500;
-
-  @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 0.95rem;
-  }
 `;
 
 const CheckIcon = styled.span`
-  background: ${theme.success};
-  color: ${theme.white};
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 800;
-  font-size: 0.875rem;
+  color: ${theme.primary};
+  font-weight: 700;
+  font-size: 0.95rem;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px ${theme.success}40;
 `;
 
 const FormCard = styled.form`
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.xl};
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.lg};
   padding: 3rem;
-  box-shadow: ${theme.shadowXl};
-  animation: fadeInUp 0.8s ease-out 0.2s both;
+  box-shadow: ${theme.shadowLg};
+  animation: ${fadeInUp} 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
 
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 2rem;
@@ -473,151 +511,140 @@ const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: ${theme.fontBody};
   font-weight: 600;
-  color: ${theme.gray700};
-  margin-bottom: 0.5rem;
-  font-size: 0.95rem;
+  color: ${theme.gray600};
+  margin-bottom: 0.6rem;
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+
+  svg { color: ${theme.primary}; font-size: 0.85rem; }
 `;
 
-const Input = styled.input`
-  padding: 0.875rem 1rem;
-  border: 2px solid ${theme.gray300};
-  border-radius: ${theme.borderRadius.lg};
+const fieldStyles = `
+  padding: 0.95rem 1.1rem;
+  border: 1px solid ${theme.lineStrong};
+  border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-size: 1rem;
-  transition: all ${theme.transition.normal};
-  background: ${theme.white};
+  color: ${theme.gray900};
+  background: ${theme.gray200};
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
     border-color: ${theme.primary};
-    box-shadow: 0 0 0 3px ${theme.primary}20;
+    box-shadow: 0 0 0 3px ${theme.copperGlow};
   }
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: ${theme.gray500};
   }
 `;
 
+const Input = styled.input`
+  ${fieldStyles}
+`;
+
 const Select = styled.select`
-  padding: 0.875rem 1rem;
-  border: 2px solid ${theme.gray300};
-  border-radius: ${theme.borderRadius.lg};
-  font-size: 1rem;
-  transition: all ${theme.transition.normal};
-  background: ${theme.white};
+  ${fieldStyles}
   cursor: pointer;
 
-  &:focus {
-    outline: none;
-    border-color: ${theme.primary};
-    box-shadow: 0 0 0 3px ${theme.primary}20;
+  option, optgroup {
+    background: ${theme.gray100};
+    color: ${theme.gray900};
   }
 `;
 
 const TextArea = styled.textarea`
-  padding: 0.875rem 1rem;
-  border: 2px solid ${theme.gray300};
-  border-radius: ${theme.borderRadius.lg};
-  font-size: 1rem;
-  transition: all ${theme.transition.normal};
-  background: ${theme.white};
+  ${fieldStyles}
   resize: vertical;
-  font-family: inherit;
+`;
 
-  &:focus {
-    outline: none;
-    border-color: ${theme.primary};
-    box-shadow: 0 0 0 3px ${theme.primary}20;
-  }
-
-  &::placeholder {
-    color: ${theme.gray400};
-  }
+const ButtonArrow = styled.span`
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
 `;
 
 const SubmitButton = styled.button`
   width: 100%;
-  padding: 1.25rem 2rem;
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
+  padding: 1.15rem 2rem;
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border: none;
   border-radius: ${theme.borderRadius.full};
-  font-size: 1.1rem;
+  font-family: ${theme.fontBody};
+  font-size: 1.02rem;
   font-weight: 700;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all ${theme.transition.normal};
+  transition: all 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  box-shadow: ${theme.shadowLg};
-  margin-top: 2rem;
+  gap: 0.7rem;
+  box-shadow: ${theme.shadowCopper};
+  margin-top: 1.5rem;
 
   &:hover:not(:disabled) {
     transform: translateY(-3px);
-    box-shadow: ${theme.shadow2xl};
+    box-shadow: 0 16px 44px rgba(199, 123, 59, 0.42);
   }
+  &:hover:not(:disabled) ${ButtonArrow} { transform: translateX(5px); }
 
   &:active:not(:disabled) {
     transform: translateY(-1px);
   }
 
   &:disabled {
-    opacity: 0.7;
+    opacity: 0.6;
     cursor: not-allowed;
   }
 `;
 
 const SuccessMessage = styled.div`
-  background: ${theme.success}20;
+  background: rgba(106, 168, 134, 0.12);
   color: ${theme.success};
-  padding: 1rem;
-  border-radius: ${theme.borderRadius.lg};
-  text-align: center;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(106, 168, 134, 0.4);
+  border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-weight: 600;
   margin-top: 1rem;
-  animation: slideIn 0.3s ease-out;
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  animation: ${fadeInUp} 0.4s ease-out;
 `;
 
 const ErrorMessage = styled.div`
-  background: ${theme.error}20;
+  background: rgba(208, 106, 91, 0.12);
   color: ${theme.error};
-  padding: 1rem;
-  border-radius: ${theme.borderRadius.lg};
-  text-align: center;
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(208, 106, 91, 0.4);
+  border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-weight: 600;
   margin-top: 1rem;
-  animation: slideIn 0.3s ease-out;
+  animation: ${fadeInUp} 0.4s ease-out;
 `;
 
 const InfoBox = styled.div`
-  background: linear-gradient(135deg, ${theme.primary}10 0%, ${theme.secondary}10 100%);
-  border-left: 4px solid ${theme.primary};
-  border-radius: ${theme.borderRadius.lg};
+  background: ${theme.gray200};
+  border-left: 2px solid ${theme.primary};
+  border-radius: ${theme.borderRadius.md};
   padding: 1.5rem;
   margin-top: 2rem;
-  text-align: center;
 `;
 
 const InfoTitle = styled.h4`
-  font-size: 1.125rem;
-  color: ${theme.gray900};
+  font-family: ${theme.fontDisplay};
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: ${theme.white};
   margin-bottom: 0.5rem;
-  font-weight: 700;
+  letter-spacing: -0.01em;
 `;
 
 const InfoText = styled.p`
+  font-family: ${theme.fontBody};
   color: ${theme.gray600};
   font-size: 0.95rem;
   line-height: 1.6;
@@ -626,15 +653,17 @@ const InfoText = styled.p`
 const ContactInfo = styled.div`
   margin-top: 2.5rem;
   padding-top: 2rem;
-  border-top: 2px solid ${theme.gray200};
-  text-align: center;
+  border-top: 1px solid ${theme.line};
 `;
 
 const ContactTitle = styled.h3`
-  font-size: 1.25rem;
-  color: ${theme.gray900};
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.gray500};
   margin-bottom: 1.5rem;
-  font-weight: 700;
 `;
 
 const ContactDetails = styled.div`
@@ -646,10 +675,10 @@ const ContactDetails = styled.div`
 const ContactItem = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-  color: ${theme.gray700};
-  font-size: 1.05rem;
+  gap: 0.7rem;
+  font-family: ${theme.fontBody};
+  color: ${theme.gray600};
+  font-size: 1rem;
   line-height: 1.5;
 
   svg {
@@ -658,19 +687,19 @@ const ContactItem = styled.div`
   }
 
   a {
-    color: ${theme.primary};
+    color: ${theme.primaryLight};
     text-decoration: none;
     font-weight: 600;
     transition: all ${theme.transition.fast};
 
     &:hover {
-      color: ${theme.primaryDark};
+      color: ${theme.secondaryLight};
       text-decoration: underline;
     }
   }
 
   strong {
-    color: ${theme.gray900};
-    font-weight: 700;
+    color: ${theme.gray800};
+    font-weight: 600;
   }
 `;

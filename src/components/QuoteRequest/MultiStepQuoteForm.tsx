@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import emailjs from '@emailjs/browser';
 import theme from '../../utils/Theme/theme';
@@ -186,13 +186,20 @@ Horaire préféré: ${formData.preferredTime || 'Non spécifié'}
 
   return (
     <PageContainer>
-      <BackButton onClick={() => navigate('/')}>
-        <FaArrowLeft /> Retour à l'accueil
-      </BackButton>
-
+      <Glow aria-hidden="true" />
       <ContentWrapper>
+        <BackButton onClick={() => navigate('/')}>
+          <FaArrowLeft /> Retour à l'accueil
+        </BackButton>
+
         <HeaderSection>
-          <Title>Demande de Devis en 3 Étapes</Title>
+          <Eyebrow>
+            <EyebrowDot aria-hidden="true" />
+            Devis en 3 étapes
+          </Eyebrow>
+          <Title>
+            Votre devis, <Accent>étape par étape</Accent>
+          </Title>
           <Subtitle>
             Un processus simple et rapide pour obtenir votre devis personnalisé
           </Subtitle>
@@ -305,7 +312,7 @@ Horaire préféré: ${formData.preferredTime || 'Non spécifié'}
                   <option value="">Sélectionnez un service</option>
                   <optgroup label="Services de Conseil">
                     <option value="gestion-administrative">Gestion Administrative Complète</option>
-                    <option value="comptable-fiscale">Expertise Comptable & Fiscale</option>
+                    <option value="comptable-fiscale">Assistance Comptable et Fiscale</option>
                     <option value="creation-entreprise">Accompagnement Création d'Entreprise</option>
                     <option value="audit-conseil">Audit & Conseil Stratégique</option>
                   </optgroup>
@@ -494,77 +501,148 @@ Horaire préféré: ${formData.preferredTime || 'Non spécifié'}
 export default MultiStepQuoteForm;
 
 // Styled Components
+const fadeInUp = keyframes`
+  from { opacity: 0; transform: translateY(28px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const fadeIn = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
+
+const stepIn = keyframes`
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+`;
+
+const pulse = keyframes`
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+`;
+
 const PageContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, ${theme.gray50} 0%, ${theme.white} 100%);
-  padding: 2rem;
+  background: ${theme.gradientConsulting};
+  padding: 7rem 2rem 4rem;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 1rem;
+    padding: 5.5rem 1.25rem 3rem;
   }
+`;
+
+const Glow = styled.div`
+  position: absolute;
+  top: -20%;
+  right: -8%;
+  width: 60vw;
+  height: 60vw;
+  max-width: 820px;
+  max-height: 820px;
+  background: radial-gradient(circle, rgba(199, 123, 59, 0.18) 0%, rgba(199, 123, 59, 0.05) 40%, transparent 66%);
+  pointer-events: none;
+  z-index: -1;
+  animation: ${fadeIn} 2s ease-out both;
 `;
 
 const BackButton = styled.button`
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background: ${theme.white};
-  color: ${theme.primary};
-  border: 2px solid ${theme.primary};
+  gap: 0.55rem;
+  padding: 0.7rem 1.4rem;
+  background: transparent;
+  color: ${theme.gray700};
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 600;
+  font-size: 0.92rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  margin-bottom: 2rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-bottom: 2.75rem;
+
+  svg { color: ${theme.primary}; }
 
   &:hover {
-    background: ${theme.primary};
+    border-color: ${theme.primary};
     color: ${theme.white};
-    transform: translateX(-5px);
+    background: rgba(199, 123, 59, 0.08);
+    transform: translateX(-4px);
   }
 `;
 
 const ContentWrapper = styled.div`
   max-width: 900px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 `;
 
 const HeaderSection = styled.div`
-  text-align: center;
   margin-bottom: 3rem;
+  animation: ${fadeInUp} 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+`;
+
+const Eyebrow = styled.div`
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.secondaryLight};
+  margin-bottom: 1.5rem;
+`;
+
+const EyebrowDot = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: ${theme.primary};
+  box-shadow: 0 0 12px ${theme.copperGlow};
+  animation: ${pulse} 2.4s ease-in-out infinite;
 `;
 
 const Title = styled.h1`
-  font-size: 2.5rem;
-  font-weight: 800;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2.2rem, 4.6vw, 3.3rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1.05;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.1rem;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+`;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2rem;
-  }
+const Accent = styled.span`
+  font-style: italic;
+  font-weight: 500;
+  color: ${theme.primaryLight};
+  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const Subtitle = styled.p`
-  font-size: 1.125rem;
+  font-family: ${theme.fontBody};
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
   color: ${theme.gray600};
   max-width: 600px;
-  margin: 0 auto;
+  line-height: 1.65;
 `;
 
 const ProgressContainer = styled.div`
   margin-bottom: 3rem;
   position: relative;
+  animation: ${fadeInUp} 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
 `;
 
 const ProgressBar = styled.div<{ $progress: number }>`
-  height: 6px;
-  background: ${theme.gray200};
-  border-radius: ${theme.borderRadius.full};
+  height: 2px;
+  background: ${theme.lineStrong};
   position: relative;
   overflow: hidden;
   margin-bottom: 2rem;
@@ -576,9 +654,8 @@ const ProgressBar = styled.div<{ $progress: number }>`
     top: 0;
     height: 100%;
     width: ${({ $progress }) => $progress}%;
-    background: ${theme.gradientPrimary};
-    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    border-radius: ${theme.borderRadius.full};
+    background: ${theme.gradientGold};
+    transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 `;
 
@@ -592,48 +669,53 @@ const Step = styled.div<{ $active: boolean; $current: boolean }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   flex: 1;
-  opacity: ${({ $active }) => ($active ? 1 : 0.5)};
-  transition: all 0.3s ease;
+  opacity: ${({ $active }) => ($active ? 1 : 0.45)};
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
 const StepIcon = styled.div<{ $active: boolean }>`
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: ${({ $active }) => ($active ? theme.gradientPrimary : theme.gray300)};
-  color: ${theme.white};
+  width: 52px;
+  height: 52px;
+  border-radius: ${theme.borderRadius.full};
+  background: ${({ $active }) => ($active ? theme.gradientGold : theme.gray200)};
+  color: ${({ $active }) => ($active ? theme.black : theme.gray500)};
+  border: 1px solid ${({ $active }) => ($active ? 'transparent' : theme.lineStrong)};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: ${({ $active }) => ($active ? theme.shadowLg : 'none')};
+  font-size: 1.3rem;
+  transition: all 0.4s cubic-bezier(0.34, 1.4, 0.64, 1);
+  box-shadow: ${({ $active }) => ($active ? theme.shadowCopper : 'none')};
 
   @media (max-width: ${theme.breakpoints.md}) {
-    width: 48px;
-    height: 48px;
-    font-size: 1.25rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1.1rem;
   }
 `;
 
 const StepLabel = styled.div`
-  font-size: 0.875rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.82rem;
   font-weight: 600;
-  color: ${theme.gray700};
+  letter-spacing: 0.02em;
+  color: ${theme.gray600};
   text-align: center;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 0.75rem;
+    font-size: 0.72rem;
   }
 `;
 
 const FormCard = styled.form`
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.xl};
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.lg};
   padding: 3rem;
-  box-shadow: ${theme.shadow2xl};
+  box-shadow: ${theme.shadowLg};
+  animation: ${fadeInUp} 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both;
 
   @media (max-width: ${theme.breakpoints.md}) {
     padding: 2rem 1.5rem;
@@ -641,30 +723,16 @@ const FormCard = styled.form`
 `;
 
 const StepContent = styled.div`
-  animation: fadeIn 0.4s ease;
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
+  animation: ${stepIn} 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 `;
 
 const StepTitle = styled.h2`
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: ${theme.gray900};
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(1.5rem, 3vw, 1.9rem);
+  font-weight: 600;
+  color: ${theme.white};
   margin-bottom: 2rem;
-  text-align: center;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1.5rem;
-  }
+  letter-spacing: -0.02em;
 `;
 
 const FormRow = styled.div`
@@ -681,93 +749,113 @@ const FormRow = styled.div`
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.6rem;
 `;
 
 const Label = styled.label`
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: ${theme.fontBody};
   font-weight: 600;
-  color: ${theme.gray700};
-  font-size: 0.95rem;
+  color: ${theme.gray600};
+  font-size: 0.85rem;
+  letter-spacing: 0.01em;
+
+  svg { color: ${theme.primary}; font-size: 0.85rem; }
 `;
 
 const Input = styled.input<{ $hasError?: boolean }>`
-  padding: 0.875rem 1rem;
-  border: 2px solid ${({ $hasError }) => ($hasError ? theme.error : theme.gray300)};
+  padding: 0.95rem 1.1rem;
+  border: 1px solid ${({ $hasError }) => ($hasError ? theme.error : theme.lineStrong)};
   border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-size: 1rem;
-  transition: all 0.3s ease;
+  color: ${theme.gray900};
+  background: ${theme.gray200};
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
     border-color: ${({ $hasError }) => ($hasError ? theme.error : theme.primary)};
-    box-shadow: 0 0 0 3px ${({ $hasError }) => ($hasError ? `${theme.error}20` : `${theme.primary}20`)};
+    box-shadow: 0 0 0 3px ${({ $hasError }) => ($hasError ? 'rgba(208, 106, 91, 0.28)' : theme.copperGlow)};
   }
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: ${theme.gray500};
   }
 `;
 
 const Select = styled.select<{ $hasError?: boolean }>`
-  padding: 0.875rem 1rem;
-  border: 2px solid ${({ $hasError }) => ($hasError ? theme.error : theme.gray300)};
+  padding: 0.95rem 1.1rem;
+  border: 1px solid ${({ $hasError }) => ($hasError ? theme.error : theme.lineStrong)};
   border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-size: 1rem;
-  background: ${theme.white};
+  color: ${theme.gray900};
+  background: ${theme.gray200};
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+  option, optgroup {
+    background: ${theme.gray100};
+    color: ${theme.gray900};
+  }
 
   &:focus {
     outline: none;
     border-color: ${({ $hasError }) => ($hasError ? theme.error : theme.primary)};
-    box-shadow: 0 0 0 3px ${({ $hasError }) => ($hasError ? `${theme.error}20` : `${theme.primary}20`)};
+    box-shadow: 0 0 0 3px ${({ $hasError }) => ($hasError ? 'rgba(208, 106, 91, 0.28)' : theme.copperGlow)};
   }
 `;
 
 const TextArea = styled.textarea<{ $hasError?: boolean }>`
-  padding: 0.875rem 1rem;
-  border: 2px solid ${({ $hasError }) => ($hasError ? theme.error : theme.gray300)};
+  padding: 0.95rem 1.1rem;
+  border: 1px solid ${({ $hasError }) => ($hasError ? theme.error : theme.lineStrong)};
   border-radius: ${theme.borderRadius.md};
+  font-family: ${theme.fontBody};
   font-size: 1rem;
-  font-family: inherit;
+  color: ${theme.gray900};
+  background: ${theme.gray200};
   resize: vertical;
   min-height: 120px;
-  transition: all 0.3s ease;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:focus {
     outline: none;
     border-color: ${({ $hasError }) => ($hasError ? theme.error : theme.primary)};
-    box-shadow: 0 0 0 3px ${({ $hasError }) => ($hasError ? `${theme.error}20` : `${theme.primary}20`)};
+    box-shadow: 0 0 0 3px ${({ $hasError }) => ($hasError ? 'rgba(208, 106, 91, 0.28)' : theme.copperGlow)};
   }
 
   &::placeholder {
-    color: ${theme.gray400};
+    color: ${theme.gray500};
   }
 `;
 
 const ErrorMessage = styled.div`
   color: ${theme.error};
-  font-size: 0.875rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.85rem;
   font-weight: 500;
-  margin-top: -0.25rem;
 `;
 
 const SummarySection = styled.div`
   margin-top: 2rem;
-  padding: 1.5rem;
-  background: linear-gradient(135deg, ${theme.primary}08 0%, ${theme.secondary}08 100%);
-  border-radius: ${theme.borderRadius.lg};
-  border: 2px solid ${theme.primary}20;
+  padding: 1.75rem;
+  background: ${theme.gray200};
+  border-radius: ${theme.borderRadius.md};
+  border: 1px solid ${theme.line};
+  border-left: 2px solid ${theme.primary};
 `;
 
 const SummaryTitle = styled.h3`
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: ${theme.gray900};
-  margin-bottom: 1rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: ${theme.gray500};
+  margin-bottom: 1.25rem;
 `;
 
 const SummaryGrid = styled.div`
@@ -783,20 +871,22 @@ const SummaryGrid = styled.div`
 const SummaryItem = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 `;
 
 const SummaryLabel = styled.div`
-  font-size: 0.875rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.72rem;
   font-weight: 600;
-  color: ${theme.gray600};
+  color: ${theme.gray500};
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.1em;
 `;
 
 const SummaryValue = styled.div`
+  font-family: ${theme.fontBody};
   font-size: 0.95rem;
-  color: ${theme.gray900};
+  color: ${theme.gray800};
   font-weight: 500;
 `;
 
@@ -804,7 +894,7 @@ const NavigationButtons = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 1rem;
-  margin-top: 2rem;
+  margin-top: 2.5rem;
 
   @media (max-width: ${theme.breakpoints.md}) {
     flex-direction: column-reverse;
@@ -812,25 +902,27 @@ const NavigationButtons = styled.div`
 `;
 
 const PrimaryButton = styled.button`
-  padding: 1rem 2.5rem;
-  background: ${theme.gradientPrimary};
-  color: ${theme.white};
+  padding: 1rem 2.4rem;
+  background: ${theme.gradientGold};
+  color: ${theme.black};
   border: none;
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 700;
-  font-size: 1.0625rem;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.5s cubic-bezier(0.34, 1.4, 0.64, 1);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   justify-content: center;
-  box-shadow: ${theme.shadowMd};
+  box-shadow: ${theme.shadowCopper};
   margin-left: auto;
 
   &:hover:not(:disabled) {
     transform: translateY(-3px);
-    box-shadow: ${theme.shadow2xl};
+    box-shadow: 0 16px 44px rgba(199, 123, 59, 0.42);
   }
 
   &:disabled {
@@ -845,25 +937,26 @@ const PrimaryButton = styled.button`
 `;
 
 const SecondaryButton = styled.button`
-  padding: 1rem 2.5rem;
-  background: ${theme.white};
-  color: ${theme.primary};
-  border: 2px solid ${theme.primary};
+  padding: 1rem 2.4rem;
+  background: transparent;
+  color: ${theme.gray800};
+  border: 1px solid ${theme.lineStrong};
   border-radius: ${theme.borderRadius.full};
-  font-weight: 700;
-  font-size: 1.0625rem;
+  font-family: ${theme.fontBody};
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 0.01em;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.6rem;
   justify-content: center;
 
   &:hover {
-    background: ${theme.primary};
+    border-color: ${theme.primary};
     color: ${theme.white};
-    transform: translateY(-3px);
-    box-shadow: ${theme.shadowMd};
+    background: rgba(199, 123, 59, 0.08);
   }
 
   @media (max-width: ${theme.breakpoints.md}) {
@@ -873,11 +966,12 @@ const SecondaryButton = styled.button`
 
 const SuccessMessage = styled.div`
   margin-top: 1.5rem;
-  padding: 1.25rem;
-  background: rgba(34, 197, 94, 0.1);
-  border: 2px solid ${theme.success};
-  border-radius: ${theme.borderRadius.lg};
+  padding: 1.25rem 1.4rem;
+  background: rgba(106, 168, 134, 0.12);
+  border: 1px solid rgba(106, 168, 134, 0.4);
+  border-radius: ${theme.borderRadius.md};
   color: ${theme.success};
+  font-family: ${theme.fontBody};
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -887,11 +981,12 @@ const SuccessMessage = styled.div`
 
 const ErrorMessageBox = styled.div`
   margin-top: 1.5rem;
-  padding: 1.25rem;
-  background: rgba(239, 68, 68, 0.1);
-  border: 2px solid ${theme.error};
-  border-radius: ${theme.borderRadius.lg};
+  padding: 1.25rem 1.4rem;
+  background: rgba(208, 106, 91, 0.12);
+  border: 1px solid rgba(208, 106, 91, 0.4);
+  border-radius: ${theme.borderRadius.md};
   color: ${theme.error};
+  font-family: ${theme.fontBody};
   font-weight: 600;
   font-size: 1rem;
 `;

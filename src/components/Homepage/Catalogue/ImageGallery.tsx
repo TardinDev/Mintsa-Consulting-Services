@@ -40,24 +40,26 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, alt, onImageClick }
         
         {images.length > 1 && (
           <>
-            <NavigationButton 
-              direction="left" 
+            <NavigationButton
+              $direction="left"
+              aria-label="Image précédente"
               onClick={(e) => {
                 e.stopPropagation();
                 prevImage();
               }}
             >
-              <FaChevronLeft size={16} />
+              <FaChevronLeft size={14} />
             </NavigationButton>
-            
-            <NavigationButton 
-              direction="right" 
+
+            <NavigationButton
+              $direction="right"
+              aria-label="Image suivante"
               onClick={(e) => {
                 e.stopPropagation();
                 nextImage();
               }}
             >
-              <FaChevronRight size={16} />
+              <FaChevronRight size={14} />
             </NavigationButton>
           </>
         )}
@@ -66,9 +68,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, alt, onImageClick }
       {images.length > 1 && (
         <DotsContainer>
           {images.map((_, index) => (
-            <Dot 
+            <Dot
               key={index}
-              active={index === currentImageIndex}
+              $active={index === currentImageIndex}
+              aria-label={`Aller à l'image ${index + 1}`}
               onClick={() => goToImage(index)}
             />
           ))}
@@ -83,9 +86,9 @@ export default ImageGallery;
 const GalleryContainer = styled.div`
   position: relative;
   width: 100%;
-  height: 200px;
+  height: 100%;
+  min-height: 180px;
   overflow: hidden;
-  border-radius: ${theme.borderRadius.lg} ${theme.borderRadius.lg} 0 0;
 `;
 
 const ImageContainer = styled.div`
@@ -99,78 +102,88 @@ const GalleryImage = styled.img`
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform ${theme.transition.normal};
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 
   ${ImageContainer}:hover & {
     transform: scale(1.05);
   }
 `;
 
-const NavigationButton = styled.button<{ direction: 'left' | 'right' }>`
+const NavigationButton = styled.button<{ $direction: 'left' | 'right' }>`
   position: absolute;
   top: 50%;
-  ${({ direction }) => direction === 'left' ? 'left: 1rem;' : 'right: 1rem;'}
+  ${({ $direction }) => ($direction === 'left' ? 'left: 0.75rem;' : 'right: 0.75rem;')}
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
+  background: rgba(20, 17, 14, 0.55);
+  border: 1px solid ${theme.lineStrong};
   border-radius: 50%;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.1rem;
+  height: 2.1rem;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all ${theme.transition.fast};
-  color: ${theme.gray700};
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: ${theme.gray800};
   backdrop-filter: blur(10px);
+  z-index: 5;
 
   &:hover {
-    background: ${theme.white};
-    transform: translateY(-50%) scale(1.1);
-    box-shadow: ${theme.shadowMd};
+    background: rgba(20, 17, 14, 0.8);
+    border-color: ${theme.copperLine};
+    color: ${theme.secondaryLight};
+    transform: translateY(-50%) scale(1.08);
   }
 
   &:active {
     transform: translateY(-50%) scale(0.95);
   }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 2px;
+  }
 `;
 
 const DotsContainer = styled.div`
   position: absolute;
-  bottom: 1rem;
+  bottom: 0.85rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 0.5rem;
-  z-index: 2;
+  gap: 0.45rem;
+  z-index: 5;
 `;
 
-const Dot = styled.button<{ active: boolean }>`
-  width: 0.75rem;
-  height: 0.75rem;
-  border-radius: 50%;
+const Dot = styled.button<{ $active: boolean }>`
+  width: ${({ $active }) => ($active ? '1.4rem' : '0.5rem')};
+  height: 0.5rem;
+  border-radius: ${theme.borderRadius.full};
   border: none;
-  background: ${({ active }) => 
-    active ? theme.white : 'rgba(255, 255, 255, 0.5)'
-  };
+  background: ${({ $active }) =>
+    $active ? theme.gradientGold : 'rgba(237, 230, 216, 0.4)'};
   cursor: pointer;
-  transition: all ${theme.transition.fast};
-  backdrop-filter: blur(10px);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    background: ${theme.white};
-    transform: scale(1.2);
+    background: ${({ $active }) => ($active ? theme.gradientGold : theme.secondaryLight)};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 2px;
   }
 `;
 
 const NoImage = styled.div`
   width: 100%;
-  height: 200px;
+  height: 100%;
+  min-height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${theme.gray100};
+  background: ${theme.gray200};
   color: ${theme.gray500};
-  font-size: 0.875rem;
-  border-radius: ${theme.borderRadius.lg} ${theme.borderRadius.lg} 0 0;
-`; 
+  font-family: ${theme.fontBody};
+  font-size: 0.85rem;
+`;

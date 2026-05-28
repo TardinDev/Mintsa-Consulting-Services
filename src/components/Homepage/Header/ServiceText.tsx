@@ -6,10 +6,10 @@ function ServiceText() {
   return (
     <ServiceTextStyle>
       <LogoBrand>
-        <LogoMark>M</LogoMark>
+        <LogoMark src="/mintsaservicesfiles/mintsa-icon.png" alt="Mintsa Services & Consulting" width={44} height={44} />
         <LogoTextBlock>
           <LogoPrimary>Mintsa</LogoPrimary>
-          <LogoSecondary>Services & Consulting</LogoSecondary>
+          <LogoSecondary>Services &amp; Consulting</LogoSecondary>
         </LogoTextBlock>
       </LogoBrand>
       <WhatsappLine>
@@ -34,25 +34,18 @@ const LogoBrand = styled.div`
   gap: 0.65rem;
 `;
 
-const LogoMark = styled.div`
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.75rem;
-  font-weight: 900;
-  color: ${theme.primaryDark};
-  background: ${theme.gradientGold};
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: ${theme.borderRadius.md};
-  line-height: 1;
+const LogoMark = styled.img`
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
   flex-shrink: 0;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45));
+  transition: transform 0.5s ${'cubic-bezier(0.34, 1.4, 0.64, 1)'};
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    width: 32px;
-    height: 32px;
-    font-size: 1.4rem;
+    width: 38px;
+    height: 38px;
   }
 `;
 
@@ -63,24 +56,25 @@ const LogoTextBlock = styled.div`
 `;
 
 const LogoPrimary = styled.div`
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: 1.35rem;
-  font-weight: 800;
+  font-family: ${theme.fontDisplay};
+  font-size: 1.4rem;
+  font-weight: 600;
   color: ${theme.white};
   line-height: 1.1;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 1.15rem;
+    font-size: 1.18rem;
   }
 `;
 
 const LogoSecondary = styled.div`
-  font-family: 'Plus Jakarta Sans Variable', sans-serif;
-  font-size: 0.65rem;
-  font-weight: 600;
-  color: ${theme.secondary};
-  letter-spacing: 0.12em;
+  font-family: ${theme.fontBody};
+  font-size: 0.64rem;
+  font-weight: 700;
+  color: ${theme.primary};
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   line-height: 1.2;
 `;
@@ -89,10 +83,10 @@ const WhatsappLine = styled.div`
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  padding-left: calc(38px + 0.65rem);
+  padding-left: calc(44px + 0.65rem);
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    padding-left: calc(32px + 0.65rem);
+    padding-left: calc(38px + 0.65rem);
   }
 
   @media (max-width: 480px) {
@@ -101,8 +95,9 @@ const WhatsappLine = styled.div`
 `;
 
 const PhoneText = styled.span`
+  font-family: ${theme.fontBody};
   font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.55);
+  color: ${theme.gray600};
   font-weight: 500;
   letter-spacing: 0.02em;
 `;

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FaQuoteLeft, FaStar, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaStar, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
 import theme from '../../../utils/Theme/theme';
 
 interface Testimonial {
@@ -91,83 +91,97 @@ const Testimonials: React.FC = () => {
   const currentTestimonial = testimonialsData[currentIndex];
 
   return (
-    <TestimonialsContainer id="testimonials">
-      <TestimonialsHeader>
-        <TestimonialEyebrow>Temoignages</TestimonialEyebrow>
-        <Title>Ce Que Disent Nos Clients</Title>
-        <TestimonialDivider />
-        <Subtitle>
-          Plus de 200 entreprises nous font confiance pour leurs demarches administratives, fiscales et juridiques
-        </Subtitle>
-      </TestimonialsHeader>
+    <TestimonialsContainer id="testimonials" aria-label="Témoignages clients">
+      <Glow aria-hidden="true" />
 
-      <TestimonialCard>
-        <QuoteIcon>
-          <FaQuoteLeft />
-        </QuoteIcon>
+      <TestimonialsInner>
+        <TestimonialsHeader>
+          <TestimonialEyebrow>
+            <EyebrowDot aria-hidden="true" />
+            Témoignages
+          </TestimonialEyebrow>
+          <Title>
+            Ce que disent <Accent>nos clients</Accent>
+          </Title>
+          <Subtitle>
+            Plus de 200 entreprises nous font confiance pour leurs démarches
+            administratives, fiscales et juridiques.
+          </Subtitle>
+        </TestimonialsHeader>
 
-        <TestimonialContent>
-          <Rating>
-            {[...Array(currentTestimonial.rating)].map((_, index) => (
-              <StarIcon key={index}>
-                <FaStar />
-              </StarIcon>
+        <TestimonialCard>
+          <QuoteMark aria-hidden="true">&ldquo;</QuoteMark>
+          <CardCounter aria-hidden="true">
+            {String(currentIndex + 1).padStart(2, '0')}
+            <CounterTotal>/ {String(testimonialsData.length).padStart(2, '0')}</CounterTotal>
+          </CardCounter>
+
+          <TestimonialContent>
+            <Rating aria-label={`Note : ${currentTestimonial.rating} sur 5`}>
+              {[...Array(currentTestimonial.rating)].map((_, index) => (
+                <StarIcon key={index} aria-hidden="true">
+                  <FaStar />
+                </StarIcon>
+              ))}
+            </Rating>
+
+            <Content>{currentTestimonial.content}</Content>
+
+            <ServiceBadge>{currentTestimonial.service}</ServiceBadge>
+          </TestimonialContent>
+
+          <CardFooter>
+            <AuthorSection>
+              <AuthorImage src={currentTestimonial.image} alt={currentTestimonial.name} />
+              <AuthorInfo>
+                <AuthorName>{currentTestimonial.name}</AuthorName>
+                <AuthorRole>
+                  {currentTestimonial.role} — {currentTestimonial.company}
+                </AuthorRole>
+              </AuthorInfo>
+            </AuthorSection>
+
+            <NavigationButtons>
+              <NavButton onClick={prevTestimonial} aria-label="Précédent">
+                <FaArrowLeft />
+              </NavButton>
+              <NavButton onClick={nextTestimonial} aria-label="Suivant">
+                <FaArrowRight />
+              </NavButton>
+            </NavigationButtons>
+          </CardFooter>
+
+          <Indicators>
+            {testimonialsData.map((_, index) => (
+              <Indicator
+                key={index}
+                $active={index === currentIndex}
+                onClick={() => setCurrentIndex(index)}
+                aria-label={`Voir le témoignage ${index + 1}`}
+              />
             ))}
-          </Rating>
+          </Indicators>
+        </TestimonialCard>
 
-          <Content>{currentTestimonial.content}</Content>
-
-          <ServiceBadge>{currentTestimonial.service}</ServiceBadge>
-        </TestimonialContent>
-
-        <AuthorSection>
-          <AuthorImage src={currentTestimonial.image} alt={currentTestimonial.name} />
-          <AuthorInfo>
-            <AuthorName>{currentTestimonial.name}</AuthorName>
-            <AuthorRole>
-              {currentTestimonial.role} - {currentTestimonial.company}
-            </AuthorRole>
-          </AuthorInfo>
-        </AuthorSection>
-
-        <NavigationButtons>
-          <NavButton onClick={prevTestimonial} aria-label="Précédent">
-            <FaChevronLeft />
-          </NavButton>
-          <NavButton onClick={nextTestimonial} aria-label="Suivant">
-            <FaChevronRight />
-          </NavButton>
-        </NavigationButtons>
-
-        <Indicators>
-          {testimonialsData.map((_, index) => (
-            <Indicator
-              key={index}
-              $active={index === currentIndex}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
-        </Indicators>
-      </TestimonialCard>
-
-      <StatsGrid>
-        <StatCard>
-          <StatNumber>98%</StatNumber>
-          <StatLabel>Satisfaction Client</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatNumber>1000+</StatNumber>
-          <StatLabel>Projets Réalisés</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatNumber>200+</StatNumber>
-          <StatLabel>Entreprises Partenaires</StatLabel>
-        </StatCard>
-        <StatCard>
-          <StatNumber>15+</StatNumber>
-          <StatLabel>Années d'Excellence</StatLabel>
-        </StatCard>
-      </StatsGrid>
+        <StatsGrid>
+          <StatCard>
+            <StatNumber>98<StatSuffix>%</StatSuffix></StatNumber>
+            <StatLabel>Satisfaction client</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>1000<StatSuffix>+</StatSuffix></StatNumber>
+            <StatLabel>Projets réalisés</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>200<StatSuffix>+</StatSuffix></StatNumber>
+            <StatLabel>Entreprises partenaires</StatLabel>
+          </StatCard>
+          <StatCard>
+            <StatNumber>15<StatSuffix> ans</StatSuffix></StatNumber>
+            <StatLabel>d'Excellence</StatLabel>
+          </StatCard>
+        </StatsGrid>
+      </TestimonialsInner>
     </TestimonialsContainer>
   );
 };
@@ -175,267 +189,352 @@ const Testimonials: React.FC = () => {
 export default Testimonials;
 
 const TestimonialsContainer = styled.section`
-  padding: 6rem 2rem;
-  background: ${theme.white};
+  position: relative;
+  padding: clamp(5rem, 9vw, 8rem) 2rem;
+  background: ${theme.cream};
+  overflow: hidden;
+  isolation: isolate;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 4rem 1.5rem;
+    padding: 4rem 1.25rem;
   }
+`;
+
+const Glow = styled.div`
+  position: absolute;
+  top: -15%;
+  left: -10%;
+  width: 55vw;
+  height: 55vw;
+  max-width: 760px;
+  max-height: 760px;
+  background: radial-gradient(circle, rgba(199, 123, 59, 0.14) 0%, rgba(199, 123, 59, 0.04) 40%, transparent 66%);
+  pointer-events: none;
+  z-index: -1;
+`;
+
+const TestimonialsInner = styled.div`
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
 `;
 
 const TestimonialsHeader = styled.div`
+  max-width: 640px;
+  margin: 0 auto clamp(3rem, 6vw, 4.5rem);
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto 4rem;
+`;
+
+const EyebrowDot = styled.span`
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: ${theme.primary};
+  box-shadow: 0 0 12px ${theme.copperGlow};
 `;
 
 const TestimonialEyebrow = styled.div`
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.2em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: ${theme.secondary};
-  margin-bottom: 1rem;
-`;
-
-const TestimonialDivider = styled.div`
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, ${theme.secondary}, ${theme.secondaryLight});
-  border-radius: 2px;
-  margin: 0 auto 1.5rem;
+  color: ${theme.secondaryLight};
+  margin-bottom: 1.5rem;
 `;
 
 const Title = styled.h2`
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 4vw, 2.75rem);
-  font-weight: 700;
-  color: ${theme.gray900};
-  margin-bottom: 1rem;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(2rem, 4.4vw, 3rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1.06;
+  letter-spacing: -0.025em;
+  margin-bottom: 1.25rem;
+  font-variation-settings: 'opsz' 144;
+`;
+
+const Accent = styled.em`
+  font-style: italic;
+  font-weight: 500;
+  color: ${theme.primaryLight};
+  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const Subtitle = styled.p`
-  font-size: 1.125rem;
+  font-family: ${theme.fontBody};
+  font-size: clamp(1rem, 1.4vw, 1.125rem);
   color: ${theme.gray600};
   line-height: 1.7;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1rem;
-  }
 `;
 
 const TestimonialCard = styled.div`
-  max-width: 900px;
-  margin: 0 auto 4rem;
-  background: ${theme.white};
-  border-radius: ${theme.borderRadius.xl};
-  padding: 3rem;
-  box-shadow: ${theme.shadow2xl};
   position: relative;
+  max-width: 880px;
+  margin: 0 auto clamp(3rem, 6vw, 4.5rem);
+  background: ${theme.gray100};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.xl};
+  padding: clamp(2.25rem, 5vw, 3.5rem);
+  box-shadow: ${theme.shadowLg};
+  isolation: isolate;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: ${theme.gradientGold};
+  }
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 2rem;
+    padding: 2rem 1.5rem;
   }
 `;
 
-const QuoteIcon = styled.div`
-  font-size: 3rem;
-  color: ${theme.primary}30;
+const QuoteMark = styled.div`
   position: absolute;
-  top: 2rem;
-  left: 2rem;
+  top: clamp(1rem, 3vw, 2rem);
+  left: clamp(1.5rem, 4vw, 2.75rem);
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(6rem, 14vw, 10rem);
+  font-weight: 600;
+  line-height: 0.7;
+  color: ${theme.primary};
+  opacity: 0.16;
+  pointer-events: none;
+  user-select: none;
+  z-index: -1;
+`;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2rem;
-    top: 1.5rem;
-    left: 1.5rem;
+const CardCounter = styled.div`
+  position: absolute;
+  top: clamp(1.75rem, 4vw, 2.75rem);
+  right: clamp(1.75rem, 4vw, 2.75rem);
+  font-family: ${theme.fontDisplay};
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: ${theme.primary};
+  font-feature-settings: 'tnum';
+  letter-spacing: 0.02em;
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    display: none;
   }
+`;
+
+const CounterTotal = styled.span`
+  color: ${theme.gray500};
+  margin-left: 0.25rem;
+  font-weight: 500;
 `;
 
 const TestimonialContent = styled.div`
-  margin: 2rem 0 2.5rem;
-  text-align: center;
+  margin: clamp(1.5rem, 4vw, 2.5rem) 0 0;
 `;
 
 const Rating = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 0.4rem;
+  margin-bottom: 1.75rem;
 `;
 
 const StarIcon = styled.div`
-  color: ${theme.warning};
-  font-size: 1.25rem;
+  color: ${theme.primary};
+  font-size: 1.05rem;
 `;
 
 const Content = styled.p`
-  font-size: 1.125rem;
-  line-height: 1.8;
-  color: ${theme.gray700};
-  font-style: italic;
-  margin-bottom: 1.5rem;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+  line-height: 1.45;
+  color: ${theme.gray900};
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  margin-bottom: 2rem;
+  font-variation-settings: 'opsz' 60, 'SOFT' 2;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
 `;
 
 const ServiceBadge = styled.div`
-  display: inline-block;
-  padding: 0.5rem 1.25rem;
-  background: linear-gradient(135deg, ${theme.primary}15, ${theme.secondary}15);
-  color: ${theme.primary};
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  background: rgba(199, 123, 59, 0.08);
+  color: ${theme.primaryLight};
   border-radius: ${theme.borderRadius.full};
+  font-family: ${theme.fontBody};
   font-weight: 600;
-  font-size: 0.875rem;
-  border: 1px solid ${theme.primary}30;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid ${theme.copperLine};
+`;
+
+const CardFooter = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: clamp(2rem, 4vw, 2.75rem);
+  padding-top: clamp(1.75rem, 3vw, 2.25rem);
+  border-top: 1px solid ${theme.line};
 `;
 
 const AuthorSection = styled.div`
   display: flex;
   align-items: center;
-  gap: 1.5rem;
-  padding-top: 2rem;
-  border-top: 2px solid ${theme.gray100};
+  gap: 1.1rem;
 `;
 
 const AuthorImage = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid ${theme.primary};
-  box-shadow: ${theme.shadowMd};
+  border: 1px solid ${theme.copperLine};
+  flex-shrink: 0;
 `;
 
 const AuthorInfo = styled.div`
-  flex: 1;
   text-align: left;
 `;
 
 const AuthorName = styled.div`
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: ${theme.gray900};
-  margin-bottom: 0.25rem;
+  font-family: ${theme.fontBody};
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: ${theme.white};
+  margin-bottom: 0.2rem;
 `;
 
 const AuthorRole = styled.div`
-  font-size: 0.95rem;
-  color: ${theme.gray600};
+  font-family: ${theme.fontBody};
+  font-size: 0.8rem;
+  color: ${theme.gray500};
+  letter-spacing: 0.02em;
 `;
 
 const NavigationButtons = styled.div`
   display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 2rem;
+  gap: 0.75rem;
 `;
 
 const NavButton = styled.button`
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  background: ${theme.white};
-  border: 2px solid ${theme.primary};
-  color: ${theme.primary};
+  background: transparent;
+  border: 1px solid ${theme.lineStrong};
+  color: ${theme.gray600};
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.125rem;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  font-size: 0.95rem;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    background: ${theme.primary};
-    color: ${theme.white};
-    transform: scale(1.1);
-    box-shadow: ${theme.shadowMd};
+    border-color: ${theme.primary};
+    color: ${theme.primary};
+    background: rgba(199, 123, 59, 0.08);
   }
 
   &:active {
-    transform: scale(1.05);
+    transform: scale(0.96);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 3px;
   }
 `;
 
 const Indicators = styled.div`
   display: flex;
-  justify-content: center;
-  gap: 0.75rem;
+  gap: 0.6rem;
   margin-top: 2rem;
 `;
 
 const Indicator = styled.button<{ $active: boolean }>`
-  width: ${({ $active }) => ($active ? '32px' : '12px')};
-  height: 12px;
-  border-radius: 6px;
-  background: ${({ $active }) => ($active ? theme.primary : theme.gray300)};
+  width: ${({ $active }) => ($active ? '30px' : '10px')};
+  height: 3px;
+  border-radius: ${theme.borderRadius.full};
+  background: ${({ $active }) => ($active ? theme.primary : theme.gray400)};
   border: none;
+  padding: 0;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    background: ${theme.primary};
+    background: ${({ $active }) => ($active ? theme.primary : theme.primaryLight)};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.primary};
+    outline-offset: 4px;
   }
 `;
 
 const StatsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  max-width: 1200px;
+  gap: 1px;
+  max-width: 880px;
   margin: 0 auto;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-  }
+  background: ${theme.line};
+  border: 1px solid ${theme.line};
+  border-radius: ${theme.borderRadius.lg};
+  overflow: hidden;
 
   @media (max-width: ${theme.breakpoints.sm}) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
   }
 `;
 
 const StatCard = styled.div`
-  background: ${theme.white};
-  padding: 2rem 1.5rem;
-  border-radius: ${theme.borderRadius.lg};
+  background: ${theme.gray50};
+  padding: clamp(1.5rem, 3vw, 2.25rem) 1.25rem;
   text-align: center;
-  box-shadow: ${theme.shadow};
-  transition: all 0.3s ease;
+  transition: background 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: ${theme.shadowLg};
-  }
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    padding: 1.5rem 1rem;
+    background: ${theme.gray100};
   }
 `;
 
 const StatNumber = styled.div`
-  font-size: 2.5rem;
-  font-weight: 800;
-  background: ${theme.gradientPrimary};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+  font-weight: 600;
+  color: ${theme.white};
+  line-height: 1;
+  letter-spacing: -0.02em;
   margin-bottom: 0.5rem;
+  font-feature-settings: 'tnum';
+`;
 
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 2rem;
-  }
+const StatSuffix = styled.span`
+  color: ${theme.primary};
+  font-style: italic;
 `;
 
 const StatLabel = styled.div`
-  font-size: 0.95rem;
-  color: ${theme.gray600};
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  color: ${theme.gray500};
   font-weight: 500;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    font-size: 0.875rem;
-  }
+  letter-spacing: 0.04em;
+  line-height: 1.4;
 `;
