@@ -100,14 +100,14 @@ const HeroContainer = styled.section`
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 12rem 2rem 4rem;
+  padding: 10rem 2rem 4rem;
   overflow: hidden;
   background: ${theme.cream};
   isolation: isolate;
 
   @media (max-width: ${theme.breakpoints.md}) {
     min-height: auto;
-    padding: 7.5rem 1.25rem 3.5rem;
+    padding: 5.5rem 1.25rem 3.5rem;
   }
 `;
 
@@ -144,12 +144,12 @@ const PhotoVeil = styled.div`
   inset: 0;
   z-index: -2;
   background:
-    linear-gradient(100deg, rgba(5, 13, 22, 0.82) 0%, rgba(8, 20, 32, 0.62) 32%, rgba(8, 20, 32, 0.25) 64%, rgba(8, 20, 32, 0.08) 100%),
-    linear-gradient(180deg, rgba(8, 20, 32, 0.32) 0%, transparent 26%, transparent 58%, rgba(5, 13, 22, 0.62) 100%);
+    linear-gradient(100deg, rgba(5, 13, 22, 0.74) 0%, rgba(8, 20, 32, 0.52) 32%, rgba(8, 20, 32, 0.18) 64%, rgba(8, 20, 32, 0.04) 100%),
+    linear-gradient(180deg, rgba(8, 20, 32, 0.2) 0%, transparent 26%, transparent 58%, rgba(5, 13, 22, 0.45) 100%);
 
   @media (max-width: ${theme.breakpoints.md}) {
     background:
-      linear-gradient(180deg, rgba(8, 20, 32, 0.58) 0%, rgba(8, 20, 32, 0.42) 38%, rgba(5, 13, 22, 0.78) 100%);
+      linear-gradient(180deg, rgba(8, 20, 32, 0.42) 0%, rgba(8, 20, 32, 0.3) 38%, rgba(5, 13, 22, 0.6) 100%);
   }
 `;
 
@@ -234,7 +234,7 @@ const EyebrowDot = styled.span`
 const MainTitle = styled.h1`
   font-family: ${theme.fontDisplay};
   font-size: clamp(2.6rem, 6.4vw, 5rem);
-  font-weight: 600;
+  font-weight: 800;
   color: ${theme.white};
   margin-bottom: 1.75rem;
   line-height: 1.02;
@@ -244,7 +244,7 @@ const MainTitle = styled.h1`
 
 const Accent = styled.span`
   font-style: italic;
-  font-weight: 500;
+  font-weight: 800;
   color: ${theme.primaryLight};
 `;
 
