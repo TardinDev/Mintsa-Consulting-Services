@@ -100,7 +100,7 @@ const HeroContainer = styled.section`
   min-height: 100vh;
   display: flex;
   align-items: center;
-  padding: 10rem 2rem 4rem;
+  padding: 11.5rem 2rem 4rem;
   overflow: hidden;
   background: ${theme.cream};
   isolation: isolate;
@@ -236,7 +236,7 @@ const MainTitle = styled.h1`
   font-size: clamp(2.6rem, 6.4vw, 5rem);
   font-weight: 800;
   color: ${theme.white};
-  margin-bottom: 1.75rem;
+  margin-bottom: 1.25rem;
   line-height: 1.02;
   letter-spacing: -0.025em;
   text-shadow: 0 2px 30px rgba(5, 13, 22, 0.5);
@@ -251,7 +251,7 @@ const Accent = styled.span`
 const SubTitle = styled.p`
   font-size: clamp(1rem, 1.5vw, 1.2rem);
   color: ${theme.gray700};
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.5rem;
   max-width: 540px;
   line-height: 1.7;
   font-weight: 400;
