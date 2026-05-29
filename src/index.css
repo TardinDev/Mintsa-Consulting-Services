@@ -110,7 +110,7 @@ body {
   color: var(--ivory);
   line-height: 1.65;
   font-weight: 400;
-  font-variation-settings: 'wght' 400;
+  font-variation-settings: normal;
   overflow-x: hidden;
   /* Lueurs de marque : orange en haut à droite, bleu en bas à gauche */
   background-image:
