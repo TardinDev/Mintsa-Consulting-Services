@@ -110,8 +110,8 @@ const theme = {
   },
 
   // Fonts
-  fontDisplay: "'Fraunces Variable', 'Fraunces', Georgia, serif",
-  fontBody: "'Hanken Grotesk Variable', 'Hanken Grotesk', -apple-system, sans-serif",
+  fontDisplay: "'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  fontBody: "'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
 
   zDropdown: 1000,
   zSticky: 1020,

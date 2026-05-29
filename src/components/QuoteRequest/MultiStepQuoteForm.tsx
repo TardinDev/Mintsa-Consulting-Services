@@ -616,14 +616,12 @@ const Title = styled.h1`
   line-height: 1.05;
   letter-spacing: -0.025em;
   margin-bottom: 1.1rem;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 `;
 
 const Accent = styled.span`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const Subtitle = styled.p`

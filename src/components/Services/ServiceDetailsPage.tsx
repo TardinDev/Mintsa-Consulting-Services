@@ -16,7 +16,7 @@ interface ServiceData {
   category: string;
 }
 
-// Images pour les catégories (photos locales Mintsa)
+// Images pour les catégories (photos locales MINTSA)
 const categoryImages: Record<string, string> = {
   administratifs: '/imagesMintsaservices/pexels-mikhail-nilov-9301316.jpg',
   fiscaux: '/imagesMintsaservices/pexels-pavel-danilyuk-7658399.jpg',
@@ -523,7 +523,6 @@ const HeroTitle = styled.h1`
   margin-bottom: 1rem;
   line-height: 1.05;
   letter-spacing: -0.025em;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: 2.4rem;

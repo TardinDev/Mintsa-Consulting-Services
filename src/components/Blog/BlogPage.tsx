@@ -31,7 +31,7 @@ const blogPosts: BlogPost[] = [
     title: 'Comment créer son entreprise au Gabon en 2025 ?',
     excerpt: 'Guide complet des démarches administratives pour lancer votre activité professionnelle au Gabon.',
     content: 'La création d\'entreprise au Gabon nécessite plusieurs étapes clés...',
-    author: 'Mintsa Services',
+    author: 'MINTSA Services',
     date: '15 Janvier 2025',
     readTime: '8 min',
     category: 'Entrepreneuriat',
@@ -149,7 +149,7 @@ const BlogPage: React.FC = () => {
               vous pourriez ajouter ici le contenu détaillé de chaque article de blog,
               avec des sections, des images, des listes, etc.
             </p>
-            <h3>Pourquoi choisir Mintsa Services ?</h3>
+            <h3>Pourquoi choisir MINTSA Services ?</h3>
             <ul>
               <li>Plus de 15 ans d'expérience dans le conseil aux entreprises</li>
               <li>Une équipe d'experts qualifiés et à votre écoute</li>
@@ -352,14 +352,12 @@ const Title = styled.h1`
   line-height: 1.05;
   letter-spacing: -0.025em;
   margin-bottom: 1.1rem;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 `;
 
 const Accent = styled.span`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const Subtitle = styled.p`

@@ -211,14 +211,12 @@ const ErrorCode = styled.div`
   letter-spacing: -0.04em;
   margin-bottom: 0.75rem;
   font-feature-settings: 'tnum';
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 `;
 
 const Accent = styled.span`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const ErrorTitle = styled.h1`

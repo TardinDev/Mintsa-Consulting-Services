@@ -18,7 +18,7 @@ export default function Homepage() {
     <>
       <SEOHead
         title="Accueil"
-        description="Mintsa Services Consulting - Votre partenaire d'excellence au Gabon pour les services administratifs, fiscaux, automobiles et immobiliers."
+        description="MINTSA Services Consulting - Votre partenaire d'excellence au Gabon pour les services administratifs, fiscaux, automobiles et immobiliers."
       />
       <a href="#main-content" className="skip-to-content">
         Aller au contenu principal

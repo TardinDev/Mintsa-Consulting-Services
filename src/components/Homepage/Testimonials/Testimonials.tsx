@@ -20,7 +20,7 @@ const testimonialsData: Testimonial[] = [
     name: 'Marie-Claire OBAME',
     role: 'Directrice',
     company: 'MC Consulting SARL',
-    content: 'Service impeccable ! Mintsa Services m\'a accompagné pour la création de mon entreprise du début à la fin. En seulement 15 jours, j\'avais tous mes documents. Je recommande vivement leurs services.',
+    content: 'Service impeccable ! MINTSA Services m\'a accompagné pour la création de mon entreprise du début à la fin. En seulement 15 jours, j\'avais tous mes documents. Je recommande vivement leurs services.',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200',
     service: 'Création d\'Entreprise'
@@ -30,7 +30,7 @@ const testimonialsData: Testimonial[] = [
     name: 'Jean-Pierre MBOUMBA',
     role: 'Chef d\'Entreprise',
     company: 'MBOUMBA Transport',
-    content: 'Excellente expérience avec l\'équipe de Mintsa Services. Ils ont géré toute ma flotte automobile : cartes grises, visites techniques. Tout a été fait dans les délais promis. Très professionnel !',
+    content: 'Excellente expérience avec l\'équipe de MINTSA Services. Ils ont géré toute ma flotte automobile : cartes grises, visites techniques. Tout a été fait dans les délais promis. Très professionnel !',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=200',
     service: 'Services Automobiles'
@@ -50,7 +50,7 @@ const testimonialsData: Testimonial[] = [
     name: 'Rodrigue BILOGHE',
     role: 'Comptable Indépendant',
     company: 'RB Expertise',
-    content: 'Pour mes déclarations fiscales et celles de mes clients, je fais confiance à Mintsa Services. Leur expertise comptable et fiscale est remarquable. Réactivité et professionnalisme au top !',
+    content: 'Pour mes déclarations fiscales et celles de mes clients, je fais confiance à MINTSA Services. Leur expertise comptable et fiscale est remarquable. Réactivité et professionnalisme au top !',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200',
     service: 'Services Fiscaux'
@@ -60,7 +60,7 @@ const testimonialsData: Testimonial[] = [
     name: 'Sandrine OKOME',
     role: 'Entrepreneure',
     company: 'So Beauty',
-    content: 'Mintsa Services a simplifié toutes mes démarches administratives. CNI, passeport, documents divers... tout est géré avec efficacité. Je gagne un temps précieux pour me concentrer sur mon business.',
+    content: 'MINTSA Services a simplifié toutes mes démarches administratives. CNI, passeport, documents divers... tout est géré avec efficacité. Je gagne un temps précieux pour me concentrer sur mon business.',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=200',
     service: 'Services Administratifs'
@@ -255,14 +255,12 @@ const Title = styled.h2`
   line-height: 1.06;
   letter-spacing: -0.025em;
   margin-bottom: 1.25rem;
-  font-variation-settings: 'opsz' 144;
 `;
 
 const Accent = styled.em`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const Subtitle = styled.p`
@@ -359,7 +357,6 @@ const Content = styled.p`
   font-weight: 400;
   letter-spacing: -0.015em;
   margin-bottom: 2rem;
-  font-variation-settings: 'opsz' 60, 'SOFT' 2;
 
   @media (max-width: ${theme.breakpoints.md}) {
     font-size: 1.2rem;

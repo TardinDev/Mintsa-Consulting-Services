@@ -6,9 +6,9 @@ function ServiceText() {
   return (
     <ServiceTextStyle>
       <LogoBrand>
-        <LogoMark src="/mintsaservicesfiles/mintsa-icon.png" alt="Mintsa Services & Consulting" width={44} height={44} />
+        <LogoMark src="/mintsaservicesfiles/mintsa-icon.png" alt="MINTSA Services & Consulting" width={44} height={44} />
         <LogoTextBlock>
-          <LogoPrimary>Mintsa</LogoPrimary>
+          <LogoPrimary>MINTSA</LogoPrimary>
           <LogoSecondary>Services &amp; Consulting</LogoSecondary>
         </LogoTextBlock>
       </LogoBrand>
@@ -52,31 +52,38 @@ const LogoMark = styled.img`
 const LogoTextBlock = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 0.1rem;
+  width: fit-content;
 `;
 
 const LogoPrimary = styled.div`
   font-family: ${theme.fontDisplay};
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-size: 2.1rem;
+  font-weight: 800;
   color: ${theme.white};
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+  line-height: 1;
+  letter-spacing: 0.04em;
 
   @media (max-width: ${theme.breakpoints.sm}) {
-    font-size: 1.18rem;
+    font-size: 1.7rem;
   }
 `;
 
 const LogoSecondary = styled.div`
   font-family: ${theme.fontBody};
-  font-size: 0.64rem;
+  font-size: 0.6rem;
   font-weight: 700;
   color: ${theme.primary};
-  letter-spacing: 0.16em;
   text-transform: uppercase;
   line-height: 1.2;
+  /* Étiré sur toute la largeur de MINTSA — de la lettre M à A */
+  width: 100%;
+  text-align: justify;
+  text-align-last: justify;
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    font-size: 0.5rem;
+  }
 `;
 
 const WhatsappLine = styled.div`

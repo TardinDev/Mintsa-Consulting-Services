@@ -7,7 +7,7 @@ const Logo: React.FC = () => {
     <LogoContainer>
       <Mark>M</Mark>
       <Text>
-        <Title>Mintsa Services &amp; Consulting</Title>
+        <Title>MINTSA Services &amp; Consulting</Title>
         <Slogan>Notre priorité, votre bonheur</Slogan>
       </Text>
       <MSCContainer aria-hidden="true">

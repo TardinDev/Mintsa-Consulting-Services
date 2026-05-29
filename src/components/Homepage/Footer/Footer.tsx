@@ -32,7 +32,7 @@ const Footer: React.FC = () => (
       {/* Bloc éditorial de marque */}
       <BrandColumn>
         <BrandName>
-          Mintsa<BrandMark>.</BrandMark>
+          MINTSA<BrandMark>.</BrandMark>
         </BrandName>
         <BrandTagline>
           Agence de conseil &amp; services au Gabon. L'expertise qui fait{' '}
@@ -109,7 +109,7 @@ const Footer: React.FC = () => (
 
     <FooterBottom>
       <FooterBottomContent>
-        <Copyright>&copy; 2026 Mintsa Services. Tous droits réservés.</Copyright>
+        <Copyright>&copy; 2026 MINTSA Services. Tous droits réservés.</Copyright>
         <FooterLinks>
           <FooterLink href="#">Politique de confidentialité</FooterLink>
           <FooterLink href="#">Conditions d'utilisation</FooterLink>
@@ -195,7 +195,6 @@ const BrandName = styled.div`
   color: ${theme.white};
   line-height: 1;
   letter-spacing: -0.03em;
-  font-variation-settings: 'opsz' 144;
 `;
 
 const BrandMark = styled.span`

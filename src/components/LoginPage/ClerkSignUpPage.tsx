@@ -15,7 +15,7 @@ const clerkAppearance = {
     colorDanger: '#d06a5b',
     colorSuccess: '#6aa886',
     colorNeutral: '#ede6d8',
-    fontFamily: "'Hanken Grotesk Variable', 'Hanken Grotesk', sans-serif",
+    fontFamily: "'Inter Variable', 'Inter', sans-serif",
     borderRadius: '0.4rem'
   },
   elements: {
@@ -236,7 +236,7 @@ const ClerkSignUpPage: React.FC = () => {
           <BrandContent>
             <Eyebrow>
               <EyebrowDot />
-              Rejoindre Mintsa
+              Rejoindre MINTSA
             </Eyebrow>
             <BrandTitle>
               Créez votre<br />
@@ -413,14 +413,12 @@ const BrandTitle = styled.h1`
   line-height: 1.05;
   letter-spacing: -0.025em;
   margin-bottom: 1.5rem;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 `;
 
 const Accent = styled.span`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const BrandText = styled.p`

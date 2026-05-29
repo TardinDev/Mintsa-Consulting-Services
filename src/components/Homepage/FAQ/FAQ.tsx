@@ -222,14 +222,12 @@ const FAQTitle = styled.h2`
   line-height: 1.06;
   letter-spacing: -0.025em;
   margin-bottom: 1.25rem;
-  font-variation-settings: 'opsz' 144;
 `;
 
 const Accent = styled.em`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const FAQSubtitle = styled.p`
@@ -398,7 +396,6 @@ const FooterText = styled.p`
   font-weight: 500;
   color: ${theme.white};
   letter-spacing: -0.015em;
-  font-variation-settings: 'opsz' 80;
 `;
 
 const ButtonArrow = styled.span`

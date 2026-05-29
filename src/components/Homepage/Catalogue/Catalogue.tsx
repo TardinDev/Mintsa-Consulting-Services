@@ -185,14 +185,12 @@ const CatalogueTitle = styled.h2`
   margin: 0;
   line-height: 1.05;
   letter-spacing: -0.025em;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
 `;
 
 const Amp = styled.span`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 6;
 `;
 
 const CatalogueSubtitle = styled.p`

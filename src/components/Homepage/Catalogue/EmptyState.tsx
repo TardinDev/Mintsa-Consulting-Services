@@ -61,7 +61,6 @@ interface EmptyStateProps {
       letter-spacing: -0.01em;
       color: ${theme.gray800};
       margin: 0;
-      font-variation-settings: 'opsz' 80, 'SOFT' 4;
     }
 
     h6 {

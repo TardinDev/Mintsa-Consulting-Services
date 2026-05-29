@@ -7,7 +7,7 @@ const WhatsAppButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState('');
 
-  // Numéro WhatsApp Business de Mintsa Services (à adapter)
+  // Numéro WhatsApp Business de MINTSA Services (à adapter)
   const WHATSAPP_NUMBER = '24174853484'; // Format international sans + ni espaces
 
   const predefinedMessages = [
@@ -36,7 +36,7 @@ const WhatsAppButton: React.FC = () => {
                 <FaWhatsapp />
               </WhatsAppIcon>
               <HeaderText>
-                <HeaderTitle>Mintsa Services</HeaderTitle>
+                <HeaderTitle>MINTSA Services</HeaderTitle>
                 <HeaderStatus>
                   <StatusDot /> En ligne
                 </HeaderStatus>

@@ -140,7 +140,6 @@ const ProductName = styled.h2`
   margin: 0 0 0.6rem;
   line-height: 1.15;
   letter-spacing: -0.02em;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0;
 `;
 
 const ProductDescription = styled.p`

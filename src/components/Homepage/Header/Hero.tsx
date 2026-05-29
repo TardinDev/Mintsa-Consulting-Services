@@ -23,7 +23,7 @@ const Hero: React.FC = () => {
     <HeroContainer role="banner" aria-label="Section principale">
       <HeroPhoto
         src="/imagesMintsaservices/hero.jpg"
-        alt="L'équipe Mintsa Services & Consulting"
+        alt="L'équipe MINTSA Services & Consulting"
         loading="eager"
         aria-hidden="true"
       />
@@ -44,7 +44,7 @@ const Hero: React.FC = () => {
           </MainTitle>
           <SubTitle>
             De l'administratif au fiscal, de l'automobile à l'immobilier —
-            Mintsa accompagne entreprises et particuliers avec rigueur,
+            MINTSA accompagne entreprises et particuliers avec rigueur,
             discrétion et résultats.
           </SubTitle>
           <HeroButtons>
@@ -239,7 +239,6 @@ const MainTitle = styled.h1`
   margin-bottom: 1.75rem;
   line-height: 1.02;
   letter-spacing: -0.025em;
-  font-variation-settings: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
   text-shadow: 0 2px 30px rgba(5, 13, 22, 0.5);
 `;
 
@@ -247,7 +246,6 @@ const Accent = styled.span`
   font-style: italic;
   font-weight: 500;
   color: ${theme.primaryLight};
-  font-variation-settings: 'opsz' 144, 'SOFT' 4;
 `;
 
 const SubTitle = styled.p`

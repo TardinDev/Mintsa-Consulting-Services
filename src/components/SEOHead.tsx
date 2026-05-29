@@ -7,7 +7,7 @@ interface SEOHeadProps {
 
 const SEOHead: React.FC<SEOHeadProps> = ({ title, description }) => {
   useEffect(() => {
-    document.title = `${title} | Mintsa Service Consulting`;
+    document.title = `${title} | MINTSA Service Consulting`;
 
     if (description) {
       let metaDescription = document.querySelector('meta[name="description"]');
