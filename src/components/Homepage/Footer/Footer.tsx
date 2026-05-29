@@ -35,9 +35,9 @@ const Footer: React.FC = () => (
           MINTSA<BrandMark>.</BrandMark>
         </BrandName>
         <BrandTagline>
-          Agence de conseil &amp; services au Gabon. L'expertise qui fait{' '}
-          <Emphasis>avancer</Emphasis> vos projets — de l'administratif au fiscal,
-          de l'automobile à l'immobilier.
+          Agence de services &amp; conseils au Gabon. Notre priorité,{' '}
+          <Emphasis>votre bonheur</Emphasis> — de l'administratif à l'automobile,
+          en passant par l'immobilier.
         </BrandTagline>
 
         <ContactList>

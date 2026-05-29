@@ -55,7 +55,7 @@ const blogPosts: BlogPost[] = [
     title: 'Titre foncier au Gabon : Procédure complète 2025',
     excerpt: 'Tout savoir sur l\'obtention d\'un titre foncier au Gabon : étapes, délais, coûts et documents nécessaires.',
     content: 'L\'obtention d\'un titre foncier est une étape cruciale...',
-    author: 'Conseil Immobilier',
+    author: 'Solutions Immobilières',
     date: '8 Janvier 2025',
     readTime: '12 min',
     category: 'Immobilier',

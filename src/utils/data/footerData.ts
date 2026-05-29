@@ -1,8 +1,11 @@
 
 
 export const services: string[] = [
-  "Consulting", "Design", "Development", "E-business", 
-  "E-commerce", "E-marketing", "Hosting", "SEO", "Social Media"
+  "Gestion Administrative",
+  "Services Comptables et Fiscaux",
+  "Solutions Automobiles",
+  "Solutions Immobilières",
+  "Accompagnement Création d'Entreprises"
 ];
 
 export const agreements: string[] = [

@@ -18,7 +18,7 @@ const navitems = [
       subLinks: [],
     },
     {
-      title: 'Conseil Immobilier',
+      title: 'Solutions immobilières',
       href: '/services/immobiliers',
       subLinks: [],
     },

@@ -95,7 +95,7 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
         >
           <SubNavInner>
             <SubNavList>
-              {navitems.map((item, index) => (
+              {navitems.map((item) => (
                 <SubNavLink
                   key={item.title}
                   onClick={() => { navigate(item.href); setIsMobileMenuOpen(false); }}
@@ -103,7 +103,6 @@ const Header: React.FC<HeaderType> = ({selectedProductForEdit, setSelectedProduc
                   tabIndex={0}
                   onKeyDown={(e) => e.key === 'Enter' && (navigate(item.href), setIsMobileMenuOpen(false))}
                 >
-                  <SubNavNum aria-hidden="true">{String(index + 1).padStart(2, '0')}</SubNavNum>
                   {item.title}
                 </SubNavLink>
               ))}
@@ -249,15 +248,6 @@ const BadgeDot = styled.span`
   }
 `;
 
-
-const SubNavNum = styled.span`
-  font-family: ${theme.fontDisplay};
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: ${theme.primary};
-  margin-right: 0.32rem;
-  font-feature-settings: 'tnum';
-`;
 
 const SubNavLink = styled.div`
   position: relative;

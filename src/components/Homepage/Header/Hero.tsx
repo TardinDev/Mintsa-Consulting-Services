@@ -36,18 +36,16 @@ const Hero: React.FC = () => {
         <TextColumn>
           <Eyebrow>
             <EyebrowDot aria-hidden="true" />
-            Agence de conseil &amp; services — Gabon
+            Agence de services &amp; conseils
           </Eyebrow>
           <MainTitle>
-            L'expertise<br />
-            qui fait<br />
-            <Accent>avancer</Accent><br />
-            vos projets.
+            Notre Priorité,<br />
+            <Accent>Votre Bonheur</Accent>
           </MainTitle>
           <SubTitle>
-            De l'administratif au fiscal, de l'automobile à l'immobilier —
-            MINTSA accompagne entreprises et particuliers avec rigueur,
-            discrétion et résultats.
+            De l'administratif à l'automobile, en passant par l'immobilier,
+            MINTSA SERVICES accompagne les entreprises et les particuliers
+            avec rigueur, discrétion et résultats.
           </SubTitle>
           <HeroButtons>
             <PrimaryButton
@@ -327,8 +325,8 @@ const StatsSection = styled.div`
   display: flex;
   align-items: center;
   gap: clamp(1.25rem, 4vw, 3.5rem);
-  margin-top: clamp(3rem, 6vw, 5rem);
-  padding-top: clamp(2rem, 3vw, 2.75rem);
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: clamp(1.5rem, 2.5vw, 2rem);
   border-top: 1px solid ${theme.lineStrong};
   animation: ${fadeInUp} 1s ${'cubic-bezier(0.16, 1, 0.3, 1)'} 0.5s both;
 

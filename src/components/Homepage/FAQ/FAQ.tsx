@@ -20,19 +20,19 @@ const faqData: FAQItem[] = [
     answer: 'Vous aurez besoin d\'une CNI valide, de photos biométriques récentes, et de justificatifs selon votre situation. Notre équipe vous guidera pour constituer le dossier complet.'
   },
   {
-    category: 'Services Fiscaux',
+    category: 'Services Comptables et Fiscaux',
     question: 'Comment obtenir mon NIF rapidement ?',
     answer: 'Nous pouvons obtenir votre Numéro d\'Identification Fiscale en 5 à 7 jours. Le service inclut la constitution du dossier, le dépôt à la DGI, et la récupération du NIF.'
   },
   {
-    category: 'Services Fiscaux',
+    category: 'Services Comptables et Fiscaux',
     question: 'Proposez-vous un accompagnement pour la déclaration fiscale ?',
     answer: 'Oui, nous offrons un service complet : analyse de votre situation fiscale, calcul optimisé, télédéclaration et suivi auprès de la DGI. Nous garantissons la conformité de votre déclaration.'
   },
   {
     category: 'Services Automobiles',
     question: 'Comment se passe la démarche pour la carte grise ?',
-    answer: 'Nous gérons l\'intégralité du processus : constitution du dossier, démarches à la DGTTM, suivi jusqu\'à la récupération. Délai : 5 à 10 jours selon la complexité.'
+    answer: 'Nous gérons l\'intégralité du processus : constitution du dossier, démarches à la DGTTM, suivi jusqu\'à la récupération. Délai : maxi 7 jours selon la complexité.'
   },
   {
     category: 'Services Automobiles',
@@ -47,12 +47,12 @@ const faqData: FAQItem[] = [
   {
     category: 'Services Immobiliers',
     question: 'Aidez-vous pour les permis de construire ?',
-    answer: 'Absolument ! Nous gérons l\'ensemble : préparation des plans avec architecte, dossier technique, démarches urbanisme. Délai : 20 à 40 jours selon la complexité du projet.'
+    answer: 'Absolument ! Nous gérons l\'ensemble : préparation des plans avec architecte, dossier technique, démarches urbanisme. Délai : maxi 7 jours selon la complexité du projet.'
   },
   {
     category: 'Création d\'Entreprise',
     question: 'Combien de temps pour créer une SARL ?',
-    answer: 'La création complète d\'une SARL prend entre 10 et 20 jours. Nous nous occupons de la rédaction des statuts, l\'immatriculation RCCM, l\'obtention du NIF et toutes les formalités légales.'
+    answer: 'La création d\'une entreprise individuelle se fait en 48h, et une SARL en maxi 7 jours. Nous nous occupons de la rédaction des statuts, l\'immatriculation RCCM, l\'obtention du NIF et toutes les formalités légales.'
   },
   {
     category: 'Création d\'Entreprise',

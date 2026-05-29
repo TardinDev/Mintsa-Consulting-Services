@@ -20,7 +20,7 @@ const testimonialsData: Testimonial[] = [
     name: 'Marie-Claire OBAME',
     role: 'Directrice',
     company: 'MC Consulting SARL',
-    content: 'Service impeccable ! MINTSA Services m\'a accompagné pour la création de mon entreprise du début à la fin. En seulement 15 jours, j\'avais tous mes documents. Je recommande vivement leurs services.',
+    content: 'Service impeccable ! MINTSA Services m\'a accompagné pour la création de mon entreprise du début à la fin. En seulement 48h, j\'avais tous mes documents. Je recommande vivement leurs services.',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200',
     service: 'Création d\'Entreprise'
@@ -53,7 +53,7 @@ const testimonialsData: Testimonial[] = [
     content: 'Pour mes déclarations fiscales et celles de mes clients, je fais confiance à MINTSA Services. Leur expertise comptable et fiscale est remarquable. Réactivité et professionnalisme au top !',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=200',
-    service: 'Services Fiscaux'
+    service: 'Services Comptables et Fiscaux'
   },
   {
     id: 5,
