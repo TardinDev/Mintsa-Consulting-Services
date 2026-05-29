@@ -23,7 +23,7 @@ const navitems = [
       subLinks: [],
     },
     {
-      title: "Accompagnement Création d'Entreprises",
+      title: "Création d'Entreprises",
       href: '/services/entreprises',
       subLinks: [],
     },

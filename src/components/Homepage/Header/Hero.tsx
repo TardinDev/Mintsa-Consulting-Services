@@ -47,22 +47,23 @@ const Hero: React.FC = () => {
             MINTSA SERVICES accompagne les entreprises et les particuliers
             avec rigueur, discrétion et résultats.
           </SubTitle>
-          <HeroButtons>
-            <PrimaryButton
-              onClick={() => window.scrollTo({ top: (document.querySelector('#catalogue')?.getBoundingClientRect().top ?? 0) + window.scrollY - 100, behavior: 'smooth' })}
-              aria-label="Découvrir nos services"
-            >
-              Découvrir nos services
-              <ButtonArrow aria-hidden="true">→</ButtonArrow>
-            </PrimaryButton>
-            <SecondaryButton
-              onClick={() => navigate('/demande-devis')}
-              aria-label="Demander un devis gratuit"
-            >
-              Demande de devis
-            </SecondaryButton>
-          </HeroButtons>
         </TextColumn>
+
+        <HeroButtons>
+          <PrimaryButton
+            onClick={() => window.scrollTo({ top: (document.querySelector('#catalogue')?.getBoundingClientRect().top ?? 0) + window.scrollY - 100, behavior: 'smooth' })}
+            aria-label="Découvrir nos services"
+          >
+            Découvrir nos services
+            <ButtonArrow aria-hidden="true">→</ButtonArrow>
+          </PrimaryButton>
+          <SecondaryButton
+            onClick={() => navigate('/demande-devis')}
+            aria-label="Demander un devis gratuit"
+          >
+            Demande de devis
+          </SecondaryButton>
+        </HeroButtons>
 
         <StatsSection aria-label="Nos chiffres clés">
           <StatWithCounter end={1000} suffix="+" label="Projets accompagnés" />
@@ -262,6 +263,8 @@ const HeroButtons = styled.div`
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  justify-content: center;
+  margin-top: clamp(2rem, 4vw, 2.75rem);
   animation: ${fadeInUp} 1s ${'cubic-bezier(0.16, 1, 0.3, 1)'} 0.35s both;
 
   @media (max-width: ${theme.breakpoints.sm}) {

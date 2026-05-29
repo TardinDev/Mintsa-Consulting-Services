@@ -28,6 +28,28 @@ const Footer: React.FC = () => (
     <FooterGlow aria-hidden="true" />
     <FooterWatermark aria-hidden="true">M</FooterWatermark>
 
+    <FooterStats aria-label="Nos chiffres clés">
+      <FooterStatItem>
+        <FooterStatNumber>1000<FooterStatSuffix>+</FooterStatSuffix></FooterStatNumber>
+        <FooterStatLabel>Projets accompagnés</FooterStatLabel>
+      </FooterStatItem>
+      <FooterStatDivider aria-hidden="true" />
+      <FooterStatItem>
+        <FooterStatNumber>200<FooterStatSuffix>+</FooterStatSuffix></FooterStatNumber>
+        <FooterStatLabel>Entreprises partenaires</FooterStatLabel>
+      </FooterStatItem>
+      <FooterStatDivider aria-hidden="true" />
+      <FooterStatItem>
+        <FooterStatNumber>15<FooterStatSuffix> ans</FooterStatSuffix></FooterStatNumber>
+        <FooterStatLabel>d'Excellence</FooterStatLabel>
+      </FooterStatItem>
+      <FooterStatDivider aria-hidden="true" />
+      <FooterStatItem>
+        <FooterStatNumber>98<FooterStatSuffix>%</FooterStatSuffix></FooterStatNumber>
+        <FooterStatLabel>Satisfaction client</FooterStatLabel>
+      </FooterStatItem>
+    </FooterStats>
+
     <FooterContent>
       {/* Bloc éditorial de marque */}
       <BrandColumn>
@@ -162,6 +184,66 @@ const FooterWatermark = styled.div`
   pointer-events: none;
   z-index: -1;
   user-select: none;
+`;
+
+const FooterStats = styled.div`
+  position: relative;
+  z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 5vw, 3.5rem) 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  flex-wrap: wrap;
+  border-bottom: 1px solid ${theme.line};
+
+  @media (max-width: ${theme.breakpoints.md}) {
+    padding: 2.5rem 1.25rem;
+    gap: 1.75rem 2rem;
+  }
+`;
+
+const FooterStatItem = styled.div`
+  text-align: center;
+  min-width: 110px;
+`;
+
+const FooterStatNumber = styled.div`
+  font-family: ${theme.fontDisplay};
+  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
+  font-weight: 600;
+  color: ${theme.white};
+  margin-bottom: 0.3rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-feature-settings: 'tnum';
+`;
+
+const FooterStatSuffix = styled.span`
+  color: ${theme.primary};
+  font-style: italic;
+`;
+
+const FooterStatLabel = styled.div`
+  font-family: ${theme.fontBody};
+  font-size: 0.78rem;
+  color: ${theme.gray600};
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
+`;
+
+const FooterStatDivider = styled.div`
+  width: 1px;
+  height: 42px;
+  background: ${theme.lineStrong};
+  flex-shrink: 0;
+
+  @media (max-width: ${theme.breakpoints.sm}) {
+    display: none;
+  }
 `;
 
 const FooterContent = styled.div`
