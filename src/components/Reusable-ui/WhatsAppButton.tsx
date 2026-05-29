@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { FaWhatsapp, FaTimes } from 'react-icons/fa';
+import { FaRobot, FaTimes, FaPaperPlane } from 'react-icons/fa';
 import theme from '../../utils/Theme/theme';
 
 const WhatsAppButton: React.FC = () => {
@@ -33,7 +33,7 @@ const WhatsAppButton: React.FC = () => {
           <ChatHeader>
             <HeaderContent>
               <WhatsAppIcon>
-                <FaWhatsapp />
+                <FaRobot />
               </WhatsAppIcon>
               <HeaderText>
                 <HeaderTitle>MINTSA Services</HeaderTitle>
@@ -79,7 +79,7 @@ const WhatsAppButton: React.FC = () => {
               onKeyPress={(e) => e.key === 'Enter' && handleSendMessage()}
             />
             <SendButton onClick={() => handleSendMessage()} aria-label="Envoyer">
-              <FaWhatsapp />
+              <FaPaperPlane />
             </SendButton>
           </ChatFooter>
         </ChatPopup>
@@ -89,9 +89,9 @@ const WhatsAppButton: React.FC = () => {
       <FloatingButton
         onClick={() => setIsOpen(!isOpen)}
         $isOpen={isOpen}
-        aria-label="Ouvrir WhatsApp"
+        aria-label="Ouvrir l'assistant"
       >
-        {isOpen ? <FaTimes /> : <FaWhatsapp />}
+        {isOpen ? <FaTimes /> : <FaRobot />}
         {!isOpen && <NotificationBadge>1</NotificationBadge>}
       </FloatingButton>
 
@@ -153,7 +153,7 @@ const FloatingButton = styled.button<{ $isOpen: boolean }>`
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: ${({ $isOpen }) => ($isOpen ? theme.gray100 : theme.gradientGold)};
+  background: ${({ $isOpen }) => ($isOpen ? theme.gray100 : '#ffffff')};
   color: ${({ $isOpen }) => ($isOpen ? theme.gray700 : theme.black)};
   border: 1px solid ${({ $isOpen }) => ($isOpen ? theme.lineStrong : 'transparent')};
   cursor: pointer;

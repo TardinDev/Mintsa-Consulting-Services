@@ -279,7 +279,7 @@ const PrimaryButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  background: ${theme.gradientGold};
+  background: #ffffff;
   color: ${theme.black};
   font-family: ${theme.fontBody};
   font-size: 0.98rem;
@@ -289,12 +289,12 @@ const PrimaryButton = styled.button`
   border-radius: ${theme.borderRadius.full};
   cursor: pointer;
   transition: all 0.5s ${'cubic-bezier(0.34, 1.4, 0.64, 1)'};
-  box-shadow: ${theme.shadowOrange};
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
   letter-spacing: 0.01em;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 16px 44px rgba(240, 144, 30, 0.45);
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.34);
   }
   &:hover ${ButtonArrow} { transform: translateX(5px); }
   &:active { transform: translateY(-1px); }

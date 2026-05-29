@@ -157,17 +157,17 @@ const SubmitButton = styled.button`
   height: 38px;
   border: none;
   border-radius: ${theme.borderRadius.full};
-  background: ${theme.gradientGold};
+  background: #ffffff;
   color: ${theme.black};
   cursor: pointer;
-  box-shadow: 0 2px 12px rgba(240, 144, 30, 0.28);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.22);
   transition: all 0.4s ${'cubic-bezier(0.34, 1.4, 0.64, 1)'};
 
   svg { font-size: 0.82rem; }
 
   &:hover {
     transform: scale(1.06);
-    box-shadow: 0 4px 18px rgba(240, 144, 30, 0.42);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
   }
 
   &:active {
