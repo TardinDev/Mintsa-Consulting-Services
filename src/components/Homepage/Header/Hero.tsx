@@ -39,8 +39,10 @@ const Hero: React.FC = () => {
             Agence de conseil &amp; services — Gabon
           </Eyebrow>
           <MainTitle>
-            L'expertise qui fait<br />
-            <Accent>avancer</Accent> vos projets.
+            L'expertise<br />
+            qui fait<br />
+            <Accent>avancer</Accent><br />
+            vos projets.
           </MainTitle>
           <SubTitle>
             De l'administratif au fiscal, de l'automobile à l'immobilier —
