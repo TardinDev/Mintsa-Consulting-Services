@@ -2,19 +2,6 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import theme from '../../../utils/Theme/theme';
-import { useCountUp } from '../../../hooks/useCountUp';
-
-const StatWithCounter: React.FC<{ end: number; suffix: string; label: string }> = ({ end, suffix, label }) => {
-  const { count, ref } = useCountUp(end, 2200);
-  return (
-    <StatItem>
-      <StatNumber ref={ref as React.RefObject<HTMLDivElement>}>
-        {count}<StatSuffix>{suffix}</StatSuffix>
-      </StatNumber>
-      <StatLabel>{label}</StatLabel>
-    </StatItem>
-  );
-};
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
@@ -64,16 +51,6 @@ const Hero: React.FC = () => {
             Demande de devis
           </SecondaryButton>
         </HeroButtons>
-
-        <StatsSection aria-label="Nos chiffres clés">
-          <StatWithCounter end={1000} suffix="+" label="Projets accompagnés" />
-          <StatDivider aria-hidden="true" />
-          <StatWithCounter end={200} suffix="+" label="Entreprises partenaires" />
-          <StatDivider aria-hidden="true" />
-          <StatWithCounter end={15} suffix=" ans" label="d'Excellence" />
-          <StatDivider aria-hidden="true" />
-          <StatWithCounter end={98} suffix="%" label="Satisfaction client" />
-        </StatsSection>
       </HeroInner>
     </HeroContainer>
   );
@@ -98,17 +75,17 @@ const slowZoom = keyframes`
 
 const HeroContainer = styled.section`
   position: relative;
-  min-height: 100vh;
+  min-height: 78vh;
   display: flex;
-  align-items: center;
-  padding: 11.5rem 2rem 4rem;
+  align-items: flex-end;
+  padding: 11.5rem 2rem 18rem;
   overflow: hidden;
   background: ${theme.cream};
   isolation: isolate;
 
   @media (max-width: ${theme.breakpoints.md}) {
     min-height: auto;
-    padding: 5.5rem 1.25rem 3.5rem;
+    padding: 5.5rem 1.25rem 12rem;
   }
 `;
 
@@ -282,7 +259,7 @@ const PrimaryButton = styled.button`
   display: inline-flex;
   align-items: center;
   gap: 0.65rem;
-  background: #ffffff;
+  background: ${theme.gradientGold};
   color: ${theme.black};
   font-family: ${theme.fontBody};
   font-size: 0.98rem;
@@ -292,12 +269,12 @@ const PrimaryButton = styled.button`
   border-radius: ${theme.borderRadius.full};
   cursor: pointer;
   transition: all 0.5s ${'cubic-bezier(0.34, 1.4, 0.64, 1)'};
-  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+  box-shadow: ${theme.shadowOrange};
   letter-spacing: 0.01em;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.34);
+    box-shadow: 0 16px 44px rgba(240, 144, 30, 0.45);
   }
   &:hover ${ButtonArrow} { transform: translateX(5px); }
   &:active { transform: translateY(-1px); }
@@ -324,56 +301,3 @@ const SecondaryButton = styled.button`
   }
 `;
 
-const StatsSection = styled.div`
-  display: flex;
-  align-items: center;
-  gap: clamp(1.25rem, 4vw, 3.5rem);
-  margin-top: clamp(1.5rem, 3vw, 2.5rem);
-  padding-top: clamp(1.5rem, 2.5vw, 2rem);
-  border-top: 1px solid ${theme.lineStrong};
-  animation: ${fadeInUp} 1s ${'cubic-bezier(0.16, 1, 0.3, 1)'} 0.5s both;
-
-  @media (max-width: ${theme.breakpoints.md}) {
-    flex-wrap: wrap;
-    gap: 1.75rem 2rem;
-  }
-`;
-
-const StatDivider = styled.div`
-  width: 1px;
-  height: 42px;
-  background: ${theme.lineStrong};
-  flex-shrink: 0;
-
-  @media (max-width: ${theme.breakpoints.sm}) {
-    display: none;
-  }
-`;
-
-const StatItem = styled.div`
-  min-width: 110px;
-`;
-
-const StatNumber = styled.div`
-  font-family: ${theme.fontDisplay};
-  font-size: clamp(1.9rem, 3.4vw, 2.9rem);
-  font-weight: 600;
-  color: ${theme.white};
-  margin-bottom: 0.3rem;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  font-feature-settings: 'tnum';
-`;
-
-const StatSuffix = styled.span`
-  color: ${theme.primary};
-  font-style: italic;
-`;
-
-const StatLabel = styled.div`
-  font-size: 0.78rem;
-  color: ${theme.gray600};
-  font-weight: 500;
-  letter-spacing: 0.04em;
-  line-height: 1.4;
-`;

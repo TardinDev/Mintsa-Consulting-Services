@@ -130,13 +130,15 @@ export default Catalogue;
 
 const CatalogueContainer = styled.div`
   position: relative;
-  padding: 6rem 2rem;
+  z-index: 2;
+  padding: 1.5rem 2rem 6rem;
   max-width: 1400px;
-  margin: 0 auto;
-  background: ${theme.cream};
+  margin: -16rem auto 0;
+  background: transparent;
 
   @media (max-width: ${theme.breakpoints.md}) {
-    padding: 3.5rem 1.25rem;
+    margin-top: -10rem;
+    padding: 1.5rem 1.25rem 3.5rem;
   }
 `;
 
@@ -146,11 +148,13 @@ const CatalogueHeader = styled.div`
   align-items: end;
   gap: 1.5rem 3rem;
   margin-bottom: 3.5rem;
+  transform: translateY(-3rem);
 
   @media (max-width: ${theme.breakpoints.md}) {
     grid-template-columns: 1fr;
     gap: 1rem;
     margin-bottom: 2.5rem;
+    transform: translateY(-2rem);
   }
 `;
 
@@ -167,6 +171,7 @@ const CatalogueEyebrow = styled.div`
   text-transform: uppercase;
   color: ${theme.secondaryLight};
   margin-bottom: 1.1rem;
+  text-shadow: 0 1px 12px rgba(5, 13, 22, 0.55);
 `;
 
 const EyebrowDot = styled.span`
@@ -185,6 +190,7 @@ const CatalogueTitle = styled.h2`
   margin: 0;
   line-height: 1.05;
   letter-spacing: -0.025em;
+  text-shadow: 0 2px 16px rgba(5, 13, 22, 0.6);
 `;
 
 const Amp = styled.span`
@@ -201,6 +207,7 @@ const CatalogueSubtitle = styled.p`
   margin: 0;
   line-height: 1.65;
   font-weight: 400;
+  text-shadow: 0 1px 12px rgba(5, 13, 22, 0.55);
 
   @media (max-width: ${theme.breakpoints.md}) {
     max-width: none;
