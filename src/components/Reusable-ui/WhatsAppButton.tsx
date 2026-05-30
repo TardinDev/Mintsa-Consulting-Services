@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled, { keyframes, css } from 'styled-components';
-import { FaRobot, FaTimes, FaPaperPlane } from 'react-icons/fa';
+import { FaWhatsapp, FaTimes, FaPaperPlane } from 'react-icons/fa';
 import theme from '../../utils/Theme/theme';
 
 const WhatsAppButton: React.FC = () => {
@@ -33,7 +33,7 @@ const WhatsAppButton: React.FC = () => {
           <ChatHeader>
             <HeaderContent>
               <WhatsAppIcon>
-                <FaRobot />
+                <FaWhatsapp />
               </WhatsAppIcon>
               <HeaderText>
                 <HeaderTitle>MINTSA Services</HeaderTitle>
@@ -89,9 +89,9 @@ const WhatsAppButton: React.FC = () => {
       <FloatingButton
         onClick={() => setIsOpen(!isOpen)}
         $isOpen={isOpen}
-        aria-label="Ouvrir l'assistant"
+        aria-label="Ouvrir WhatsApp"
       >
-        {isOpen ? <FaTimes /> : <FaRobot />}
+        {isOpen ? <FaTimes /> : <FaWhatsapp />}
         {!isOpen && <NotificationBadge>1</NotificationBadge>}
       </FloatingButton>
 
@@ -154,7 +154,7 @@ const FloatingButton = styled.button<{ $isOpen: boolean }>`
   height: 58px;
   border-radius: 50%;
   background: ${({ $isOpen }) => ($isOpen ? theme.gray100 : '#ffffff')};
-  color: ${({ $isOpen }) => ($isOpen ? theme.gray700 : theme.black)};
+  color: ${({ $isOpen }) => ($isOpen ? theme.gray700 : '#25D366')};
   border: 1px solid ${({ $isOpen }) => ($isOpen ? theme.lineStrong : 'transparent')};
   cursor: pointer;
   display: flex;
@@ -168,7 +168,7 @@ const FloatingButton = styled.button<{ $isOpen: boolean }>`
 
   &:hover {
     transform: ${({ $isOpen }) => $isOpen ? 'rotate(90deg)' : 'translateY(-4px)'};
-    color: ${({ $isOpen }) => ($isOpen ? theme.primaryLight : theme.black)};
+    color: ${({ $isOpen }) => ($isOpen ? theme.primaryLight : '#25D366')};
     border-color: ${({ $isOpen }) => ($isOpen ? theme.copperLine : 'transparent')};
     box-shadow: ${({ $isOpen }) => ($isOpen ? theme.shadowCopper : '0 16px 44px rgba(199, 123, 59, 0.42)')};
   }
@@ -290,7 +290,7 @@ const WhatsAppIcon = styled.div`
   border-radius: ${theme.borderRadius.md};
   background: ${theme.gray200};
   border: 1px solid ${theme.copperLine};
-  color: ${theme.primaryLight};
+  color: #25D366;
   display: flex;
   align-items: center;
   justify-content: center;
